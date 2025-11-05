@@ -6,6 +6,9 @@ load surfMesh.mat
 
 
 X = xMesh; Y = yMesh; %Z = surfaceData1200;
+
+Nt = 1201;
+
 % Gaussian blob
 A = 50;     % height of the blob
 a = 100;     % width
