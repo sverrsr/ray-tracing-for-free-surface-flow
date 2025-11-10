@@ -56,9 +56,26 @@ set(gca, 'YDir', 'normal');
 colormap(flipud(sky));
 colorbar;
 
+% Compute global limits across all frames
+minVal = inf; maxVal = -inf;
+for k = 1:numel(files)
+    data = load(fullfile(folder, files{k}));
+    if isfield(data, 'screen_image')
+        img = data.screen_image;
+    elseif isfield(data, 'screen')
+        img = data.screen.image;
+    else
+        fns = fieldnames(data);
+        img = data.(fns{1});
+    end
+    minVal = min(minVal, min(img(:)));
+    maxVal = max(maxVal, max(img(:)));
+end
+fprintf('Global intensity range: [%.3e, %.3e]\n', minVal, maxVal);
+
 % adjust range to match your data
 % Must be adjusted to Gauss filtering. More gauss, lower axis
-caxis([0 0.05]);   
+caxis([minVal, maxVal]);
 
 % --- Main animation loop ---
 for k = 1:numel(files)
@@ -73,7 +90,7 @@ for k = 1:numel(files)
         img = data.(fns{1});
     end
 
-    img = imgaussfilt(img, 2);
+    img = imgaussfilt(img, 1);
     set(hImg, 'CData', img);  % update only the image data
     title(sprintf('Frame %d / %d', k, numel(files)));
     drawnow;

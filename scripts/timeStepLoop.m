@@ -172,7 +172,7 @@ screen.rotate([1 0 0], pi);   % face back toward the optic
 bench.append(screen);
 
 % Collimated beam aimed along +X
-nrays = 1000;
+nrays = 100000;
 source_distance = 300;
 source_pos   = [source_distance 0 0];
 incident_dir = [-1 0 0];
