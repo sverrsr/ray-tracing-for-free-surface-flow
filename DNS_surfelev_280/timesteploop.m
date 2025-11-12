@@ -25,37 +25,45 @@ g = 10;
 % Create a new mesh grid based on the specified dimensions
 [X, Y] = meshgrid((linspace(0, lx, nx)), (linspace(0, ly, ny)));
 
-outDir = 'DNS_SCREENS_1k';
+outDir = '\\sambaad.stud.ntnu.no\sverrsr\Documents\DNS_SCREENS_150k_dist3pi_fullSIM';
+snapshotDir = '//tsclient/E/DNS - RE2500WEinf';
+snapshotFiles = dir(fullfile(snapshotDir, '*.mat'));  % get all mat files
+
 if ~exist(outDir, 'dir')
     mkdir(outDir);
 end
 
-Nt = 1;
+
+Nt = length(snapshotFiles);
+fprintf('Found %d snapshot files.\n', Nt);
+
 for k = 1:Nt  % or however many surfaces you have
-    fprintf('Tracing frame %d of %d ...\n', k, Nt);
+    fprintf('Processing frame %d of %d: %s ...\n', k, Nt, snapshotFiles(k).name);
 
-    % --- your setup and tracing code here ---
-    [screen, rays_out, bench, surf] = DNS(X, Y, Z);
+    % Load Z from mat file
+    S = load(fullfile(snapshotDir, snapshotFiles(k).name));
 
+    % Assume variable inside mat file is 'surfElev' or adjust accordingly
+    if isfield(S, 'surfElev')
+        Z = double(S.surfElev);
+    elseif isfield(S, 'Z')
+        Z = double(S.Z);
+    else
+        error('Unknown variable inside %s', snapshotFiles(k).name);
+    end
+    
+    % --- Run your optics simulation ---
+    [screen, rays_out, bench, surf] = DNS(X, Y, Z);  % or examplesurface_lensRun
+    
+    % Save screen
     filename = fullfile(outDir, sprintf('screen_%04d.mat', k));
     screen_image = screen.image; %#ok<NASGU>
-    save(filename, 'screen');
-
-    fprintf('Saved %s\n', filename);
-    % Visualize
-
-    bench.draw(rays_out, 'lines', 1, 1.5);
-    axis equal;
-    grid on;
-    view(50, 50);
-    xlabel('X (mm)'); ylabel('Y (mm)'); zlabel('Z (mm)');
-    camlight('headlight'); camlight('left'); camlight('right');
-    lighting gouraud;
-    title('GeneralLens using surface_lens (interpolated surface)', 'Color','w');
+    save(filename, 'screen');  % saves entire screen object, not just image
     
-    figure('Name','surface_lens screen capture','NumberTitle','Off');
-    imagesc(screen.image); axis image; colormap hot; colorbar;
-    set(gca,'YDir','normal');
-    title('Illumination after surface_lens'); xlabel('Screen Y bins'); ylabel('Screen Z bins');
+    fprintf('Saved %s\n', filename);
+    
+    % Optionally close any figures to avoid memory issues
+    close all;
 end
 
+fprintf('All snapshots processed!\n');

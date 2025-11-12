@@ -1,5 +1,5 @@
-%%
-clear all; close all; clc;
+%%close all;
+clear all;  clc;
 
 %% Plots only the surface at s = 1200
 

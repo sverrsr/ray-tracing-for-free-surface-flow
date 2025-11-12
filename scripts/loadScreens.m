@@ -11,10 +11,11 @@
 %   caxis([0 0.05]) – color range for all frames
 % -----------------------------------------------------------------------------
 
-GaussFiltVal = 0.5;
+GaussFiltVal = 0.5; %0.5 er bra med lim
+caxis([1, 2]);
 
 % Create output folder
-outDir = 'videos_DNS';
+outDir = '\\sambaad.stud.ntnu.no\sverrsr\Documents\DNS_SCREENS_150k_dist3pi';
 if ~exist(outDir, 'dir')
     mkdir(outDir);
 end
@@ -25,11 +26,11 @@ end
 %v = VideoWriter(vidPath);
 
 % MP4 file:
-vidName = 'DNS_100k.mp4';
+vidName = 'DNS_SCREENS_150k_dist3pi.mp4';
 vidPath = fullfile(outDir, vidName);
 v = VideoWriter(vidPath, 'MPEG-4');
 
-folder = 'DNS_SCREENS';
+folder = '\\sambaad.stud.ntnu.no\sverrsr\Documents\DNS_SCREENS_150k_dist3pi';
 files = dir(fullfile(folder, 'screen_*.mat'));
 files = {files.name};
 files = sort(files);
@@ -55,7 +56,7 @@ figure;
 hImg = imagesc(img);
 axis image;
 set(gca, 'YDir', 'normal');
-colormap("gray"); %flipud(sky)
+colormap(flipud(sky)); %flipud(sky)
 colorbar;
 
 % Compute global limits across all frames
@@ -77,7 +78,7 @@ fprintf('Global intensity range: [%.3e, %.3e]\n', minVal, maxVal);
 
 % adjust range to match your data
 % Must be adjusted to Gauss filtering. More gauss, lower axis
-caxis([1, 2]);
+caxis([0.5, 4]);
 
 %%
 % --- Main animation loop ---
@@ -95,6 +96,7 @@ for k = 1:numel(files)
 
     img = imgaussfilt(img, GaussFiltVal);
     set(hImg, 'CData', img);  % update only the image data
+    view(180,90)
     title(sprintf('Frame %d / %d', k, numel(files)));
     drawnow;
 
