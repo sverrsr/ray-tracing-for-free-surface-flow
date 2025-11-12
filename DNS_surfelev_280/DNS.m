@@ -60,14 +60,14 @@ surf = GeneralLens([0 0 0], rect_aperture, 'surface_lens', {'mirror','air'}, len
 bench.append(surf);
 
 % Screen downstream (along +X)
-screen_distance = pi;  % mm along +X
+screen_distance = 3*pi;  % mm along +X
 screen_size = max(aperture * 0.3, 8);                    % mm
 screen = Screen([screen_distance 0 0], screen_size, screen_size, 512, 512);
 screen.rotate([1 0 0], pi);   % face back toward the optic
 bench.append(screen);
 
 % Collimated beam aimed along +X
-nrays = 1000;
+nrays = 150000;
 source_distance = pi;
 source_pos   = [source_distance 0 0];
 incident_dir = [-1 0 0];
