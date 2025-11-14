@@ -86,22 +86,22 @@ rays_in = Rays(nrays, 'collimated', source_pos, incident_dir, beam_side, 'random
 fprintf('Tracing rays through surface_lens ...\n');
 rays_out = bench.trace(rays_in);
 
-% Print screen geometry
-fprintf('\n=== Surface ===\n');
-fprintf('  Radius (R):        %.2f\n', surf.R);
-fprintf('  Normal (n):        [%.2f  %.2f  %.2f]\n', surf.n);
-fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', surf.r);
-
-fprintf('\n=== Screen ===\n');
-fprintf('  Radius (R):        %.2f\n', screen.R);
-fprintf('  Normal (n):        [%.2f  %.2f  %.2f]\n', screen.n);
-fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', screen.r);
-fprintf('  Size (mm):         %.2f × %.2f\n', screen_size, screen_size);
-
-fprintf('\n=== Beam ===\n');
-fprintf('  Direction (n):     [%.2f  %.2f  %.2f]\n', incident_dir);
-fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', source_pos);
-fprintf('====================\n\n');
+% % Print screen geometry
+% fprintf('\n=== Surface ===\n');
+% fprintf('  Radius (R):        %.2f\n', surf.R);
+% fprintf('  Normal (n):        [%.2f  %.2f  %.2f]\n', surf.n);
+% fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', surf.r);
+% 
+% fprintf('\n=== Screen ===\n');
+% fprintf('  Radius (R):        %.2f\n', screen.R);
+% fprintf('  Normal (n):        [%.2f  %.2f  %.2f]\n', screen.n);
+% fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', screen.r);
+% fprintf('  Size (mm):         %.2f × %.2f\n', screen_size, screen_size);
+% 
+% fprintf('\n=== Beam ===\n');
+% fprintf('  Direction (n):     [%.2f  %.2f  %.2f]\n', incident_dir);
+% fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', source_pos);
+% fprintf('====================\n\n');
 
 if nargout >= 1, varargout{1} = screen; end
 if nargout >= 2, varargout{2} = rays_out; end

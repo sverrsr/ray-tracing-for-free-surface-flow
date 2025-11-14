@@ -22,28 +22,28 @@ nu = 1 / 2500;
 overflatespenning = 0;
 g = 10;
 
-% Create a new mesh grid based on the specified dimensions
-[X, Y] = meshgrid((linspace(0, lx, nx)), (linspace(0, ly, ny)));
+[X, Y] = meshgrid(linspace(0, lx, nx), linspace(0, ly, ny));
 
 outDir = '\\sambaad.stud.ntnu.no\sverrsr\Documents\DNS_SCREENS_150k_dist3pi_fullSIM2';
 snapshotDir = '//tsclient/E/DNS - RE2500WEinf';
-snapshotFiles = dir(fullfile(snapshotDir, '*.mat'));  % get all mat files
+snapshotFiles = dir(fullfile(snapshotDir, '*.mat'));
 
 if ~exist(outDir, 'dir')
     mkdir(outDir);
 end
 
-
 Nt = length(snapshotFiles);
 fprintf('Found %d snapshot files.\n', Nt);
 
-for k = 1:Nt  % or however many surfaces you have
-    fprintf('Processing frame %d of %d: %s ...\n', k, Nt, snapshotFiles(k).name);
+%% --- Cool logging setup ---
+tStart = tic;   % For ETA calculation
+barLength = 30; % visual width of bar
 
-    % Load Z from mat file
+for k = 1:Nt
+    
+    %% Load .mat file
     S = load(fullfile(snapshotDir, snapshotFiles(k).name));
 
-    % Assume variable inside mat file is 'surfElev' or adjust accordingly
     if isfield(S, 'surfElev')
         Z = double(S.surfElev);
     elseif isfield(S, 'Z')
@@ -51,19 +51,26 @@ for k = 1:Nt  % or however many surfaces you have
     else
         error('Unknown variable inside %s', snapshotFiles(k).name);
     end
-    
-    % --- Run your optics simulation ---
-    [screen, rays_out, bench, surf] = DNS(X, Y, Z);  % or examplesurface_lensRun
-    
-    % Save screen
+
+    %% Run simulation
+    [screen, rays_out, bench, surf] = DNS(X, Y, Z);
+
+    %% Save result
     filename = fullfile(outDir, sprintf('screen_%04d.mat', k));
     screen_image = screen.image; %#ok<NASGU>
-    save(filename, 'screen');  % saves entire screen object, not just image
+    save(filename, 'screen');
+
+    %% --- COOL PROGRESS BAR WITH ETA ---
+    p = k / Nt;                             % percentage
+    elapsed = toc(tStart);                  % elapsed time (s)
+    eta = (elapsed / p) - elapsed;          % estimated time remaining (s)
+    barComplete = round(p * barLength);
+    barString = ['[' repmat('#',1,barComplete) repmat('.',1,barLength-barComplete) ']'];
+
+    fprintf('\r%s  %5.1f%%  (%d/%d)  ETA: %6.1fs', barString, p*100, k, Nt, eta);
     
-    fprintf('Saved %s\n', filename);
-    
-    % Optionally close any figures to avoid memory issues
+    % avoid flooding with figures
     close all;
 end
 
-fprintf('All snapshots processed!\n');
+fprintf('\nAll snapshots processed!\n');
