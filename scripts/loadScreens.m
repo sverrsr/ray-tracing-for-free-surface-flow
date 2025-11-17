@@ -16,13 +16,15 @@
 %    mp4 or avi file 
 % -----------------------------------------------------------------------------
 
-GaussFiltVal = 0.5; %0.5 er bra med lim
-caxis([1, 2]);
+close all; clear all;
+
+%GaussFiltVal = 0.5; %0.5 er bra med lim
+%caxis([0, 4]);
 
 % Create output folder
 outDir = 'D:\';
-inDir = 'D:\DNS_SCREENS_150k_dist3pi_fullSIM';
-vidName = 'DNS_SCREENS_150k_dist3pi.mp4';
+inDir = 'D:\DNS_SCREENS_150k_dist3pi_fullSIM2';
+vidName = 'DNS_SCREENS_150k_dist3pi_bar.mp4';
 
 % outDir = '\\sambaad.stud.ntnu.no\sverrsr\Documents\DNS_SCREENS_150k_dist3pi';
 % inDir = '\\sambaad.stud.ntnu.no\sverrsr\Documents\DNS_SCREENS_150k_dist3pi';
@@ -60,7 +62,7 @@ else
     img = data.(fns{1});
 end
 
-img = imgaussfilt(img, GaussFiltVal);
+%img = imgaussfilt(img, GaussFiltVal);
 
 % --- Set up figure once ---
 figure;
@@ -89,7 +91,7 @@ fprintf('Global intensity range: [%.3e, %.3e]\n', minVal, maxVal);
 
 % adjust range to match your data
 % Must be adjusted to Gauss filtering. More gauss, lower axis
-caxis([0.5, 4]);
+caxis([minVal, maxVal/4]);
 
 %%
 % --- Main animation loop ---
@@ -105,7 +107,7 @@ for k = 1:numel(files)
         img = data.(fns{1});
     end
 
-    img = imgaussfilt(img, GaussFiltVal);
+    %img = imgaussfilt(img, GaussFiltVal);
     set(hImg, 'CData', img);  % update only the image data
     view(180,90)
     title(sprintf('Frame %d / %d', k, numel(files)));

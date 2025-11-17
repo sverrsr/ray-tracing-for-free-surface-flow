@@ -1,4 +1,4 @@
-function varargout = DNS(X, Y, Z)
+function varargout = DNS_Bench(X, Y, Z)
 
 [xa, ix] = sort(X(1,:));
 [ya, iy] = sort(Y(:,1));

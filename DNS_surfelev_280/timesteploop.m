@@ -1,3 +1,6 @@
+% I made this to only run one image to inspect
+% I still use the DNS Bench
+
 clear all; close all; clc;
 
 %% Set Mesh and Surface Properties
