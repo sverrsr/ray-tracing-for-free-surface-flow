@@ -11,7 +11,7 @@ params.sigmaSmooth = 4;        % Gaussian smoothing
 params.sigmaHigh   = 1.5;      % DoG high
 params.sigmaLow    = 8;        % DoG low
 params.sigmaHess   = 2;        % Hessian scale
-params.thr         = 0.15;     % threshold for ridge image
+params.thr         = 0.1;     % threshold for ridge image
 params.minObjSize  = 50;       % remove small blobs
 
 %% STEP 1 — SMOOTH
@@ -51,11 +51,11 @@ skel = bwskel(bw,'MinBranchLength',20);
 figure('Position',[100 100 1800 900]);
 tiledlayout(2,3,'TileSpacing','compact','Padding','compact');
 
-nexttile; imagesc(img); colormap gray; axis image off;
-title('Raw');
-
 nexttile; imagesc(imgSmooth); colormap gray; axis image off;
 title('Smoothed');
+
+nexttile; imagesc(imgContrast); colormap gray; axis image off;
+title('Adjusted contrast');
 
 nexttile; imagesc(imgBand); colormap gray; axis image off;
 title('Bandpass (DoG)');
