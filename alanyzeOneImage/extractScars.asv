@@ -20,15 +20,9 @@ imgSmooth = imgaussfilt(img, params.sigmaSmooth);
 %% SHOW SMOOTHED IMAGE
 figure;
 imagesc(imgSmooth); axis image off; colormap gray;
-%% STEP 1.5 — INCREASE CONTRAST
-imgContrast = imadjust(imgSmooth);
-%% SHOW CONTRAST ENHANCED IMAGE
-figure;
-imagesc(imgContrast); axis image off; colormap gray;
-title('Contrast Enhanced Result');
 title('Smoothing Result');
 %% SAVE SMOOTHED IMAGE
-imwrite(uint8(imgSmooth), 'smoothed_image2.jpg');
+imwrite(uint8(imgSmooth), 'smoothed_image2.png');
 
 %% STEP 2 — BANDPASS
 imgHigh = imgaussfilt(imgSmooth, params.sigmaHigh);

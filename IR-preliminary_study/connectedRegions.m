@@ -9,7 +9,11 @@ Int2 = imread('smoothed_image2.png');
 Int1 = imread('int1.jpg');
 Int2 = imread('int2.jpg');
 
-X1 = double(rgb2gray(Int1));
+Int1 = imread('smoothed_image2.jpg');
+
+X1 = double(Int1);
+
+% X1 = double(rgb2gray(Int1));
 X2 = double(rgb2gray(Int2));
 
 %% Load image (new)
