@@ -1,27 +1,20 @@
-clear all; clc; close all;
+clear all; clc; %close all;
 
-% load processed_surfElev_499.96.mat
+
 % load processed_surfElev_333.34.mat %02
-<<<<<<< Updated upstream:alanyzeOneImage/testSurfature.m
- load processed_surfElev_416.68.mat %03?
-=======
-% load processed_surfElev_416.68.mat
->>>>>>> Stashed changes:oneImage/testSurfature.m
-% load processed_surfElev_499.96.mat
-% load processed_surfElev_583.30.mat
-% load processed_surfElev_666.64.mat
-% load processed_surfElev_749.98.mat
-% load processed_surfElev_833.26.mat
-% load processed_surfElev_916.60.mat
-% load processed_surfElev_999.94.mat 
-<<<<<<< Updated upstream:alanyzeOneImage/testSurfature.m
+% load processed_surfElev_416.68.mat %03
+% load processed_surfElev_499.96.mat %04
+% load processed_surfElev_583.30.mat %05
+% load processed_surfElev_666.64.mat %06
+% load processed_surfElev_749.98.mat %07
+% load processed_surfElev_833.26.mat %08
+% load processed_surfElev_916.60.mat %09
+% load processed_surfElev_999.94.mat %10
 % load processed_surfElev_1000.00.mat %01
-=======
- load processed_surfElev_1000.00.mat %01
->>>>>>> Stashed changes:oneImage/testSurfature.m
+
 
  % Image to compare with
-img = double(imread('screen_1024bins_0001_largest_warm_areas.jpg'));
+img = double(imread('screen_1024bins_0010_largest_warm_areas.jpg'));
 
 Z = surfElev;
 clear surfElev;
@@ -72,10 +65,6 @@ yticklabels({'-\pi','-\pi/2','0','\pi/2','\pi'})
 
 % Curvature
 [K,H,Pmax,Pmin] = curvature(X,Y,Z); %[K, H, Pmax, Pmin] = surfature(X, Y, Z);
-
-
-
-%
 
 
 unique(img(:))
