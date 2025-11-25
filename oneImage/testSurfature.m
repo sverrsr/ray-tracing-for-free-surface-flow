@@ -13,6 +13,7 @@ clear all; clc; %close all;
  load processed_surfElev_1000.00.mat %01
 
 
+ %%
  % Image to compare with
 img = double(imread('screen_1024bins_0001_largest_warm_areas.jpg'));
 

@@ -150,7 +150,7 @@ nexttile, imagesc(X1tSmall), axis image off, title(sprintf('Threshold: %d, Witho
 %nexttile, imagesc(X2tSmall), axis image off, title(sprintf('Threshold: %d, Without %d largest warm areas',thresh,areastokeep));
 
 
-% Save the binary image of the largest warm areas
+% Save the binary image of the largest warm areas, X1tbig
 [~, baseName, ~] = fileparts(fileName);
 outImg = fullfile(outputFolder, baseName + "_largest_warm_areas.jpg");
 
