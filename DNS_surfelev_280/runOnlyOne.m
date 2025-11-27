@@ -8,7 +8,7 @@ load surfMesh.mat
 %% Plots only the surface at s = 1200
 load surfElev_280.00.mat;
 
-Z = double(surfElev);
+%Z = double(surfElev);
 clear surfElev;
 
 nx = 256;
@@ -29,6 +29,10 @@ g = 10;
 
 % Create a new mesh grid based on the specified dimensions
 [X, Y] = meshgrid((linspace(0, lx, nx)), (linspace(0, ly, ny)));
+
+
+Z = zeros(size(X));  % Set Z to zero at all points
+
 
 [xa, ix] = sort(X(1,:));
 [ya, iy] = sort(Y(:,1));

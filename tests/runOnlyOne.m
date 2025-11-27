@@ -1,4 +1,34 @@
-function varargout = DNS_Bench(X, Y, Z)
+function varargout = examplesurface_lensRun()
+%%
+clear all; close all; clc;
+%%
+
+load surfaceData1200.mat 
+load surfMesh.mat
+%% Plots only the surface at s = 1200
+load surfElev_280.00.mat;
+
+Z = double(surfElev);
+clear surfElev;
+
+nx = 256;
+ny = 256;
+nt = 12500;
+
+dx = 2 * pi / nx;
+dy = 2 * pi / ny;
+
+dt = 0.06;
+
+lx = 2 * pi;
+ly = 2 * pi;
+
+nu = 1 / 2500;
+overflatespenning = 0;
+g = 10;
+
+% Create a new mesh grid based on the specified dimensions
+[X, Y] = meshgrid((linspace(0, lx, nx)), (linspace(0, ly, ny)));
 
 [xa, ix] = sort(X(1,:));
 [ya, iy] = sort(Y(:,1));
@@ -62,7 +92,7 @@ bench.append(surf);
 % Screen downstream (along +X)
 screen_distance = 3*pi;  % mm along +X
 screen_size = max(aperture * 0.3, 8);                    % mm
-screen = Screen([screen_distance 0 0], screen_size, screen_size, 32, 32);
+screen = Screen([screen_distance 0 0], screen_size, screen_size, 512, 512);
 screen.rotate([1 0 0], pi);   % face back toward the optic
 bench.append(screen);
 
@@ -81,7 +111,7 @@ rect_wy = 2*ap_half_y;
 rect_wz = 2*ap_half_z;
 beam_side = 0.98 * max(rect_wy, rect_wz);  % slightly smaller than the larger side
 
-rays_in = Rays(nrays, 'collimated', source_pos, incident_dir, beam_side, 'random');
+rays_in = Rays(nrays, 'collimated', source_pos, incident_dir, beam_side, 'square');
 
 fprintf('Tracing rays through surface_lens ...\n');
 rays_out = bench.trace(rays_in);
@@ -91,17 +121,33 @@ fprintf('\n=== Surface ===\n');
 fprintf('  Radius (R):        %.2f\n', surf.R);
 fprintf('  Normal (n):        [%.2f  %.2f  %.2f]\n', surf.n);
 fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', surf.r);
+fprintf('  Dimensions (mm):         %.2f × %.2f\n', lx, ly);
 
 fprintf('\n=== Screen ===\n');
 fprintf('  Radius (R):        %.2f\n', screen.R);
 fprintf('  Normal (n):        [%.2f  %.2f  %.2f]\n', screen.n);
 fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', screen.r);
-fprintf('  Size (mm):         %.2f × %.2f\n', screen_size, screen_size);
+fprintf('  Dimensions (mm):         %.2f × %.2f\n', screen_size, screen_size);
 
 fprintf('\n=== Beam ===\n');
 fprintf('  Direction (n):     [%.2f  %.2f  %.2f]\n', incident_dir);
 fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', source_pos);
 fprintf('====================\n\n');
+
+% Visualize
+bench.draw(rays_out, 'lines', 1, 1.5);
+axis equal;
+grid on;
+view(35, 20);
+xlabel('X (mm)'); ylabel('Y (mm)'); zlabel('Z (mm)');
+camlight('headlight'); camlight('left'); camlight('right');
+lighting gouraud;
+title('GeneralLens using surface_lens (interpolated surface)', 'Color','w');
+
+figure('Name','surface_lens screen capture','NumberTitle','Off');
+imagesc(screen.image); axis image; colormap gray; colorbar;
+set(gca,'YDir','normal');
+title('Illumination after surface_lens'); xlabel('Screen Y bins'); ylabel('Screen Z bins');
 
 if nargout >= 1, varargout{1} = screen; end
 if nargout >= 2, varargout{2} = rays_out; end

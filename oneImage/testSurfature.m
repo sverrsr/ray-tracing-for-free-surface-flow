@@ -1,23 +1,21 @@
-clear all; clc; %close all;
+clear all; clc; close all;
 
 
 % load processed_surfElev_333.34.mat %02
 % load processed_surfElev_416.68.mat %03
-% load processed_surfElev_499.96.mat %04
+ load processed_surfElev_499.96.mat %04
 % load processed_surfElev_583.30.mat %05
 % load processed_surfElev_666.64.mat %06
 % load processed_surfElev_749.98.mat %07
 % load processed_surfElev_833.26.mat %08
 % load processed_surfElev_916.60.mat %09
 % load processed_surfElev_999.94.mat %10
- load processed_surfElev_1000.00.mat %01
+% load processed_surfElev_1000.00.mat %01
 
-
- %%
- % Image to compare with
-img = double(imread('screen_1024bins_0001_largest_warm_areas.jpg'));
-
+%% Loading Surface
 Z = surfElev;
+Z = rot90(Z, 2); %Rotate Z so it aligns with reflection
+
 clear surfElev;
 
 nx = 256;
@@ -37,46 +35,48 @@ overflatespenning = 0;
 g = 10;
 
 % Create a new mesh grid based on the specified dimensions
-% Create a new mesh grid based on the specified dimensions
 % Mesh from -pi to pi
 [X, Y] = meshgrid( ...
     single(linspace(-pi, pi, nx)), ...
     single(linspace(-pi, pi, ny)) ...
 );
 
-
-% --- 2D height map ---
 figure;
-imagesc(X(1,:), Y(:,1), Z);
-axis image;
-%set(gca, 'YDir', 'normal');
-colormap(turbo);
-colorbar;
-title('Surface elevation (2D height map)');
-xlabel('X');
-ylabel('Y');
+imagescStdSurf(X, Y, Z, 'Surface Elevation');
 
-% Nice pi ticks
-xticks([-pi -pi/2 0 pi/2 pi])
-xticklabels({'-\pi','-\pi/2','0','\pi/2','\pi'})
+%% Loading Reflection Image
+% Image to compare with
+img = im2double(imread('screen_1024bins_0004_largest_warm_areas.jpg'));
 
-yticks([-pi -pi/2 0 pi/2 pi])
-yticklabels({'-\pi','-\pi/2','0','\pi/2','\pi'})
+smoothedImg = imgaussfilt(img, 3);
+img = smoothedImg
 
+% Build source coordinates based on the *actual* image size
+[imgNy, imgNx] = size(img);
+xS = linspace(-pi, pi, imgNx);   % columns
+yS = linspace(-pi, pi, imgNy);   % rows
 
+% Resample image onto the 256x256 grid
+reflectionToBase = interp2(xS, yS, img, X, Y, 'linear', 0);
+
+figure;
+imagescStdBW(X, Y, reflectionToBase, 'Reflection mapped to base grid');
+
+%%
+figure;
+
+subplot(1,2,1);
+imagescStdSurf(X, Y, Z, 'Surface Elevation');
+
+subplot(1,2,2);
+imagescStdBW(X, Y, reflectionToBase, 'Reflection mapped to base grid');
+
+%%
 % Curvature
-[K,H,Pmax,Pmin] = curvature(X,Y,Z); %[K, H, Pmax, Pmin] = surfature(X, Y, Z);
+[K,H,Pmax,Pmin] = curvature(X,Y,Z);
 
 % Find correlation of H and surface elevation
 R_H = corr(H(:), Z(:), 'rows', 'complete');
-
-unique(img(:))
-
-BW_resized = imresize(img, [size(H,1), size(H,2)], 'nearest');
-
-figure;
-imagesc(BW_resized); axis image off; colormap gray;
-title('Resized image');
 
 %%
 figure;
@@ -91,52 +91,24 @@ imagesc(H); axis image; colormap turbo; colorbar;
 title('H (kurvatur)');
 
 %% Correlation between image and surface elevation
-M = BW_resized;      % mask after resize
+M = reflectionToBase;      % mask after resize
 Z0 = Z(:);
 
 % no flip
 c_noflip = corr(M(:), Z0, 'rows','complete');
 
-% flip up-down
-M_ud = flipud(M);
-c_flipud = corr(M_ud(:), Z0, 'rows','complete');
+%% Statistics
+% Convert reflection image to normalized grayscale for thresholding
+M = mat2gray(reflectionToBase);
+% Create binary mask using automatic global threshold
+mask = imbinarize(M, graythresh(M));   % automatic threshold
+% Remove small objects (noise) smaller than 20 pixels
+mask = bwareaopen(mask, 20);
+% Fill holes to produce solid foreground regions
+mask = imfill(mask, 'holes');
 
-% flip left-right
-M_lr = fliplr(M);
-c_fliplr = corr(M_lr(:), Z0, 'rows','complete');
-
-% rotate 90
-M_r90 = rot90(M);
-c_rot90 = corr(M_r90(:), Z0, 'rows','complete');
-
-[c_noflip c_flipud c_fliplr c_rot90]
-
-%% Correlation between image and curvature
-M = BW_resized;      % mask after resize
-H0 = H(:);
-
-% no flip
-cH_noflip = corr(M(:), H0, 'rows','complete');
-
-% flip up-down
-M_ud = flipud(M);
-cH_flipud = corr(M_ud(:), H0, 'rows','complete');
-
-% flip left-right
-M_lr = fliplr(M);
-cH_fliplr = corr(M_lr(:), H0, 'rows','complete');
-
-% rotate 90
-M_r90 = rot90(M);
-cH_rot90 = corr(M_r90(:), H0, 'rows','complete');
-
-[cH_noflip cH_flipud cH_fliplr cH_rot90]
-
-%%
-mask = logical(BW_resized);          % 1 = scar, 0 = background
-
-H_scar = H(mask);           % curvature values on scars
-H_bg   = H(~mask);          % curvature values off scars
+H_scar = H(mask);           % curvature values on scars (mask)
+H_bg   = H(~mask);          % curvature values off scars (mask)
 
 figure;
 histogram(H_scar); hold on;
@@ -155,6 +127,7 @@ std_H_scar  = std(H_scar);
 std_H_bg    = std(H_bg);
 
 [~,p] = ttest2(H_scar, H_bg);    % two-sample t-test
+d = (mean(H_scar) - mean(H_bg)) / sqrt( (std(H_scar)^2 + std(H_bg)^2)/2 );
 
 scar_indicator = double(mask(:));   % 1 = scar, 0 = no scar
 H_flat = H(:);
@@ -165,3 +138,37 @@ figure;
 imagesc(H); axis image; colorbar; hold on;
 contour(mask, [0.5 0.5], 'w', 'LineWidth', 1);   % white contour of scars
 title('Mean curvature with scar locations');
+
+
+function imagescStdSurf(X, Y, Z, ttl)
+    imagesc(X(1,:), Y(:,1), Z);
+    title(ttl);
+    axis image;
+    colormap(gca, "turbo");
+    colorbar;
+    xlabel('X'); ylabel('Y');
+end
+
+function imagescStdBW(X, Y, Z, ttl)
+    imagesc(X(1,:), Y(:,1), Z);
+    title(ttl);
+    axis image;
+    colormap(gca, "gray");
+    colorbar;
+    xlabel('X'); ylabel('Y');
+end
+
+
+% Nice pi ticks
+% xticks()
+% xticklabels({'-\pi','-\pi/2','0','\pi/2','\pi'})
+% 
+% yticks([-pi -pi/2 0 pi/2 pi])
+% yticklabels({'-\pi','-\pi/2','0','\pi/2','\pi'})
+
+% axis image;
+% colormap(jet);
+% colorbar;
+% title('Surface Elevation');
+% xlabel('X');
+% ylabel('Y');
