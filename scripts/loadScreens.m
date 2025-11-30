@@ -22,9 +22,10 @@ close all; clear all;
 %caxis([0, 4]);
 
 % Create output folder
-outDir = 'C:\Users\sverr\Documents\NTNU\Prosjekt\Project-Thesis\tenSampledSurfaces_bin_screens';
-inDir = 'C:\Users\sverr\Documents\NTNU\Prosjekt\Project-Thesis\tenSampledSurfaces_bin';
-vidName = 'DNS_SCREENS_150k_dist3pi_binAnalysis.mp4';
+outDir = 'C:\Users\sverr\Documents\NTNU\Prosjekt\Blob\square';
+inDir = 'C:\Users\sverr\Documents\NTNU\Prosjekt\Blob\screen';
+
+vidName = 'blob.mp4';
 
 % outDir = '\\sambaad.stud.ntnu.no\sverrsr\Documents\DNS_SCREENS_150k_dist3pi';
 % inDir = '\\sambaad.stud.ntnu.no\sverrsr\Documents\DNS_SCREENS_150k_dist3pi';
@@ -52,7 +53,7 @@ open(v);
 
 % --- Load first frame to initialize ---
 data = load(fullfile(inDir, files{1}));
-img = data.screen.image;
+img = data.screen_image;
 
 %img = imgaussfilt(img, GaussFiltVal);
 
@@ -69,7 +70,7 @@ minVal = inf; maxVal = -inf;
 
 for k = 1:numel(files)
     data = load(fullfile(inDir, files{k}));
-    img = data.screen.image;
+    img = data.screen_image;
     minVal = min(minVal, min(img(:)));
     maxVal = max(maxVal, max(img(:)));
 end
@@ -88,7 +89,7 @@ caxis([0, 4]);
 for k = 1:numel(files)
     data = load(fullfile(inDir, files{k}));
 
-    img = data.screen.image;
+    img = data.screen_image;
 
     %img = imgaussfilt(img, GaussFiltVal);
     set(hImg, 'CData', img);  % update only the image data

@@ -1,15 +1,7 @@
-function varargout = examplesurface_lensRun()
+function varargout = z_surface_run()
 %%
 clear all; close all; clc;
 %%
-
-load surfaceData1200.mat 
-load surfMesh.mat
-%% Plots only the surface at s = 1200
-load surfElev_280.00.mat;
-
-Z = double(surfElev);
-clear surfElev;
 
 nx = 256;
 ny = 256;
@@ -29,6 +21,8 @@ g = 10;
 
 % Create a new mesh grid based on the specified dimensions
 [X, Y] = meshgrid((linspace(0, lx, nx)), (linspace(0, ly, ny)));
+
+Z = zeros(size(X));  % Set Z to zero at all points
 
 [xa, ix] = sort(X(1,:));
 [ya, iy] = sort(Y(:,1));
@@ -97,7 +91,7 @@ screen.rotate([1 0 0], pi);   % face back toward the optic
 bench.append(screen);
 
 % Collimated beam aimed along +X
-nrays = 1000;
+nrays = 500;
 source_distance = pi;
 source_pos   = [source_distance 0 0];
 incident_dir = [-1 0 0];
@@ -111,7 +105,7 @@ rect_wy = 2*ap_half_y;
 rect_wz = 2*ap_half_z;
 beam_side = 0.98 * max(rect_wy, rect_wz);  % slightly smaller than the larger side
 
-rays_in = Rays(nrays, 'collimated', source_pos, incident_dir, beam_side, 'square');
+rays_in = Rays(nrays, 'collimated', source_pos, incident_dir, beam_side, 'random');
 
 fprintf('Tracing rays through surface_lens ...\n');
 rays_out = bench.trace(rays_in);
@@ -134,15 +128,30 @@ fprintf('  Direction (n):     [%.2f  %.2f  %.2f]\n', incident_dir);
 fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', source_pos);
 fprintf('====================\n\n');
 
+
+% Print summary of all three ray directions
+fprintf('\n=== Summary of Ray Directions ===\n');
+
+for i = 1:3
+    summary_direction = summary(rays_out(2).n(:,i));
+    disp(summary_direction);
+end
+
+
 % Visualize
 bench.draw(rays_out, 'lines', 1, 1.5);
 axis equal;
 grid on;
 view(35, 20);
+camzoom(0.9);
+set(gcf, 'Color', 'w');  % Set the background color of the figure to black
+
+
+
 xlabel('X (mm)'); ylabel('Y (mm)'); zlabel('Z (mm)');
 camlight('headlight'); camlight('left'); camlight('right');
 lighting gouraud;
-title('GeneralLens using surface_lens (interpolated surface)', 'Color','w');
+title('GeneralLens using surface_lens (interpolated surface)', 'Color','k');
 
 figure('Name','surface_lens screen capture','NumberTitle','Off');
 imagesc(screen.image); axis image; colormap gray; colorbar;
