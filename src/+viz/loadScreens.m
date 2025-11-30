@@ -21,11 +21,16 @@ close all; clear all;
 %GaussFiltVal = 0.5; %0.5 er bra med lim
 %caxis([0, 4]);
 
-% Create output folder
-outDir = 'C:\Users\sverr\Documents\NTNU\Prosjekt\Blob\square';
-inDir = 'C:\Users\sverr\Documents\NTNU\Prosjekt\Blob\screen';
+%inDir = 'C:\Users\sverr\Documents\NTNU\Prosjekt\Blob\screen';
+inDir = 'C:\Users\sverr\Documents\NTNU\Prosjekt\Project-Thesis\data\datasets\DNS\intermediate\tenSampled_B1024';
 
-vidName = 'blob.mp4';
+
+% Create output folder
+outDir = 'C:\Users\sverr\Documents\NTNU\Prosjekt\Project-Thesis\assets\videos'
+%outDir = 'C:\Users\sverr\Documents\NTNU\Prosjekt\Blob\square';
+
+
+vidName = 'tenSampled_DNS.mp4';
 
 % outDir = '\\sambaad.stud.ntnu.no\sverrsr\Documents\DNS_SCREENS_150k_dist3pi';
 % inDir = '\\sambaad.stud.ntnu.no\sverrsr\Documents\DNS_SCREENS_150k_dist3pi';
@@ -44,16 +49,15 @@ vidPath = fullfile(outDir, vidName);
 v = VideoWriter(vidPath, 'MPEG-4');
 
 
-files = dir(fullfile(inDir, 'screen_*')); %.mat 
+files = dir(fullfile(inDir, '*.mat'));
 files = {files.name};
-files = sort(files);
 
 v.FrameRate = 20; % fps
 open(v);
 
 % --- Load first frame to initialize ---
 data = load(fullfile(inDir, files{1}));
-img = data.screen_image;
+img = data.screen.image;
 
 %img = imgaussfilt(img, GaussFiltVal);
 
@@ -70,7 +74,7 @@ minVal = inf; maxVal = -inf;
 
 for k = 1:numel(files)
     data = load(fullfile(inDir, files{k}));
-    img = data.screen_image;
+    img = data.screen.image;
     minVal = min(minVal, min(img(:)));
     maxVal = max(maxVal, max(img(:)));
 end
@@ -89,7 +93,7 @@ caxis([0, 4]);
 for k = 1:numel(files)
     data = load(fullfile(inDir, files{k}));
 
-    img = data.screen_image;
+    img = data.screen.image;
 
     %img = imgaussfilt(img, GaussFiltVal);
     set(hImg, 'CData', img);  % update only the image data
