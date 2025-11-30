@@ -3,8 +3,8 @@ function varargout = examplesurface_lensRun()
 clear all; close all; clc;
 %%
 
-load surfaceData1200.mat 
-load surfMesh.mat
+% load surfaceData1200.mat 
+% load surfMesh.mat
 %% Plots only the surface at s = 1200
 load surfElev_280.00.mat;
 
