@@ -1,10 +1,10 @@
 % This script loads 10 evenly spaced .mat files from a specified folder
 % and saves them into a new folder
 
-folderPath = 'D:\DNS - RE2500WEinf';
+folderPath = '\\tsclient\c\Users\sverrsr\VortexStructures\re2500we10\re2500_we20_surfElev';
 
 % Create a new folder to save processed files
-outputFolder = fullfile('C:\Users\sverr\Documents\NTNU\Prosjekt\Project-Thesis', 'tenSampledSurfaces');
+outputFolder = fullfile('\\tsclient\c\Users\sverrsr\VortexStructures\re2500we10', 're2500_we20_surfElev');
 
 if ~exist(outputFolder, 'dir')
     mkdir(outputFolder);
@@ -15,7 +15,7 @@ files = dir(fullfile(folderPath, '*.mat'));
 n = numel(files);
 
 % pick 10 evenly spaced indices
-k = 10;
+k = 500;
 idx = round(linspace(1, n, k));
 
 for i = 1:length(idx)
