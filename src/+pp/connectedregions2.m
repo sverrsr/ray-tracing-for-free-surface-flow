@@ -32,6 +32,7 @@ params.areastokeep   = 100;        % DoG low
 data = load(fileName);
 img = double(data.screen.image);
 
+%% Crop
 % img is your 1024x1024 double image
 
 % pick a small threshold to ignore pure black and noise

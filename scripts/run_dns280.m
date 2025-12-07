@@ -7,7 +7,7 @@ startup
 c = cfg.dns_default();
 
 % 2) choose case (what data to load)
-input = cases.surf_280();   % or case.surf_280() if your package is +case
+input = cases.surf_280();
 
 % 3) load surface data
 Z = io.loadSurface(input.surfacePath);
