@@ -28,8 +28,20 @@ g = 10;
 % Create a new mesh grid based on the specified dimensions
 [X, Y] = meshgrid((linspace(0, lx, nx)), (linspace(0, ly, ny)));
 
-outDir = '\\sambaad.stud.ntnu.no\sverrsr\Documents\Project-Thesis\tenSampledSurfaces_bin'  %'\\sambaad.stud.ntnu.no\sverrsr\Documents\DNS_SCREENS_150k_dist3pi_fullSIM2';
-snapshotDir = '\\sambaad.stud.ntnu.no\sverrsr\Documents\Project-Thesis\tenSampledSurfaces' %'//tsclient/E/DNS - RE2500WEinf';
+  
+outDir = fullfile('//tsclient/E/CorrelationAnalysis_rayTrace/', 'RayTrace_500SAMPLED_B1024_D0.5pi');
+%outDir = '\\sambaad.stud.ntnu.no\sverrsr\Documents\DNS_SCREENS_150k_dist3pi_fullSIM2'; 
+%'\\sambaad.stud.ntnu.no\sverrsr\Documents\Project-Thesis\tenSampledSurfaces_bin'
+
+
+
+%snapshotDir = '//tsclient/E/DNS - RE2500WEinf';
+snapshotDir = '//tsclient/E/CorrelationAnalysis_rayTrace/DNS_500SAMPLED';
+%'\\sambaad.stud.ntnu.no\sverrsr\Documents\Project-Thesis\tenSampledSurfaces'; 
+
+
+
+
 snapshotFiles = dir(fullfile(snapshotDir, '*.mat'));  % get all mat files
 
 if ~exist(outDir, 'dir')
@@ -62,8 +74,8 @@ for k = 1:Nt  % or however many surfaces you have
     [screen, rays_out, bench, surf] = DNS_Bench(X, Y, Z);  % or examplesurface_lensRun
     
     % Save screen
-    filename = fullfile(outDir, sprintf('screen_32bins_%04d.mat', k));
-    screen_image = screen.image; %#ok<NASGU>
+    filename = fullfile(outDir, sprintf('screen_B1024_D0.5pi_%04d.mat', k));
+    %screen_image = screen.image; %#ok<NASGU>
     save(filename, 'screen');  % saves entire screen object, not just image
 
     p = k / Nt;                             % percentage
@@ -72,7 +84,7 @@ for k = 1:Nt  % or however many surfaces you have
     barComplete = round(p * barLength);
     barString = ['[' repmat('#',1,barComplete) repmat('.',1,barLength-barComplete) ']'];
 
-    fprintf('\r[%s%s]  %5.1f%%  ETA: %.1fs', ...
+    fprintf('\r[%s%s]  %5.1f%%  ETA: %.1fs. - ', ...
     repmat('#',1,barComplete), ...
     repmat('.',1,barLength-barComplete), ...
     p*100, eta);

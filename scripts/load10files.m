@@ -1,10 +1,11 @@
 % This script loads 10 evenly spaced .mat files from a specified folder
 % and saves them into a new folder
 
-folderPath = 'D:\DNS - RE2500WEinf';
+% Folder to get the surfaces
+folderPath = '//tsclient/E/DNS - RE2500WEinf';
 
-% Create a new folder to save processed files
-outputFolder = fullfile('C:\Users\sverr\Documents\NTNU\Prosjekt\Project-Thesis', 'tenSampledSurfaces');
+% Create a new folder to save processed files (if it's not existing)
+outputFolder = fullfile('//tsclient/E/CorrelationAnalysis', 'DNS_500SAMPLED');
 
 if ~exist(outputFolder, 'dir')
     mkdir(outputFolder);
@@ -14,8 +15,10 @@ end
 files = dir(fullfile(folderPath, '*.mat'));
 n = numel(files);
 
-% pick 10 evenly spaced indices
-k = 10;
+% pick k evenly spaced indices
+k = 500;
+
+
 idx = round(linspace(1, n, k));
 
 for i = 1:length(idx)

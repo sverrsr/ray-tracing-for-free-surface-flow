@@ -60,14 +60,16 @@ surf = GeneralLens([0 0 0], rect_aperture, 'surface_lens', {'mirror','air'}, len
 bench.append(surf);
 
 % Screen downstream (along +X)
-screen_distance = 3*pi;  % mm along +X
+
+screen_distance = 0.5*pi;  % mm along +X
+
 screen_size = max(aperture * 0.3, 8);                    % mm
-screen = Screen([screen_distance 0 0], screen_size, screen_size, 32, 32);
+screen = Screen([screen_distance 0 0], screen_size, screen_size, 1024, 1024);
 screen.rotate([1 0 0], pi);   % face back toward the optic
 bench.append(screen);
 
 % Collimated beam aimed along +X
-nrays = 1000;
+nrays = 150000;
 source_distance = pi;
 source_pos   = [source_distance 0 0];
 incident_dir = [-1 0 0];
@@ -86,22 +88,22 @@ rays_in = Rays(nrays, 'collimated', source_pos, incident_dir, beam_side, 'random
 fprintf('Tracing rays through surface_lens ...\n');
 rays_out = bench.trace(rays_in);
 
-% Print screen geometry
-fprintf('\n=== Surface ===\n');
-fprintf('  Radius (R):        %.2f\n', surf.R);
-fprintf('  Normal (n):        [%.2f  %.2f  %.2f]\n', surf.n);
-fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', surf.r);
-
-fprintf('\n=== Screen ===\n');
-fprintf('  Radius (R):        %.2f\n', screen.R);
-fprintf('  Normal (n):        [%.2f  %.2f  %.2f]\n', screen.n);
-fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', screen.r);
-fprintf('  Size (mm):         %.2f × %.2f\n', screen_size, screen_size);
-
-fprintf('\n=== Beam ===\n');
-fprintf('  Direction (n):     [%.2f  %.2f  %.2f]\n', incident_dir);
-fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', source_pos);
-fprintf('====================\n\n');
+% % Print screen geometry
+% fprintf('\n=== Surface ===\n');
+% fprintf('  Radius (R):        %.2f\n', surf.R);
+% fprintf('  Normal (n):        [%.2f  %.2f  %.2f]\n', surf.n);
+% fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', surf.r);
+% 
+% fprintf('\n=== Screen ===\n');
+% fprintf('  Radius (R):        %.2f\n', screen.R);
+% fprintf('  Normal (n):        [%.2f  %.2f  %.2f]\n', screen.n);
+% fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', screen.r);
+% fprintf('  Size (mm):         %.2f × %.2f\n', screen_size, screen_size);
+% 
+% fprintf('\n=== Beam ===\n');
+% fprintf('  Direction (n):     [%.2f  %.2f  %.2f]\n', incident_dir);
+% fprintf('  Position (r):      [%.2f  %.2f  %.2f]\n', source_pos);
+% fprintf('====================\n\n');
 
 if nargout >= 1, varargout{1} = screen; end
 if nargout >= 2, varargout{2} = rays_out; end
