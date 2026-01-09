@@ -32,6 +32,18 @@ imgRaw = double(screen.image);     % make sure it's double
 
 fprintf('Loaded %s, size = [%d, %d]\n', fileName, size(imgRaw,1), size(imgRaw,2));
 
+%% Display: Raw Image
+figure;
+imshow(imgRaw, []);
+title('Raw Image');
+colormap(gray);
+caxis([0 4]); % Set color limits between 0 and 4
+colorbar;
+%% Step 0: ray intensity range
+rayMin = min(imgRaw(:));
+rayMax = max(imgRaw(:));
+fprintf('Ray intensity range: [%.3e, %.3e]\n', rayMin, rayMax);
+
 %% Step 1: basic contrast info
 rawMin = min(imgRaw(:));
 rawMax = max(imgRaw(:));
