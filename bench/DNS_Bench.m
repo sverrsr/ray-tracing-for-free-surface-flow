@@ -1,4 +1,4 @@
-function varargout = DNS_Bench(X, Y, Z)
+function varargout = DNS_Bench(X, Y, Z, screen_distance)
 
 [xa, ix] = sort(X(1,:));
 [ya, iy] = sort(Y(:,1));
@@ -61,7 +61,7 @@ bench.append(surf);
 
 % Screen downstream (along +X)
 
-screen_distance = 0.5*pi;  % mm along +X
+%screen_distance = _screen_distance;  % mm along +X
 
 screen_size = max(aperture * 0.3, 8);                    % mm
 screen = Screen([screen_distance 0 0], screen_size, screen_size, 1024, 1024);
@@ -70,7 +70,7 @@ bench.append(screen);
 
 % Collimated beam aimed along +X
 nrays = 150000;
-source_distance = pi;
+source_distance = 2.7*pi;
 source_pos   = [source_distance 0 0];
 incident_dir = [-1 0 0];
 
