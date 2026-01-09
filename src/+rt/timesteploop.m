@@ -28,14 +28,16 @@ g = 10;
 % Create a new mesh grid based on the specified dimensions
 [X, Y] = meshgrid((linspace(0, lx, nx)), (linspace(0, ly, ny)));
 
-distances = linspace(2*pi, 4*pi, 10);
+%% Setting
 
+distances = linspace(pi, 12*pi, 20); % Set what cases to run
+caseName = "re2500_we10";  % Define the case name
 
-caseName    = "re2500_we20";
+%rootDataDir = sprintf('\\tsclient\\c\\Users\\sverrsr\\VortexStructures\\%s\\%s_rayTrace', caseName, caseName); %where raytracing is going. Remember to create this folder
+%snapshotDir = sprintf('\\tsclient\\c\\Users\\sverrsr\\VortexStructures\\%s\\%s_surfElev', caseName, caseName); %Where surface elevation is found
 
-
-rootDataDir = '\\tsclient\c\Users\sverrsr\VortexStructures\re2500_we20\re2500_we20_rayTrace'; %where raytracing is going
-snapshotDir = '\\tsclient\c\Users\sverrsr\VortexStructures\re2500_we20\re2500_we20_surfElev'; %Where surface elevation is found
+rootDataDir = '\\tsclient\c\Users\sverrsr\VortexStructures\re2500_we10\re2500_we10_rayTrace'; 
+snapshotDir = '\\tsclient\c\Users\sverrsr\VortexStructures\re2500_we10\re2500_we10_surfElev'; 
 
 snapshotFiles = dir(fullfile(snapshotDir, '*.mat'));  % get all mat files
 Nt = length(snapshotFiles);
