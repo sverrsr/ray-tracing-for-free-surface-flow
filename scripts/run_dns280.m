@@ -4,7 +4,7 @@ clear; clc; close all;
 startup
 
 % 1) choose config
-c = cfg.dns_default();
+c = dataConfig.dns_default();
 
 % 2) choose case (what data to load)
 input = cases.surf_280();
