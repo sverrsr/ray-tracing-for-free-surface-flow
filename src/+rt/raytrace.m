@@ -15,7 +15,10 @@ rootDataDir = c.output.rootDataDir;
 
 snapshotFiles = dir(fullfile(snapshotDir, '*.mat'));
 Nt = numel(snapshotFiles);
+
 fprintf('Found %d snapshot files in %s.\n', Nt, snapshotDir);
+fprintf('Ray tracing through the optical setup: %s with %d rays\n', func2str(benchFn), nRays);
+
 
 pipelineOut = struct(); % optional return
 
@@ -40,7 +43,9 @@ for d = distances
         end
 
         % Run optics
-        [screen, ~, ~, ~] = benchFn(X, Y, Z, d, nRays);
+
+        %[screen, ~, ~, ~] = benchFn(X, Y, Z, d, nRays);
+        [screen, ~, ~, ~] = benchFn(G, Z, d);
 
         % Save
         filename = fullfile(outDir, sprintf('screen_B1024_D%.2fpi_%04d.mat', d/pi, k));
