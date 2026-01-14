@@ -13,7 +13,7 @@
 % 
 % end
 
-function loadPaths()
+function startup()
 
 addpath(fullfile(pwd, 'data'));
 basePath = 'C:\Users\sverr\Documents\NTNU\Prosjekt';
