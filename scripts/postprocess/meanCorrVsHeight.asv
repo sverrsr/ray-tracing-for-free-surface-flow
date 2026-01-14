@@ -30,44 +30,47 @@
 % - Updates S.MeanCorrelation for each distance tag and overwrites fileName.
 % - Generates a figure: mean correlation vs height (multiples of pi).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 clear; clc; close all;
 
-% Distances (heights)
-% ---- set case once ----
-caseTag = "re2500_we20";
-rootDir = "D:\DNS";
+% Blir brukt til å kjøre gjennom alle distanser for å finne korrleasjon
 
-%%
 % Distances (heights)
-fileName = caseTag + "_meanCorr.csv";
+fileName = "re2500_we20_meanCorr.csv";
 S = readtable(fileName);
 
+
+% To edit
+distTags = S.DistanceTag;
 % Folders
-baseFilteredDir = fullfile(rootDir, caseTag, caseTag + "_rayTrace_filtered");
-surfElevDir     = fullfile(rootDir, caseTag, caseTag + "_surfElev");
-filteredPrefix  = caseTag + "_raytrace_filtered_";   % + distTag
+baseFilteredDir = 'D:\DNS\re2500_we20\re2500_we20_rayTrace_filtered';
+surfElevDir     = 'D:\DNS\re2500_we20\re2500_we20_surfElev';
+filteredPrefix  = 're2500_we20_raytrace_filtered_'; %remove distance only _{distance}
 
 
-distTags = string(S.DistanceTag);
 % Grid (once)
 nx = 256; ny = 256;
 [X,Y] = meshgrid(single(linspace(-pi,pi,nx)), single(linspace(-pi,pi,ny)));
 
-% Find surface elevation files
+% Surf files (once)
 surfFiles = dir(fullfile(surfElevDir,'*.mat'));
+surfBase  = erase(string({surfFiles.name}), ".mat");
 
 meanCorrByDist = nan(numel(distTags),1);
 heightByDist   = nan(numel(distTags),1);
 
-% First loop through heights
+
 for d = 1:numel(distTags)
-    distTag = distTags(d);
+    distTag = distTags{d};
 
     tok = regexp(distTag,'D([0-9.]+)pi','tokens','once');
     heightByDist(d) = str2double(tok{1}) * pi;   % "height" in radians
 
-    filteredDir = fullfile(baseFilteredDir, filteredPrefix + distTag);
+    filteredDir = fullfile(baseFilteredDir, [filteredPrefix distTag]);
 
+    surfFiles = dir(fullfile(surfElevDir,'*.mat'));
     filtFiles = dir(fullfile(filteredDir,'*.mat'));
     
     % Sort both by name to ensure consistent order
@@ -93,18 +96,17 @@ for d = 1:numel(distTags)
     
     corrVec = zeros(n,1);
 
-    % Second loop through all frames
+
     for k = 1:n
         % --- filtered image ---
-        filteredImagePath = fullfile(filteredDir, filtFiles(k).name);
-        A = load(filteredImagePath);
+        
+        A = load(fullfile(filteredDir, filtFiles(k).name));
         img = double(A.img);
         img = newgrid(img, nx, ny);
         img = (img - mean(img(:))) / std(img(:));
     
         % --- curvature ---
-        curvaturePath = fullfile(surfElevDir, surfFiles(k).name);
-        T = load(curvaturePath);
+        T = load(fullfile(surfElevDir, surfFiles(k).name));
         Z = rot90(T.surfElev, 2);
         [~,H,~,~] = surfature(X,Y,Z);
         H = (H - mean(H(:))) / std(H(:));
@@ -112,6 +114,7 @@ for d = 1:numel(distTags)
         % --- correlation (no shift) ---
         corrVec(k) = corr2(img, H);
     end
+
 
     meanCorrByDist(d) = mean(corrVec, 'omitnan'); % omnitan ignores nan
 
@@ -124,10 +127,11 @@ writetable(S, fileName)
 fprintf('Correlations saved in table S and the file %s\n', fileName);
 
 % Plot mean correlation vs height
+valid = ~isnan(meanCorrByDist);
 hPi = heightByDist/pi;
 
 figure;
-plot(hPi, meanCorrByDist, '-o');
+plot(hPi(valid), meanCorrByDist(valid), '-o');
 grid on;
 xlabel('Height (multiples of \pi)');
 ylabel('Mean corr2 (filtered vs curvature)');
