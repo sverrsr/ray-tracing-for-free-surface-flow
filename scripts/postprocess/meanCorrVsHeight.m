@@ -34,7 +34,7 @@ clear; clc; close all;
 
 % Distances (heights)
 % ---- set case once ----
-caseTag = "re2500_we20";
+caseTag = "re2500_weInf";
 rootDir = "D:\DNS";
 
 %%
@@ -43,10 +43,15 @@ fileName = caseTag + "_meanCorr.csv";
 S = readtable(fileName);
 
 % Folders
-baseFilteredDir = fullfile(rootDir, caseTag, caseTag + "_rayTrace_filtered");
-surfElevDir     = fullfile(rootDir, caseTag, caseTag + "_surfElev");
+baseFilteredDir = "D:\DNS\re2500_weInf\re2500_weInf_surfElev_sampled500_filtered"; %fullfile(rootDir, caseTag, caseTag + "_rayTrace_filtered");
+surfElevDir     = "D:\DNS\re2500_weInf\re2500_weInf_surfElev_sampled500"; %fullfile(rootDir, caseTag, caseTag + "_surfElev");
 filteredPrefix  = caseTag + "_raytrace_filtered_";   % + distTag
+% Prefix for re2500_weInf:
+filteredPrefix  = "RayTrace_500SAMPLED_B1024_";
 
+
+fprintf('Filtered ray tracing images are found in %s\n', baseFilteredDir);
+fprintf('Surface elevations %s\n', surfElevDir);
 
 distTags = string(S.DistanceTag);
 % Grid (once)
@@ -67,6 +72,7 @@ for d = 1:numel(distTags)
     heightByDist(d) = str2double(tok{1}) * pi;   % "height" in radians
 
     filteredDir = fullfile(baseFilteredDir, filteredPrefix + distTag);
+    fprintf('Filtered ray tracing images are found in %s\n', filteredDir);
 
     filtFiles = dir(fullfile(filteredDir,'*.mat'));
     
