@@ -1,4 +1,4 @@
-%% smoothedTiles_export_good.m
+   %% smoothedTiles_export_good.m
 clear; clc; close all;
 
 % Denne ble brukt for  5.3.1. Printe 4 bilder
