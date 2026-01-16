@@ -1,58 +1,17 @@
 clear; clc; close all;
 
-% List of distances to process
-% distTags = { ...
-%     'D0.5pi', ...
-%     'D1pi', ...
-%     'D2.5pi', ...
-%     'D2pi', ...
-%     'D3.5pi', ...
-%     'D3pi', ...
-%     'D4pi', ...
-%     'D5pi', ...
-%     'D6pi', ...
-%     'D8pi', ...
-%     'D10pi', ...
-%     'D12pi', ...
-%     'D14pi' };
+caseTag = "re2500_we20";
 
-% distTags = {'D3pi'};
-
-% distTags = { ...
-%     'D2.00pi', ...
-%     'D2.22pi', ...
-%     'D2.44pi', ...
-%     'D2.67pi', ...
-%     'D2.89pi', ...
-%     'D3.11pi', ...
-%     'D3.33pi', ...
-%     'D3.56pi', ...
-%     'D3.78pi', ...
-%     'D4.00pi' };
-
-distTags = {
-    'D1.00pi'
-    'D1.29pi'
-    'D1.57pi'
-    'D1.86pi'
-    'D2.14pi'
-    'D2.43pi'
-    'D2.71pi'
-    'D3.00pi'
-    'D3.29pi'
-    'D3.57pi'
-    'D3.86pi'
-    'D4.14pi'
-    'D4.43pi'
-    'D4.71pi'
-    'D5.00pi'
-};
+% Distances (heights)
+fileName = caseTag + "_meanCorr.csv";
+S = readtable(fileName);
+distTags = string(S.DistanceTag);
 
 % BASE folders (never change these in the loop)
 baseRayTraceDir = ...
-    'D:\DNS\re2500_we10\re2500_we10_rayTrace';
+    'D:\DNS\re2500_we20\re2500_we20_rayTrace';
 baseFilteredDir = ...
-    'D:\DNS\re2500_we10\re2500_we10_rayTrace_filtered';
+    'D:\DNS\re2500_we20\re2500_we20_rayTrace_filtered';
 
 for d = 1:numel(distTags)
     distTag = distTags{d};
@@ -60,9 +19,9 @@ for d = 1:numel(distTags)
 
     % Build folders safely
     rayTraceDir = fullfile(baseRayTraceDir, ...
-        ['re2500_we10_rayTrace_' distTag]); % Subfolder navn
+        ['re2500_we20_rayTrace_' distTag]); % Subfolder navn
     filteredDir = fullfile(baseFilteredDir, ...
-        ['re2500_we10_rayTrace_D1.00pi_filtered' distTag]);
+        ['re2500_we20_rayTrace_D1.00pi_filtered' distTag]);
 
     % Skip if input folder does not exist
     if ~exist(rayTraceDir, 'dir')
@@ -74,10 +33,21 @@ for d = 1:numel(distTags)
     if ~exist(filteredDir, 'dir')
         mkdir(filteredDir);
     end
-
+    
+    
     % Get files
     files = dir(fullfile(rayTraceDir, '*.mat'));
+    nSteps = numel(files);
+
+    fprintf('... Reading %d ray traced images for %s ...\n', nSteps, distTag);
+
+    printcounter = 1;
+
     for k = 1:numel(files)
+        
+        printcounter = printcounter + 1;
+        
+
         filePath = fullfile(rayTraceDir, files(k).name);
 
         % LOAD
@@ -86,15 +56,22 @@ for d = 1:numel(distTags)
 
         % PROCESS
         % Apply final post-processing to the raw image (user function)
-        img = finalPP(img_raw);
+        img = finalPP_simple(img_raw);
 
         % BUILD NEW FILENAME
         [~, baseName, ext] = fileparts(files(k).name);
-        newName = [baseName '_filtered' ext];
+        newName = [baseName '_filtered_simple_' ext];
 
         % SAVE
         outPath = fullfile(filteredDir, newName);
         save(outPath, 'img');
+
+        if printcounter == 30
+            fprintf('... Processed %s images ...\n', k);
+            printcounter = 0;
+        end
+
+        
     end
 end
 disp('All distances processed and saved.');
