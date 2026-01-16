@@ -1,4 +1,21 @@
 clear all; %close all;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Script that reads 
+%
+% Inputs:
+% caseName: Six possible cases, set name based on which case you want to analyze
+%           Name format for case 1: RE2500_WEinf. 
+%           Swap 2500 with 1000 and/or inf with 10 or 20 to read cases 2-6.
+% traceDir: Folder where the different simulations are stored.
+%           Should contain a ray-traced images at one distance
+% surfElevDir: Folder where the different surface elevations are stored
+%              The same for all distances, but inique for each caseName
+% 
+% Return:
+% This script returns the following:
+% meanCorr: correlation for each image
+% meanofAll: mean of meanCorr
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%
@@ -6,7 +23,7 @@ clear all; %close all;
 % Jeg henter inspirasjon fra curvature_reflection_analysis_loop for å lage en ny loop 10/12/2025
 
 % Two images to compare
-filteredDir      = 'D:\DNS\re2500_weInf\re2500_weInf_surfElev_first2089_B1024_filtered\re2500_weInf_surfElev_first2089_B1024_filtered_D3pi';
+traceDir      = 'D:\DNS\re2500_weInf\re2500_weInf_surfElev_first2089_B1024_filtered\re2500_weInf_surfElev_first2089_B1024_filtered_D3pi';
 surfElevDir      = 'D:\DNS\re2500_weInf\re2500_weInf_surfElev_first2089_B1024';
 
 
