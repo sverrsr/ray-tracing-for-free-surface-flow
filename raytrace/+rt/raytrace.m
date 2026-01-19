@@ -1,23 +1,20 @@
-function pipelineOut = raytrace(G, c, benchFn)
+function pipelineOut = raytrace(X, Y, c)
 %RUNRAYTRACESNAPSHOTS Runs raytracing for all distances and snapshots.
 %
 %   pipelineOut = pipeline.runRaytraceSnapshots(G, c, benchFn)
-
-X = G.X;
-Y = G.Y;
 
 distances   = c.simulation.distances;
 nRays       = c.simulation.nRays;
 
 caseName    = c.input.caseName;
-snapshotDir = c.input.snapshotDir;
-rootDataDir = c.output.rootDataDir;
+snapshotDir = c.input.surfElevDir;
+rootDataDir = c.output.rayTraceDir;
 
 snapshotFiles = dir(fullfile(snapshotDir, '*.mat'));
 Nt = numel(snapshotFiles);
 
-fprintf('Found %d snapshot files in %s.\n', Nt, snapshotDir);
-fprintf('Ray tracing through the optical setup: %s with %d rays\n', func2str(benchFn), nRays);
+fprintf('Found %d surface elevation files in %s.\n', Nt, snapshotDir);
+fprintf('Starting ray tracing with %d rays ...\n', nRays);
 
 
 pipelineOut = struct(); % optional return
@@ -26,7 +23,7 @@ for d = distances
     outDir = fullfile(rootDataDir, caseName + sprintf('_raytraced_D%.2fpi', d/pi));
     if ~exist(outDir, 'dir'); mkdir(outDir); end
 
-    fprintf('Processing distance %.2f, output in %s\n', d, outDir);
+    fprintf('... Tracing distance %.2f * pi. Saving image in %s\n', d/pi, outDir);
 
     tStart = tic;
     barLength = 30;
@@ -45,7 +42,7 @@ for d = distances
         % Run optics
 
         %[screen, ~, ~, ~] = benchFn(X, Y, Z, d, nRays);
-        [screen, ~, ~, ~] = benchFn(G, Z, d);
+        [screen, ~, ~, ~] = bench.DNS_Bench(X, Y, Z, d);
 
         % Save
         filename = fullfile(outDir, sprintf('screen_B1024_D%.2fpi_%04d.mat', d/pi, k));
