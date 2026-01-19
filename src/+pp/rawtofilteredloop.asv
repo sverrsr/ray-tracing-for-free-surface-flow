@@ -37,9 +37,9 @@ for d = 1:numel(distTags)
 
     % Build folders safely
     rayTraceDir = fullfile(baseRayTraceDir, ...
-        ['re2500_we20_raytrace_' distTag]); % Subfolder navn
+        ['re2500_we20_rayTrace_' distTag]); % Subfolder navn
     filteredDir = fullfile(baseFilteredDir, ...
-        ['re2500_we20_raytrace_filtered' distTag]);
+        ['re2500_we20_rayTrace_D1.00pi_filtered' distTag]);
 
     % Skip if input folder does not exist
     if ~exist(rayTraceDir, 'dir')
@@ -74,10 +74,10 @@ for d = 1:numel(distTags)
 
         % PROCESS
         % Apply final post-processing to the raw image (user function)
-        img = finalPP(img_raw);
+        img = finalPP_simple(img_raw);
 
         % --- DEBUG: show raw vs processed for the very first file only ---
-        if  k == 1
+        if d == 1 && k == 1
             figure('Name','Raw vs Processed (first image)','Color','w');
             
             subplot(1,2,1);
@@ -96,14 +96,14 @@ for d = 1:numel(distTags)
 
         % BUILD NEW FILENAME
         [~, baseName, ext] = fileparts(files(k).name);
-        newName = [baseName '_filtered_simple' ext];
+        newName = [baseName '_filtered_simple_' ext];
 
         % SAVE
         outPath = fullfile(filteredDir, newName);
         save(outPath, 'img');
 
-        if printcounter == 61
-            fprintf('... Processed %d images ...\n', k);
+        if printcounter == 30
+            fprintf('... Processed %s images ...\n', k);
             printcounter = 0;
         end
 

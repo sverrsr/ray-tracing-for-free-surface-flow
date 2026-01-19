@@ -15,17 +15,16 @@ clear all; %close all;
 % Return:
 % This script returns the following:
 % meanCorr: correlation for each image
-% meanCorr: mean of meanCorr
+% meanofAll: mean of meanCorr
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 % Jeg henter inspirasjon fra curvature_reflection_analysis_loop for å lage en ny loop 10/12/2025
 
 % Two images to compare
-caseName = ""
-distanceTag = "";
 traceDir      = 'D:\DNS\re2500_weInf\re2500_weInf_surfElev_first2089_B1024_filtered\re2500_weInf_surfElev_first2089_B1024_filtered_D3pi';
 surfElevDir      = 'D:\DNS\re2500_weInf\re2500_weInf_surfElev_first2089_B1024';
+
 
 
 % Get filteredFiles
@@ -70,5 +69,5 @@ for k = 1:numel(filteredFiles)
 
 end
 
-meanCorr = mean(corrCoeff);
-fprintf('Mean of all correlations: %.6f\n', meanCorr);
+meanOfAll = mean(corrCoeff);
+fprintf('Mean of all correlations: %.6f\n', meanOfAll);
