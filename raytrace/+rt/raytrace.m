@@ -42,7 +42,7 @@ for d = distances
         % Run optics
 
         %[screen, ~, ~, ~] = benchFn(X, Y, Z, d, nRays);
-        [screen, ~, ~, ~] = bench.DNS_Bench(X, Y, Z, d);
+        [screen, ~, ~, ~] = bench.DNS_Bench(X, Y, Z, d, nRays);
 
         % Save
         filename = fullfile(outDir, sprintf('screen_B1024_D%.2fpi_%04d.mat', d/pi, k));
@@ -60,7 +60,7 @@ for d = distances
         close all;
     end
 
-    fprintf('\nDone distance %.2f\n', d);
+    fprintf('\nDone distance %.2f * pi\n', d/pi);
 end
 
 fprintf('All snapshots processed!\n');

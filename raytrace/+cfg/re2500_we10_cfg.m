@@ -1,13 +1,15 @@
 function c = re2500_we10_cfg()
 
 c.input.caseName = "re2500_we10";
-c.input.surfElevDir = "D:\DNS\re2500_we10\test\surfelev"; %surface elevations is found here
+c.input.surfElevDir = "//tsclient/E/DNS/re2500_we10/test/surfelev"; %surface elevations is found here
 
-c.simulation.distances = linspace(pi, 12*pi, 20);
-c.simulation.nRays = 1000;
+
+
+c.simulation.distances = 3*pi; %linspace(pi, 12*pi, 20);
+c.simulation.nRays = 150000;
 
 % Folder where surface ray-tracing is saved
-c.output.rayTraceDir = "D:\DNS\re2500_we10\test\traced";
+c.output.rayTraceDir = "\\tsclient\E\DNS\re2500_we10\test\traced";
 
 
 c.grid.nx = 256;
