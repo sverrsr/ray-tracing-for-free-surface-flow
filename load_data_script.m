@@ -6,8 +6,8 @@ clear all;
 
 %% Settings
 
-caseName = "re1000_we10";
-rootDir  = "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_we10";
+caseName = "re1000_we20";
+rootDir  = "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_we20";
 
 
 %%
@@ -20,20 +20,24 @@ if ~isfolder(outDir)
 end
 
 % Get list of HDF5 files
-files  = dir(dataDir);       % all files and folders
-files  = files(~[files.isdir]); % remove '.' and '..' and any subfolders
+files = dir(dataDir); % all files and folders 
+files = files(~[files.isdir]); % remove '.' and '..' and any subfolders
+files = sort({files.name});
+
+
 nSteps = numel(files);
 fprintf("Found %d timesteps in %s\n", nSteps, dataDir);
 
-
-% k = 500;
-% idx = floor(linspace(1, nSteps+1, k+1));
-% idx = idx(1:end-1);
+nSamples = 500;
+idx = round(linspace(1, nSteps, nSamples));
 
 
-% Loop over timesteps
-for k = 1:nSteps
-    fprintf("Processing file %d / %d\n ...", k, nSteps);
+%for k = 1:nSteps % Add this if all files should be included
+
+for i = 390:numel(idx) % Remove this if all files should be included
+    k = idx(i); % Remove this if all files should be included and not sampled
+
+    fprintf("Processing file %d / %d ...\n", k, nSteps);
 
     [surfElev, ~, ~, ~, ~] = load_data(caseName, rootDir, k);
 
@@ -43,3 +47,5 @@ for k = 1:nSteps
 end
 
 fprintf("Done. Files saved in:\n%s\n", outDir);
+
+% Find the file index using "i = find(idx == 5847);"
