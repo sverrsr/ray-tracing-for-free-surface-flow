@@ -1,4 +1,4 @@
-% % scripts/runOnlyOne.m
+ % % scripts/runOnlyOne.m
 % clear; clc; close all;
 % 
 % startup
