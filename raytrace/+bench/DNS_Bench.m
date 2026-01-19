@@ -26,6 +26,8 @@ if usable_radius <= 0
     error('surface_run:InvalidSurfaceBounds', ...
         'Surface data has insufficient span once edge buffer is removed.');
 end
+
+
  
 Za = Z(iy, ix);
 
@@ -69,7 +71,7 @@ screen.rotate([1 0 0], pi);   % face back toward the optic
 bench.append(screen);
 
 % Collimated beam aimed along +X
-nrays = 150000;
+nrays = 1000;
 source_distance = 2.7*pi;
 source_pos   = [source_distance 0 0];
 incident_dir = [-1 0 0];

@@ -7,7 +7,7 @@ c.simulation.distances = linspace(pi, 12*pi, 20);
 c.simulation.nRays = 1000;
 
 % Folder where surface ray-tracing is going
-c.output.rootDataDir = "D:\DNS\re1000_we10\raytraceTestResults";
+c.output.rayTraceDir = "D:\DNS\re1000_we10\raytraceTestResults";
 
 
 c.grid.nx = 256;
