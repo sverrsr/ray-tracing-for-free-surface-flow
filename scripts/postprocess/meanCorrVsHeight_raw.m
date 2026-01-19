@@ -43,9 +43,9 @@ fileName = caseTag + "_meanCorr.csv";
 S = readtable(fileName);
 
 % Folders
-baseFilteredDir = "D:\DNS\re2500_we20\re2500_we20_rayTrace_filtered"; %fullfile(rootDir, caseTag, caseTag + "_rayTrace_filtered");
+baseFilteredDir = "D:\DNS\re2500_we20\re2500_we20_rayTrace"; %fullfile(rootDir, caseTag, caseTag + "_rayTrace_filtered");
 surfElevDir     = "D:\DNS\re2500_we20\re2500_we20_surfElev"; %fullfile(rootDir, caseTag, caseTag + "_surfElev");
-filteredPrefix  = caseTag + "_raytrace_filtered_";   % + distTag
+filteredPrefix  = caseTag + "_raytrace_";   % + distTag
 % Prefix for re2500_weInf:
 %filteredPrefix  = "RayTrace_500SAMPLED_B1024_";
 
@@ -65,8 +65,10 @@ meanCorrByDist = nan(numel(distTags),1);
 heightByDist   = nan(numel(distTags),1);
 
 % First loop through heights
-for d = 1:numel(distTags)
+for d = 1:3
     distTag = distTags(d);
+
+    
 
     tok = regexp(distTag,'D([0-9.]+)pi','tokens','once');
     heightByDist(d) = str2double(tok{1}) * pi;   % "height" in radians
@@ -104,7 +106,7 @@ for d = 1:numel(distTags)
         % --- filtered image ---
         filteredImagePath = fullfile(filteredDir, filtFiles(k).name);
         A = load(filteredImagePath);
-        img = double(A.img);
+        img = double(A.screen.image);%double(A.img);
         img = newgrid(img, nx, ny);
         img = (img - mean(img(:))) / std(img(:));
     
@@ -114,6 +116,8 @@ for d = 1:numel(distTags)
         Z = rot90(T.surfElev, 2);
         [~,H,~,~] = surfature(X,Y,Z);
         H = (H - mean(H(:))) / std(H(:));
+
+        imshow(img);
     
         % --- correlation (no shift) ---
         corrVec(k) = corr2(img, H);
