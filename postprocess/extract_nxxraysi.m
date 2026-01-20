@@ -1,4 +1,4 @@
-function T = extract_raycounts_from_ls(directory)
+function T = extract_nxxraysi(directory)
 % Extract the last number in each name (ray count), e.g.
 % re2500_we10_raytraced_5100 -> 5100
 

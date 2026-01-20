@@ -1,4 +1,4 @@
-function c = dns_re1000_we10()
+function c = re1000_we10_cfg()
 
 c.input.caseName = "dns_re1000_we10";
 c.input.surfElevDir = "D:\DNS\re1000_we10\test";
@@ -10,8 +10,9 @@ c.simulation.nRays = 1000;
 c.output.rayTraceDir = "D:\DNS\re1000_we10\raytraceTestResults";
 
 
-c.grid.nx = 256;
-c.grid.ny = 256;
+c.grid.nx = 128;
+c.grid.ny = 128;
+c.grid.nz = 348;
 c.grid.nt = 12500;
 
 c.grid.lx = 2*pi;

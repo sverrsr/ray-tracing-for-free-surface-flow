@@ -1,8 +1,6 @@
 function [img_filt] = finalPP_simple(img_raw)
 %   Simplyfied version of finalPP without removing parts
 %   Preprocess image: crop, smooth, enhance, 
-%   img_filt = finalPP(img_raw)
-%   Returns a binary mask after basic preprocessing.
 
 
 arguments (Input)

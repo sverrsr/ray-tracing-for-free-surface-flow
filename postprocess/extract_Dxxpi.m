@@ -1,4 +1,4 @@
-function DistanceTag = extract_Dpi_from_ls(directory)
+function DistanceTag = extract_Dxxpi(directory)
 % extract_Dpi_from_ls  Extract "D<number>[.fraction]pi" tokens from names
 %   DistanceTag = extract_Dpi_from_ls(list)
 %   Input 'list' can be
