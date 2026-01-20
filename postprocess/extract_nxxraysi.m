@@ -2,6 +2,14 @@ function T = extract_raycounts_from_ls(directory)
 % Extract the last number in each name (ray count), e.g.
 % re2500_we10_raytraced_5100 -> 5100
 
+if nargin < 1 || isempty(directory)
+    directory = uigetdir(matlabroot, 'Select folder with raytraced cases');
+    if isequal(directory,0)
+        T = table();  % or: T = [];
+        return;
+    end
+end
+
 list = ls(directory);
 
 % Normalize to string column vector
