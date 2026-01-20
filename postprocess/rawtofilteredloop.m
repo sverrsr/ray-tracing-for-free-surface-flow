@@ -25,6 +25,7 @@ fileName = caseTag + "_meanCorr.csv";
 S = readtable(fileName);
 distTags = string(S.DistanceTag);
 
+
 % BASE folders (never change these in the loop)
 baseRayTraceDir = ...
     'D:\DNS\re2500_we20\re2500_we20_rayTrace';
@@ -35,9 +36,11 @@ for d = 1:numel(distTags)
     distTag = distTags{d};
     fprintf('Processing %s...\n', distTag);
 
-    % Build folders safely
+    % Finding subfolders:
     rayTraceDir = fullfile(baseRayTraceDir, ...
-        ['re2500_we20_raytrace_' distTag]); % Subfolder navn
+        ['re2500_we20_raytrace_' distTag]);
+
+    % Building subfolders:
     filteredDir = fullfile(baseFilteredDir, ...
         ['re2500_we20_raytrace_filtered' distTag]);
 

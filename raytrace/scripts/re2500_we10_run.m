@@ -15,9 +15,9 @@ Y = G.Y;
 sx = size(X); sy = size(Y);
 fprintf('size(X) = [%d %d]\n', sx(1), sx(2));
 fprintf('size(Y) = [%d %d]\n', sy(1), sy(2));
-%
 
-% 3) ray trace
+
+% 4) ray trace
 
 rt.raytrace(X, Y, c);
 

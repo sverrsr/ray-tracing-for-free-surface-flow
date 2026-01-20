@@ -1,13 +1,13 @@
 function c = re1000_we10_cfg()
 
-c.input.caseName = "dns_re1000_we10";
-c.input.surfElevDir = "D:\DNS\re1000_we10\test";
+c.input.caseName = "re1000_we10";
+c.input.surfElevDir = "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_we10\re1000_we10_surfelev";
 
-c.simulation.distances = linspace(pi, 12*pi, 20);
+c.simulation.distances = linspace(pi, 15*pi, 15);
 c.simulation.nRays = 1000;
 
 % Folder where surface ray-tracing is going
-c.output.rayTraceDir = "D:\DNS\re1000_we10\raytraceTestResults";
+c.output.rayTraceDir = "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_we10\re1000_we10_rayTrace";
 
 
 c.grid.nx = 128;
