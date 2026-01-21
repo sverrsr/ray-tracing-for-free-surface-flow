@@ -31,9 +31,7 @@ for d = idxD
 
     heightByDist(d) = distTagToHeight(distTag); % in radians
 
-    % Construct the image directory path based on the configuration and distance tag
     imgDir = fullfile(cfg.analysis.baseImgDir, cfg.analysis.imgPrefix + distTag);
-    fprintf('Image directory for %s: %s\n', distTag, imgDir); % Console description
     filtFiles = dir(fullfile(imgDir,'*.mat'));
     filtFiles = sortFilesByName(filtFiles);
 
