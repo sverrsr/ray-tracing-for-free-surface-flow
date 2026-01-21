@@ -1,4 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fileName: meanCorrVsHeigh_raw
+% 
 % Script that computes mean correlation between filtered ray-tracing images and surface
 % curvature from DNS free-surface turbulence simulations.
 %

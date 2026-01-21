@@ -1,0 +1,124 @@
+function out = run_meanCorrVsHeight(cfg)
+% out.meanCorrByDist, out.heightByDist, out.table
+
+clc;
+
+S = readtable(cfg.csvFile);
+distTags = string(S.DistanceTag);
+
+% choose distances to process
+if ischar(cfg.distLoop) || isstring(cfg.distLoop)
+    idxD = 1:numel(distTags);
+else
+    idxD = cfg.distLoop;
+end
+
+% grid once
+[X,Y] = meshgrid(single(linspace(-pi,pi,cfg.nx)), single(linspace(-pi,pi,cfg.ny)));
+
+% surf files once + sort once
+surfFiles = dir(fullfile(cfg.surfElevDir,'*.mat'));
+surfFiles = sortFilesByName(surfFiles);
+
+meanCorrByDist = nan(numel(distTags),1);
+heightByDist   = nan(numel(distTags),1);
+
+for d = idxD
+    distTag = distTags(d);
+
+    heightByDist(d) = distTagToHeight(distTag); % in radians
+
+    imgDir = fullfile(cfg.baseImgDir, cfg.imgPrefix + distTag);
+    filtFiles = dir(fullfile(imgDir,'*.mat'));
+    filtFiles = sortFilesByName(filtFiles);
+
+    n = min(numel(surfFiles), numel(filtFiles));
+    if n == 0
+        warning('No files found for %s', distTag);
+        continue;
+    end
+
+    corrVec = nan(n,1);
+
+    for k = 1:n
+        imgPath  = fullfile(imgDir,       filtFiles(k).name);
+        surfPath = fullfile(cfg.surfElevDir, surfFiles(k).name);
+
+        img = loadRayImage(imgPath, cfg.imgField, cfg.nx, cfg.ny);
+        img = zscore2(img);
+
+        H = loadCurvature(surfPath, X, Y, cfg.rotateSurf);
+        H = zscore2(H);
+
+        corrVec(k) = corr2(img, H);
+    end
+
+    meanCorrByDist(d) = mean(corrVec,'omitnan');
+    S.MeanCorrelation(d) = meanCorrByDist(d);
+
+    fprintf('%s: mean corr = %.6f (n=%d)\n', distTag, meanCorrByDist(d), n);
+end
+
+if cfg.saveCsv
+    writetable(S, cfg.csvFile);
+    fprintf('Saved: %s\n', cfg.csvFile);
+end
+
+if cfg.makePlot
+    hPi = heightByDist/pi;
+    figure;
+    plot(hPi, meanCorrByDist, '-o');
+    grid on;
+    xlabel('Height (multiples of \pi)');
+    ylabel('Mean corr2 (img vs curvature)');
+    title(cfg.caseTag + " mean correlation vs height");
+end
+
+out.meanCorrByDist = meanCorrByDist;
+out.heightByDist   = heightByDist;
+out.table          = S;
+end
+
+function files = sortFilesByName(files)
+[~,ix] = sort({files.name});
+files = files(ix);
+end
+
+function h = distTagToHeight(distTag)
+tok = regexp(distTag,'D([0-9.]+)pi','tokens','once');
+h = str2double(tok{1}) * pi;
+end
+
+function A = zscore2(A)
+s = std(A(:));
+if s == 0 || isnan(s)
+    A = A - mean(A(:));
+else
+    A = (A - mean(A(:))) / s;
+end
+end
+
+function img = loadRayImage(path, imgField, nx, ny)
+S = load(path);
+
+% support "img" or "screen.image"
+switch string(imgField)
+    case "img"
+        img = double(S.img);
+    case "screen.image"
+        img = double(S.screen.image);
+    otherwise
+        error("Unknown imgField: %s", imgField);
+end
+
+img = newgrid(img, nx, ny);
+end
+
+function H = loadCurvature(path, X, Y, doRotate)
+T = load(path);
+Z = T.surfElev;
+if doRotate
+    Z = rot90(Z,2);
+end
+[~,H,~,~] = surfature(X,Y,Z);
+end
