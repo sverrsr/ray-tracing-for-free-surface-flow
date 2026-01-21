@@ -6,8 +6,8 @@ clear all;
 
 %% Settings
 
-caseName = "re1000_we20";
-rootDir  = "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_we20";
+caseName = "re1000_weInf";
+rootDir  = "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_weInf";
 
 
 %%
@@ -34,7 +34,7 @@ idx = round(linspace(1, nSteps, nSamples));
 
 %for k = 1:nSteps % Add this if all files should be included
 
-for i = 390:numel(idx) % Remove this if all files should be included
+for i = 1:numel(idx) % Remove this if all files should be included
     k = idx(i); % Remove this if all files should be included and not sampled
 
     fprintf("Processing file %d / %d ...\n", k, nSteps);
