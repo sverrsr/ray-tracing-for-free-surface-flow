@@ -45,7 +45,7 @@ for d = distances
         [screen, ~, ~, ~] = bench.DNS_Bench(X, Y, Z, d, nRays);
 
         % Save
-        filename = fullfile(outDir, caseName + sprintf('screen_D%.2fpi_%04d.mat', d/pi, k));
+        filename = fullfile(outDir, caseName + sprintf('_screen_D%.2fpi_%04d.mat', d/pi, k));
         save(filename, 'screen');
 
         % Progress bar
