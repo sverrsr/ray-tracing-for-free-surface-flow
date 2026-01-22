@@ -1,4 +1,4 @@
-function c = re2500_we10_cfg()
+function c = re2500_we20_cfg()
 
 c.input.caseName = "re2500_we10";
 %c.input.surfElevDir = "//tsclient/E/DNS/re2500_we10/test/surfelev"; %surface elevations is found here
