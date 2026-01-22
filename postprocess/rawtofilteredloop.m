@@ -8,6 +8,8 @@
 % Choose the main function:
 %   finalPP_simple
 %   finalPP
+%
+% Example
 % 
 % Output:
 % Processed images are saved to a separate "filtered" output directory.
