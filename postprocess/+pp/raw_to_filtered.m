@@ -1,3 +1,5 @@
+function raw_to_filtered(c)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % The script loops over multiple wall distances (distTags) for one DNS case
 % (re*_we*) and process the image so it can later be correlated
@@ -18,33 +20,36 @@
 % 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-clear; clc; close all;
 
-caseTag = "re2500_we20";
+
+caseTag = c.input.caseName;
 
 % Distances (heights)
 fileName = caseTag + "_meanCorr.csv";
-S = readtable(fileName);
-distTags = string(S.DistanceTag);
+fprintf('Opening CSV file: %s\n', fileName);
+distTable = readtable(fileName);
+distTags = string(distTable.DistanceTag);
 
 
 % BASE folders (never change these in the loop)
-baseRayTraceDir = ...
-    'D:\DNS\re2500_we20\re2500_we20_rayTrace';
-baseFilteredDir = ...
-    'D:\DNS\re2500_we20\re2500_we20_rayTrace_filtered';
+baseRayTraceDir = c.pp.baseRayTraceDir;
+baseFilteredDir = c.pp.baseFilteredDir;
 
 for d = 1:numel(distTags)
     distTag = distTags{d};
     fprintf('Processing %s...\n', distTag);
 
     % Finding subfolders:
-    rayTraceDir = fullfile(baseRayTraceDir, ...
-        ['re2500_we20_raytrace_' distTag]);
+    rayTraceDir = fullfile( ...
+        baseRayTraceDir, ...
+        caseTag + "_raytrace_" + distTag ...
+    );
 
     % Building subfolders:
-    filteredDir = fullfile(baseFilteredDir, ...
-        ['re2500_we20_raytrace_filtered' distTag]);
+    filteredDir = fullfile( ...
+        baseFilteredDir, ...
+        caseTag + "_raytrace_filtered_" + distTag ...
+    );
 
     % Skip if input folder does not exist
     if ~exist(rayTraceDir, 'dir')
@@ -70,7 +75,6 @@ for d = 1:numel(distTags)
         
         printcounter = printcounter + 1;
         
-
         filePath = fullfile(rayTraceDir, files(k).name);
 
         % LOAD
@@ -79,7 +83,7 @@ for d = 1:numel(distTags)
 
         % PROCESS
         % Apply final post-processing to the raw image (user function)
-        img = finalPP(img_raw);
+        img = finalPP_simple(img_raw);
 
         % --- DEBUG: show raw vs processed for the very first file only ---
         if  k == 1
@@ -116,3 +120,5 @@ for d = 1:numel(distTags)
     end
 end
 disp('All distances processed and saved.');
+
+end
