@@ -3,8 +3,6 @@ function out = run_meanCorrVsHeight(cfg)
 
 caseName = cfg.input.caseName;
 
-clc;
-
 % Distances (heights)
 fileName = caseName + "_meanCorr.csv";
 fprintf('Opening CSV file: %s\n', fileName);
