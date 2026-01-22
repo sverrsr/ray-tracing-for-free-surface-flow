@@ -1,17 +1,18 @@
 function c = re2500_we20_cfg()
 
-c.input.caseName = "re2500_we10";
+c.input.caseName = "re2500_we20";
 %c.input.surfElevDir = "//tsclient/E/DNS/re2500_we10/test/surfelev"; %surface elevations is found here
-c.input.surfElevDir = "D:\DNS\re2500_we20_test\re2500_we20_surfElev"; %surface elevations is found here
+c.input.surfElevDir = "D:\DNS\re2500_we20\re2500_we20_surfElev"; %surface elevations is found here
 
 
-c.simulation.distances = 3*pi; %linspace(pi, 12*pi, 20);
+c.simulation.distances = linspace(pi, 15*pi, 15);
 c.simulation.nRays = 150000;
 
 % Folder where surface ray-tracing is saved
-%c.output.rayTraceDir = "\\tsclient\E\DNS\re2500_we10\test\traced";
-c.output.rayTraceDir = "D:\DNS\re2500_we20_test\re2500_we20_rayTrace";
-
+%c.pp.rayTraceDir = "\\tsclient\E\DNS\re2500_we10\test\traced";
+c.pp.baseRayTraceDir = "D:\DNS\re2500_we20\re2500_we20_rayTrace";
+% Folder where filtered ray-tracing is saved
+c.pp.baseFilteredDir = "D:\DNS\re2500_we20\re2500_we20_rayTraced_filtered";
 
 c.grid.nx = 256;
 c.grid.ny = 256;

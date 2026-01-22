@@ -1,8 +1,8 @@
-clear; clc; close all;
+clear; clc;
 
 
 % 1) choose config
-c = cfg.re2500_we10_cfg;
+c = cfg.re2500_weInf_cfg;
 
 
 % 2) build grid
@@ -23,5 +23,8 @@ fprintf('size(Y) = [%d %d]\n', sy(1), sy(2));
 pp.raw_to_filtered(c);
 
 anal.run_meanCorrVsHeight(c);
+
+
+
 
 
