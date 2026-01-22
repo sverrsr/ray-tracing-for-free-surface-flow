@@ -1,4 +1,4 @@
-clear; clc; close all;
+clear; clc;
 
 startup
 
@@ -21,7 +21,9 @@ fprintf('size(Y) = [%d %d]\n', sy(1), sy(2));
 
 %rt.raytrace(X, Y, c);
 
-pp.raw_to_filtered(c);
+%pp.raw_to_filtered(c);
+
+anal.run_meanCorrVsHeight(c);
 
 
 
