@@ -5,14 +5,14 @@ c.input.caseName = "re2500_we20_test";
 c.input.surfElevDir = "D:\DNS\re2500_we20_test\re2500_we20_surfElev"; %surface elevations is found here
 
 
-c.simulation.distances = 3*pi; %linspace(pi, 12*pi, 20);
-c.simulation.nRays = 150000;
+c.simulation.distances = linspace(3:pi, 6*pi, 3);
+c.simulation.nRays = 1000;
 
 % Folder where surface ray-tracing is saved
 %c.pp.rayTraceDir = "\\tsclient\E\DNS\re2500_we10\test\traced";
 c.pp.baseRayTraceDir = "D:\DNS\re2500_we20_test\re2500_we20_rayTrace";
 % Folder where filtered ray-tracing is saved
-c.pp.baseFilteredDir = "D:\DNS\re2500_we20_test\re2500_we20_rayTraced_filtered";
+c.pp.baseFilteredDir = "D:\DNS\re2500_we20_test\re2500_we20_rayTraced_filtered_simple";
 
 
 c.grid.nx = 256;
