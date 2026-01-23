@@ -5,8 +5,8 @@ c.input.caseName = "re2500_we20_test";
 c.input.surfElevDir = "D:\DNS\re2500_we20_test\re2500_we20_surfElev"; %surface elevations is found here
 
 
-c.simulation.distances = linspace(3:pi, 6*pi, 3);
-c.simulation.nRays = 1000;
+c.simulation.distances = linspace(3*pi, 6*pi, 3);
+c.simulation.nRays = 50000;
 
 % Folder where surface ray-tracing is saved
 %c.pp.rayTraceDir = "\\tsclient\E\DNS\re2500_we10\test\traced";

@@ -1,5 +1,5 @@
 function pipelineOut = raytrace(X, Y, c)
-%RUNRAYTRACESNAPSHOTS Runs raytracing for all distances and snapshots.
+%RUNRAYTRACESNAPSHOTS Runs raytracing for all distances and snapshots.roo
 %
 %   pipelineOut = pipeline.runRaytraceSnapshots(G, c, benchFn)
 
@@ -7,29 +7,31 @@ distances   = c.simulation.distances;
 nRays       = c.simulation.nRays;
 
 caseName    = c.input.caseName;
-snapshotDir = c.input.surfElevDir;
-rootDataDir = c.output.rayTraceDir;
+surfElevDir = c.input.surfElevDir;
 
-snapshotFiles = dir(fullfile(snapshotDir, '*.mat'));
+
+baseRayTraceDir = c.pp.baseRayTraceDir;
+fprintf("Saving simulations in: %s\n", baseRayTraceDir);
+
+snapshotFiles = dir(fullfile(surfElevDir, '*.mat'));
 Nt = numel(snapshotFiles);
 
-fprintf('Found %d surface elevation files in %s.\n', Nt, snapshotDir);
+fprintf('Found %d surface elevation files in %s\n', Nt, surfElevDir);
 fprintf('Starting ray tracing with %d rays ...\n', nRays);
-
 
 pipelineOut = struct(); % optional return
 
 for d = distances
-    outDir = fullfile(rootDataDir, caseName + sprintf('_raytraced_D%.2fpi', d/pi));
+    outDir = fullfile(baseRayTraceDir, caseName + sprintf('_raytraced_D%.2fpi', d/pi));
     if ~exist(outDir, 'dir'); mkdir(outDir); end
 
-    fprintf('... Tracing distance %.2f * pi. Saving image in %s\n', d/pi, outDir);
+    fprintf('... Tracing distance %.2f * pi. Saving images in %s\n', d/pi, outDir);
 
     tStart = tic;
     barLength = 30;
 
     for k = 1:Nt
-        S = load(fullfile(snapshotDir, snapshotFiles(k).name));
+        S = load(fullfile(surfElevDir, snapshotFiles(k).name));
 
         if isfield(S, 'surfElev')
             Z = double(S.surfElev);
@@ -48,14 +50,9 @@ for d = distances
         filename = fullfile(outDir, caseName + sprintf('_screen_D%.2fpi_%04d.mat', d/pi, k));
         save(filename, 'screen');
 
-        % Progress bar
-        p = k / Nt;
-        elapsed = toc(tStart);
-        eta = (elapsed / p) - elapsed;
-
-        barComplete = round(p * barLength);
-        barString = ['[' repmat('#',1,barComplete) repmat('.',1,barLength-barComplete) ']'];
-        fprintf('\r%s  %5.1f%%  ETA: %.1fs.', barString, p*100, eta);
+        if mod(k, 50) == 0
+            fprintf('... Traced %d of %d images for distance %.2f * pi\n', k, Nt, d/pi);
+        end
 
         close all;
     end

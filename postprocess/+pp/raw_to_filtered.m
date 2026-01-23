@@ -20,14 +20,17 @@ function raw_to_filtered(c)
 % 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+fprintf('\nStarting raw_to_filtered function...\n');
+fprintf('\n');
 
 caseTag = c.input.caseName;
 
 % Distances (heights)
 fileName = caseTag + "_meanCorr.csv";
 fprintf('Opening CSV file: %s\n', fileName);
-distTable = readtable(fileName);
+distTable = extract_Dxxpi(c.pp.baseRayTraceDir);
+distTable
+%distTable = readtable(fileName);
 distTags = string(distTable.DistanceTag);
 
 
@@ -42,7 +45,7 @@ for d = 1:numel(distTags)
     % Finding subfolders:
     rayTraceDir = fullfile( ...
         baseRayTraceDir, ...
-        caseTag + "_raytrace_" + distTag ...
+        caseTag + "_raytraced_" + distTag ...
     );
 
     % Building subfolders:
@@ -105,7 +108,14 @@ for d = 1:numel(distTags)
 
         % BUILD NEW FILENAME
         [~, baseName, ext] = fileparts(files(k).name);
-        newName = [baseName '_filtered_simple' ext];
+
+        % extract trailing number
+        tokens = regexp(baseName, '^(.*)_(\d+)$', 'tokens', 'once');
+        
+        namePart = tokens{1};
+        numPart  = tokens{2};
+        
+        newName = sprintf('%s_filtered_simple_%s%s', namePart, numPart, ext);
 
         % SAVE
         outPath = fullfile(filteredDir, newName);
@@ -120,5 +130,10 @@ for d = 1:numel(distTags)
     end
 end
 disp('All distances processed and saved.');
+
+% Save the distance table to a CSV file
+outputFileName = caseTag + "_meanCorr.csv";
+writetable(distTable, outputFileName);
+fprintf('Saved distance table to: %s\n', outputFileName);
 
 end

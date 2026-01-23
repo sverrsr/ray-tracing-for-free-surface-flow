@@ -2,6 +2,8 @@ function T = extract_Dxxpi(directory)
 % Extract DistanceTag ("D<number>[.fraction]pi"), numeric Distance,
 % and the full folder name. Returns a sorted table.
 
+fprintf('\nExtracting distances...\n');
+
 list = ls(directory);
 
 % Normalize to string column vector

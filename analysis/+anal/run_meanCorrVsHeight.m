@@ -1,6 +1,10 @@
 function out = run_meanCorrVsHeight(cfg)
 % out.meanCorrByDist, out.heightByDist, out.table
 
+fprintf('\nStarting meanCorrVsHeight function...\n');
+fprintf('\n');
+
+
 caseName = cfg.input.caseName;
 
 % Distances (heights)
@@ -84,7 +88,7 @@ for d = 1:numel(distTags)
 
                 % --- DEBUG: show raw vs processed for the very first file only ---
         if  k == 1
-            figure('Name','Raw vs Processed (first image)','Color','w');
+            figure('Name', sprintf('Raw vs Processed (first image) - %s', distTag), 'Color', 'w');
             
             subplot(1,2,1);
             imagesc(img); axis image off;
