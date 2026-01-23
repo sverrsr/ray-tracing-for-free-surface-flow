@@ -1,5 +1,6 @@
 clear all; %close all;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fileName: corr2_analysis_script
 % Script that reads 
 %
 % Inputs:
