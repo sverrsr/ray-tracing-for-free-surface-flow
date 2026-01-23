@@ -75,15 +75,17 @@ for d = 1:numel(distTags)
         img = double(A.img);
         img = newgrid(img, cfg.grid.nx, cfg.grid.ny);
         img = (img - mean(img(:))) / std(img(:));
-    
+
         % --- curvature ---
         curvaturePath = fullfile(cfg.input.surfElevDir, surfFiles(k).name);
         T = load(curvaturePath);
         Z = rot90(T.surfElev, 2);
         [~,H,~,~] = surfature(X,Y,Z);
         H = (H - mean(H(:))) / std(H(:));
+
+        img
     
-        % --- correlation (no shift) ---
+        --- correlation (no shift) ---
         corrVec(k) = corr2(img, H);
 
                 % --- DEBUG: show raw vs processed for the very first file only ---

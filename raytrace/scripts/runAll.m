@@ -3,12 +3,7 @@ clear; clc; close all;
 
 
 % 1) choose config
-c = cfg.re1000_we20_cfg;
-
-% 2) build grid
-G = grid.make(c);
-X = G.X;
-Y = G.Y;
+c = cfg.re1000_we10_cfg;
 
 %rt.raytrace(X, Y, c);
 
@@ -19,14 +14,8 @@ anal.run_meanCorrVsHeight(c);
 %% re1000_we20
 clear; clc; close all;
 
-
 % 1) choose config
 c = cfg.re1000_we20_cfg;
-
-% 2) build grid
-G = grid.make(c);
-X = G.X;
-Y = G.Y;
 
 %rt.raytrace(X, Y, c);
 
@@ -39,11 +28,6 @@ clear; clc; close all;
 
 % 1) choose config
 c = cfg.re1000_weInf_cfg;
-
-% 2) build grid
-G = grid.make(c);
-X = G.X;
-Y = G.Y;
 
 %rt.raytrace(X, Y, c);
 
