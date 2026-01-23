@@ -85,7 +85,7 @@ for d = 1:numel(distTags)
 
         
     
-        %--- correlation (no shift) ---
+        --- correlation (no shift) ---
         corrVec(k) = corr2(img, H);
 
                 % --- DEBUG: show raw vs processed for the very first file only ---

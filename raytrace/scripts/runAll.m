@@ -1,3 +1,15 @@
+%% re1000_we20_test
+clear; clc; close all;
+
+
+% 1) choose config
+c = cfg.re2500_we20_cfg_test;
+%rt.raytrace(X, Y, c);
+
+%pp.raw_to_filtered(c);
+
+anal.run_meanCorrVsHeight(c);
+
 %% re1000_we10
 clear; clc; close all;
 
