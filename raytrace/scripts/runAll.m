@@ -1,23 +1,57 @@
 %% re1000_we20_test
 clear; clc; close all;
 
-
-% 1) choose config
 c = cfg.re2500_we20_cfg_test;
-%rt.raytrace(X, Y, c);
 
-%pp.raw_to_filtered(c);
+G = grid.make(c);
+X = G.X;
+Y = G.Y;
+
+rt.raytrace(X, Y, c);
+
+pp.raw_to_filtered(c);
+
+anal.run_meanCorrVsHeight(c);
+
+%% re2500_we10
+clear; clc; close all;
+
+c = cfg.re2500_we10_cfg;
+
+G = grid.make(c);
+X = G.X;
+Y = G.Y;
+
+rt.raytrace(X, Y, c);
+
+pp.raw_to_filtered(c);
+
+anal.run_meanCorrVsHeight(c);
+%% re2500_we20
+clear; clc; close all;
+
+c = cfg.re2500_we20_cfg;
+
+G = grid.make(c);
+X = G.X;
+Y = G.Y;
+
+rt.raytrace(X, Y, c);
+
+pp.raw_to_filtered(c);
 
 anal.run_meanCorrVsHeight(c);
 
 %% re1000_we10
 clear; clc; close all;
 
-
-% 1) choose config
 c = cfg.re1000_we10_cfg;
 
-%rt.raytrace(X, Y, c);
+G = grid.make(c);
+X = G.X;
+Y = G.Y;
+
+rt.raytrace(X, Y, c);
 
 pp.raw_to_filtered(c);
 
@@ -26,10 +60,13 @@ anal.run_meanCorrVsHeight(c);
 %% re1000_we20
 clear; clc; close all;
 
-% 1) choose config
 c = cfg.re1000_we20_cfg;
 
-%rt.raytrace(X, Y, c);
+G = grid.make(c);
+X = G.X;
+Y = G.Y;
+
+rt.raytrace(X, Y, c);
 
 pp.raw_to_filtered(c);
 
@@ -38,63 +75,31 @@ anal.run_meanCorrVsHeight(c);
 %% re1000_weInf
 clear; clc; close all;
 
-% 1) choose config
 c = cfg.re1000_weInf_cfg;
 
-%rt.raytrace(X, Y, c);
-
-pp.raw_to_filtered(c);
-
-anal.run_meanCorrVsHeight(c);
-%% re2500_we10
-clear; clc; close all;
-
-
-% 1) choose config
-c = cfg.re2500_we10_cfg;
-
-% 2) build grid
 G = grid.make(c);
 X = G.X;
 Y = G.Y;
 
-%rt.raytrace(X, Y, c);
+rt.raytrace(X, Y, c);
 
 pp.raw_to_filtered(c);
 
 anal.run_meanCorrVsHeight(c);
-%% re2500_we20
-clear; clc; close all;
 
-
-% 1) choose config
-c = cfg.re2500_we20_cfg;
-
-% 2) build grid
-G = grid.make(c);
-X = G.X;
-Y = G.Y;
-
-%rt.raytrace(X, Y, c);
-
-pp.raw_to_filtered(c);
-
-anal.run_meanCorrVsHeight(c);
 
 %% re2500_weInf
-clear; clc; close all;
-
-
-% 1) choose config
-c = cfg.re2500_weInf_cfg;
-% 2) build grid
-G = grid.make(c);
-X = G.X;
-Y = G.Y;
-
-%rt.raytrace(X, Y, c);
-
-pp.raw_to_filtered(c);
-
-anal.run_meanCorrVsHeight(c);
+% clear; clc; close all;
+% 
+% c = cfg.re2500_weInf_cfg;
+% 
+% G = grid.make(c);
+% X = G.X;
+% Y = G.Y;
+% 
+% rt.raytrace(X, Y, c);
+% 
+% pp.raw_to_filtered(c);
+% 
+% anal.run_meanCorrVsHeight(c);
 

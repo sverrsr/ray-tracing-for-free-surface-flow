@@ -1,18 +1,18 @@
 function c = re2500_we20_cfg()
 
 c.input.caseName = "re2500_we20";
-%c.input.surfElevDir = "//tsclient/E/DNS/re2500_we10/test/surfelev"; %surface elevations is found here
-c.input.surfElevDir = "D:\DNS\re2500_we20\re2500_we20_surfElev"; %surface elevations is found here
+
+c.input.surfElevDir =       "\\tsclient\C\Users\sverrsr\VortexStructures\re2500_we20\re2500_we20_surfelev_100sampled"; %surface elevations is found here
+c.pp.baseRayTraceDir =      "\\tsclient\C\Users\sverrsr\VortexStructures\re2500_we20\re2500_we20_100_sampled_rayTraced_400k";
+c.pp.baseFilteredDir =      "\\tsclient\C\Users\sverrsr\VortexStructures\re2500_we20\re2500_we20_100_sampled_rayTraced_400k_filtered_simple";
+
+% c.input.surfElevDir =     "D:\DNS\re1000_weInf\re1000_weInf_surfelev_100sampled";
+% c.pp.baseRayTraceDir =    "D:\DNS\re1000_weInf\re1000_weInf_100_sampled_rayTraced"; % Folder where surface ray-tracing is saved
+% c.pp.baseFilteredDir =    "D:\DNS\re1000_weInf\re1000_weInf_100_sampled_rayTraced_filtered"; % Folder where filtered ray-tracing is saved
 
 
-c.simulation.distances = linspace(pi, 15*pi, 15);
-c.simulation.nRays = 150000;
-
-% Folder where surface ray-tracing is saved
-%c.pp.rayTraceDir = "\\tsclient\E\DNS\re2500_we10\test\traced";
-c.pp.baseRayTraceDir = "D:\DNS\re2500_we20\re2500_we20_rayTrace";
-% Folder where filtered ray-tracing is saved
-c.pp.baseFilteredDir = "D:\DNS\re2500_we20\re2500_we20_rayTraced_filtered";
+c.simulation.distances = linspace(12*pi, 16*pi, 8);
+c.simulation.nRays = 400000;
 
 c.grid.nx = 256;
 c.grid.ny = 256;
@@ -29,6 +29,5 @@ c.physics.g = 10;
 
 c.viz.enable = true;   % optional, for plots
 
-c.postprocess.
 
 end
