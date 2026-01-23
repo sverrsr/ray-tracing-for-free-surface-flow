@@ -1,7 +1,7 @@
-function c = re2500_we10_cfg()
+function c = re2500_we20_cfg()
 
-c.input.caseName = "re2500_we10";
-c.input.surfElevDir = "//tsclient/E/DNS/re2500_we10/test/surfelev"; %surface elevations is found here
+c.input.caseName = "re2500_we20";
+c.input.surfElevDir = "//tsclient/E/DNS/re2500_we20/test/surfelev"; %surface elevations is found here
 
 
 
@@ -9,7 +9,7 @@ c.simulation.distances = 3*pi; %linspace(pi, 12*pi, 20);
 c.simulation.nRays = 150000;
 
 % Folder where surface ray-tracing is saved
-c.output.rayTraceDir = "\\tsclient\E\DNS\re2500_we10\test\traced";
+c.output.rayTraceDir = "\\tsclient\C\Users\sverrsr\VortexStructures\re2500_we20\re2500_we20_100_sampled_rayTraced";
 
 
 c.grid.nx = 256;

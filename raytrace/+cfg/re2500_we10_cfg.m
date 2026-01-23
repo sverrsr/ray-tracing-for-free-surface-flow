@@ -9,8 +9,7 @@ c.simulation.distances = 3*pi; %linspace(pi, 12*pi, 20);
 c.simulation.nRays = 150000;
 
 % Folder where surface ray-tracing is saved
-c.output.rayTraceDir = "\\tsclient\E\DNS\re2500_we10\test\traced";
-
+c.output.rayTraceDir = "\\tsclient\C\Users\sverrsr\VortexStructures\re2500_we10\re2500_we10_100_sampled_rayTraced";
 
 c.grid.nx = 256;
 c.grid.ny = 256;

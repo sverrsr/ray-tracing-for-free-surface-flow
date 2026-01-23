@@ -1,14 +1,13 @@
 function c = re1000_weInf_cfg()
 
 c.input.caseName = "re1000_weInf";
-c.input.surfElevDir = "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_weInf\re1000_weInf_surfelev";
+c.input.surfElevDir = "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_weInf\re1000_weInf_surfelev_100sampled";
 
 c.simulation.distances = linspace(pi, 15*pi, 15);
 c.simulation.nRays = 150000;
 
 % Folder where surface ray-tracing is going
-c.output.rayTraceDir = "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_weInf\re1000_weInf_rayTrace";
-
+c.output.rayTraceDir = "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_weInf\re1000_weInf_100_sampled_rayTraced";
 
 c.grid.nx = 128;
 c.grid.ny = 128;

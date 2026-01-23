@@ -1,18 +1,19 @@
+function load_data_script(caseName, rootDir)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Script that loads all timesteps from hdf5-files using load_data.m
 % and saves surfElev for each timestep as a .mat file
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-clear all;
+
 
 %% Settings
 
-caseName = "re1000_weInf";
-rootDir  = "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_weInf";
+% caseName = "re1000_weInf";
+% rootDir  = "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_weInf";
 
 
 %%
 dataDir  = fullfile(rootDir, caseName);
-outDir = fullfile(rootDir, caseName + "_surfelev_500sampled");
+outDir = fullfile(rootDir, caseName + "_surfelev_100sampled");
 
 % Create output folder if it does not exist
 if ~isfolder(outDir)
@@ -28,7 +29,7 @@ files = sort({files.name});
 nSteps = numel(files);
 fprintf("Found %d timesteps in %s\n", nSteps, dataDir);
 
-nSamples = 500;
+nSamples = 100;
 idx = round(linspace(1, nSteps, nSamples));
 
 
@@ -49,3 +50,4 @@ end
 fprintf("Done. Files saved in:\n%s\n", outDir);
 
 % Find the file index using "i = find(idx == 5847);"
+end

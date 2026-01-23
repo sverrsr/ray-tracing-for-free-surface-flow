@@ -46,7 +46,7 @@ function [surfElev, u, v, w, zz] = load_data(caseName, rootDataDir, dataIndex)
     zw = double(flip(h5read(filePath, "/zw")));
     
     % Loading the surface elevation
-    surfElev = double(h5read(filePath, "/surf_elev" ));
+    surfElev = single(h5read(filePath, "/surf_elev" )); %originally double
     
     % Loading velocities. Flip to get correct coordinate system
     u = h5read(filePath, "/v");  % Reading the u velocities
