@@ -10,7 +10,7 @@ c.pp.baseFilteredDir =      "\\tsclient\C\Users\sverrsr\VortexStructures\re2500_
 % c.pp.baseRayTraceDir =    "D:\DNS\re1000_weInf\re1000_weInf_100_sampled_rayTraced"; % Folder where surface ray-tracing is saved
 % c.pp.baseFilteredDir =    "D:\DNS\re1000_weInf\re1000_weInf_100_sampled_rayTraced_filtered"; % Folder where filtered ray-tracing is saved
 
-c.simulation.distances = linspace(12*pi, 16*pi, 8);
+c.simulation.distances = linspace(4*pi, 6*pi, 4);
 c.simulation.nRays = 400000;
 
 c.grid.nx = 256;

@@ -4,13 +4,13 @@ c.input.caseName = "re1000_we10";
 
 c.input.surfElevDir =       "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_we10\re1000_we10_surfelev_100sampled"; %surface elevations is found here
 c.pp.baseRayTraceDir =      "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_we10\re1000_we10_100_sampled_rayTraced_400k";
-c.pp.baseFilteredDir =      "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_we10\re1000_we10_rayTraced_400k_filtered_simple";
+c.pp.baseFilteredDir =      "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_we10\re1000_we10_100_rayTraced_400k_filtered_simple";
 
 % c.input.surfElevDir =     "D:\DNS\re1000_we10\re1000_we10_surfelev_100sampled";
 % c.pp.baseRayTraceDir =    "D:\DNS\re1000_we10\re1000_we10_100_sampled_rayTraced"; % Folder where surface ray-tracing is saved
 % c.pp.baseFilteredDir =    "D:\DNS\re2500_we10\re2500_we10_100_sampled_rayTraced_filtered"; % Folder where filtered ray-tracing is saved
 
-c.simulation.distances = linspace(12*pi, 16*pi, 8);
+c.simulation.distances = linspace(8*pi, 12*pi, 8);
 c.simulation.nRays = 400000;
 
 c.grid.nx = 128;

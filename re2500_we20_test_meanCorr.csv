@@ -1,4 +1,4 @@
 FolderName,DistanceTag,Distance,MeanCorrelation
-re2500_we20_test_raytraced_D3.00pi,D3.00pi,3,0.199350519083637
-re2500_we20_test_raytraced_D4.50pi,D4.50pi,4.5,0.272882846797693
-re2500_we20_test_raytraced_D6.00pi,D6.00pi,6,0.334122168401892
+re2500_we20_test_raytraced_D3.00pi,D3.00pi,3,0
+re2500_we20_test_raytraced_D4.50pi,D4.50pi,4.5,0
+re2500_we20_test_raytraced_D6.00pi,D6.00pi,6,0

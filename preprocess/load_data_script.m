@@ -13,7 +13,7 @@ function load_data_script(caseName, rootDir)
 
 %%
 dataDir  = fullfile(rootDir, caseName);
-outDir = fullfile(rootDir, caseName + "_surfelev_100sampled");
+outDir = fullfile(rootDir, caseName + "_surfelev_all");
 
 % Create output folder if it does not exist
 if ~isfolder(outDir)
@@ -33,10 +33,10 @@ nSamples = 100;
 idx = round(linspace(1, nSteps, nSamples));
 
 
-%for k = 1:nSteps % Add this if all files should be included
+for k = 1:nSteps % Add this if all files should be included
 
-for i = 1:numel(idx) % Remove this if all files should be included
-    k = idx(i); % Remove this if all files should be included and not sampled
+% for i = 1:numel(idx) % Remove this if all files should be included
+%     k = idx(i); % Remove this if all files should be included and not sampled
 
     fprintf("Processing file %d / %d ...\n", k, nSteps);
 
