@@ -67,6 +67,8 @@ for d = 1:numel(distTags)
     
     corrVec = zeros(n,1);
 
+    fprintf('Calculating correlation ...');
+
     % Second loop through all frames
     for k = 1:n
         % --- filtered image ---
@@ -85,7 +87,7 @@ for d = 1:numel(distTags)
 
         
     
-        --- correlation (no shift) ---
+        %--- correlation (no shift) ---
         corrVec(k) = corr2(img, H);
 
                 % --- DEBUG: show raw vs processed for the very first file only ---

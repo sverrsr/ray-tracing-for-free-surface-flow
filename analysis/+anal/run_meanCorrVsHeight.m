@@ -67,6 +67,8 @@ for d = 1:numel(distTags)
     
     corrVec = zeros(n,1);
 
+    fprintf('Calculating correlation ...');
+
     % Second loop through all frames
     for k = 1:n
         % --- filtered image ---
