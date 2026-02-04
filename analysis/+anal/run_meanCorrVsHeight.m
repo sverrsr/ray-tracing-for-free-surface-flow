@@ -92,7 +92,7 @@ for d = 1:numel(distTags)
 
                 % --- DEBUG: show raw vs processed for the very first file only ---
         if  k == 1
-            figure('Name', sprintf('Raw vs Processed (first image) - %s', distTag), 'Color', 'w');
+            figure('Name', sprintf('Raw vs Actual Surface Curvature (first image) - %s', distTag), 'Color', 'w');
             
             subplot(1,2,1);
             imagesc(img); axis image off;
@@ -102,7 +102,7 @@ for d = 1:numel(distTags)
             subplot(1,2,2);
             imagesc(H); axis image off;
             colormap(gca,'gray'); colorbar;
-            title('Processed');
+            title('Surface Curvature');
         
             drawnow;  % force display update
         end
