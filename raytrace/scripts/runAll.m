@@ -1,3 +1,18 @@
+%% Simen Cse
+%clear; clc; close all;
+c = cfg.simenCase;
+G = grid.make(c);
+X = G.X;
+Y = G.Y;
+
+rt.raytrace(X, Y, c);
+
+%pp.raw_to_filtered(c);
+
+%anal.run_meanCorrVsHeight(c);
+
+
+
 %% re2500_we20_test
 clear; clc; close all;
 
