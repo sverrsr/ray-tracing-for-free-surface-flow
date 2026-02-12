@@ -11,6 +11,7 @@ surfElevDir = c.input.surfElevDir;
 
 
 baseRayTraceDir = c.pp.baseRayTraceDir;
+
 fprintf("Saving simulations in: %s\n", baseRayTraceDir);
 
 snapshotFiles = dir(fullfile(surfElevDir, '*.mat'));
@@ -23,7 +24,9 @@ pipelineOut = struct(); % optional return
 
 for d = distances
     outDir = fullfile(baseRayTraceDir, caseName + sprintf('_raytraced_D%.2fpi', d/pi));
+
     if ~exist(outDir, 'dir'); mkdir(outDir); end
+       
 
     fprintf('... Tracing distance %.2f * pi. Saving images in %s\n', d/pi, outDir);
 
@@ -37,6 +40,8 @@ for d = distances
             Z = double(S.surfElev);
         elseif isfield(S, 'Z')
             Z = double(S.Z);
+        elseif isfield(S, 'slice')
+            Z = double(S.slice);
         else
             error('Unknown variable inside %s', snapshotFiles(k).name);
         end
@@ -47,7 +52,7 @@ for d = distances
         [screen, ~, ~, ~] = bench.DNS_Bench(X, Y, Z, d, nRays);
 
         % Save
-        filename = fullfile(outDir, caseName + sprintf('_screen_D%.2fpi_%04d.mat', d/pi, k));
+        filename = fullfile(outDir, caseName + sprintf('_screen_D%.2fpi_%05d.mat', d/pi, k));
         save(filename, 'screen');
 
         if mod(k, 50) == 0

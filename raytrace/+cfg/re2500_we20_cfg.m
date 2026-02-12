@@ -2,16 +2,16 @@ function c = re2500_we20_cfg()
 
 c.input.caseName = "re2500_we20";
 
-c.input.surfElevDir =       "\\tsclient\C\Users\sverrsr\VortexStructures\re2500_we20\re2500_we20_surfelev_100sampled"; %surface elevations is found here
-c.pp.baseRayTraceDir =      "\\tsclient\C\Users\sverrsr\VortexStructures\re2500_we20\re2500_we20_100_sampled_rayTraced_400k";
-c.pp.baseFilteredDir =      "\\tsclient\C\Users\sverrsr\VortexStructures\re2500_we20\re2500_we20_100_sampled_rayTraced_400k_filtered_simple";
+c.input.surfElevDir =       "\\tsclient\C\Users\sverrsr\VortexStructures\re2500_we20\re2500_we20_14800_surfElev";
+c.pp.baseRayTraceDir =      "\\tsclient\C\Users\sverrsr\VortexStructures\re2500_we20\re2500_we20_14800_rayTraced_400k";
+c.pp.baseFilteredDir =      "\\tsclient\C\Users\sverrsr\VortexStructures\re2500_we20\re2500_we20_14800_rayTraced_400k_filtered_simple";
 
 % c.input.surfElevDir =     "D:\DNS\re1000_weInf\re1000_weInf_surfelev_100sampled";
 % c.pp.baseRayTraceDir =    "D:\DNS\re1000_weInf\re1000_weInf_100_sampled_rayTraced"; % Folder where surface ray-tracing is saved
 % c.pp.baseFilteredDir =    "D:\DNS\re1000_weInf\re1000_weInf_100_sampled_rayTraced_filtered"; % Folder where filtered ray-tracing is saved
 
 
-c.simulation.distances = linspace(4*pi, 6*pi, 4);
+c.simulation.distances = 5.33*pi;
 c.simulation.nRays = 400000;
 
 c.grid.nx = 256;

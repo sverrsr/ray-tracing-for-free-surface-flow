@@ -51,11 +51,11 @@ G = grid.make(c);
 X = G.X;
 Y = G.Y;
 
-%rt.raytrace(X, Y, c);
+rt.raytrace(X, Y, c);
 
-%pp.raw_to_filtered(c);
-
-anal.run_meanCorrVsHeight(c);
+% pp.raw_to_filtered(c);
+% 
+% anal.run_meanCorrVsHeight(c);
 
 %% re1000_we10
 clear; clc; close all;
