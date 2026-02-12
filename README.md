@@ -9,7 +9,7 @@ It uses Optometrika Toolbox for ray tracing.
 The code provides examples, datasets, and scripts for tracing rays through dynamic fluid interfaces.
 
 # Research Context
-This repository supports simulations related academic work
+This repository supports simulations related to academic work
 
 # Required software
 - MATLAB
@@ -48,8 +48,8 @@ Some nice-to-have utils
 
 # Getting Started
 1. Add dependencies to MATLAB path.
-2. Run startHere/z_surface.m.
-3. Explore exampleData/ with surface_analysis.m.
+2. Run examples in startHere/
+3. Run example runScripts/exampleRun.m to ray trace surface elevation
 
 
 
