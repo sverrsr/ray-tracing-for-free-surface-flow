@@ -36,7 +36,7 @@ Outputs from the ray tracing
 # utils/
 Some nice-to-have utils
 
-# General workflow
+
 
 
 [^1]: https://github.com/caiuspetronius/Optometrika
