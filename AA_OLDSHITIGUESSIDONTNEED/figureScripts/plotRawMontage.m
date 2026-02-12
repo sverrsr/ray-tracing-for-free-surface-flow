@@ -1,5 +1,7 @@
 clear all; clc; close all;
 
+% This script is making the raw image figure in teh project thesis
+
 fileName = 'screen_1024bins_0001.mat';   % <--- change to any file you want
 % fileName = 'screen_1024bins_0002.mat';
 % fileName = 'screen_1024bins_0003.mat';
