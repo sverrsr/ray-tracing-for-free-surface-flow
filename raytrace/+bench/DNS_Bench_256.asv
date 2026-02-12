@@ -65,7 +65,7 @@ bench.append(surf);
 
 %screen_distance = _screen_distance;  % mm along +X
 
-screen_size = 6.5; %max(aperture * 0.3, 8);                    % mm
+screen_size = aperture  %max(aperture * 0.3, 8);                    % mm
 screen = Screen([screen_distance 0 0], screen_size, screen_size, 256, 256);
 screen.rotate([1 0 0], pi);   % face back toward the optic
 bench.append(screen);
@@ -85,7 +85,7 @@ rect_wy = 2*ap_half_y;
 rect_wz = 2*ap_half_z;
 beam_side = 0.98 * max(rect_wy, rect_wz);  % slightly smaller than the larger side
 
-rays_in = Rays(nrays, 'collimated', source_pos, incident_dir, beam_side, 'square');
+rays_in = Rays(nrays, 'collimated', source_pos, incident_dir, beam_side, 'hexagonal');
 
 %fprintf('Tracing rays through surface_lens ...\n');
 rays_out = bench.trace(rays_in);

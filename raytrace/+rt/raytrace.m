@@ -49,7 +49,7 @@ for d = distances
         % Run optics
 
         %[screen, ~, ~, ~] = benchFn(X, Y, Z, d, nRays);
-        [screen, ~, ~, ~] = bench.DNS_Bench(X, Y, Z, d, nRays);
+        [screen, ~, ~, ~] = bench.DNS_Bench_256(X, Y, Z, d, nRays);
 
         % Save
         filename = fullfile(outDir, caseName + sprintf('_screen_D%.2fpi_%05d.mat', d/pi, k));
