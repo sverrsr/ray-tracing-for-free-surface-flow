@@ -1,17 +1,11 @@
 function load_data_script(caseName, rootDir)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Script that loads all timesteps from hdf5-files using load_data.m
 % and saves surfElev for each timestep as a .mat file
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%% Settings
-
-% caseName = "re1000_weInf";
-% rootDir  = "\\tsclient\C\Users\sverrsr\VortexStructures\re1000_weInf";
-
-
-%%
 dataDir  = fullfile(rootDir, caseName);
 outDir = fullfile(rootDir, caseName + "_surfelev_all");
 
