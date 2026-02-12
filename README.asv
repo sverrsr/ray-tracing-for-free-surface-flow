@@ -1,9 +1,13 @@
-# Ray tracing for fluid dynamics
+# Ray tracing for free surface flow
 <div style="text-align: center;">
-
-    <img src="noisy.gif" width="150">
-    <img src="denoised.gif" width="150">
+    <img src="noisy.gif" width="200">
+    <img src="denoised.gif" width="200">
 </div> 
+
+This repository implements optical ray tracing on free-surface flow fields represented by meshgrid data.
+It uses Optometrika Toolbox for ray tracing.
+The code provides examples, datasets, and scripts for tracing rays through dynamic fluid interfaces.
+T
 
 
 # Required software

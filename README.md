@@ -1,12 +1,17 @@
-# Ray tracing for fluid dynamics
+# Ray Tracing for Free-Surface Flows
 <div style="text-align: center;">
     <img src="noisy.gif" width="200">
     <img src="denoised.gif" width="200">
 </div> 
 
+This repository implements optical ray tracing on free-surface flow fields represented by meshgrid data.
+It uses Optometrika Toolbox for ray tracing.
+The code provides examples, datasets, and scripts for tracing rays through dynamic fluid interfaces.
+
 
 # Required software
-- https://github.com/sverrsr/optometrika-meshgrid-extension
+- MATLAB
+- Clone [sverrsr/optometrika-meshgrid-extension](https://github.com/sverrsr/optometrika-meshgrid-extension) and add it to your MATLAB path before running examples.
 
 # Contents
 ## startHere/
