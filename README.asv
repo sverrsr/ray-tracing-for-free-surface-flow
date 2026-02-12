@@ -1,7 +1,8 @@
 # Ray tracing for fluid dynamics
 <div style="text-align: center;">
-    <img src="noisy.gif" width="200">
-    <img src="denoised.gif" width="200">
+
+    <img src="noisy.gif" width="150">
+    <img src="denoised.gif" width="150">
 </div> 
 
 
