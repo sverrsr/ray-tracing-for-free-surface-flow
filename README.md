@@ -3,7 +3,8 @@
   <img src="noisy.gif" width="150">
 </div>
 
-
+# Required software
+- https://github.com/sverrsr/Optometrika
 
 # Contents
 ## startHere/
