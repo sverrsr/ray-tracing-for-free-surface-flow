@@ -4,7 +4,7 @@
 </div>
 
 # Required software
-- https://github.com/sverrsr/Optometrika
+- https://github.com/sverrsr/optometrika-meshgrid-extension
 
 # Contents
 ## startHere/

@@ -2,10 +2,10 @@
 
 function startup()
 
-basePath = 'C:\Users\sverr\Documents\NTNU\Prosjekt';
+basePath = pwd;
 addpath(genpath(basePath));
 
-addpath 'C:\Users\sverr\Documents\NTNU\Prosjekt\Optometrika';
-addpath C:\Users\sverr\Documents\NTNU\Prosjekt\Optometrika\functions;
+basePath2 = 'C:\Users\sverr\Documents\NTNU\Prosjekt\optometrika-meshgrid-extension';
+addpath(genpath(basePath2));
 
 end
