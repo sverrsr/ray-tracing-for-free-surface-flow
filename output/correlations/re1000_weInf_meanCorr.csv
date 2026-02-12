@@ -1,0 +1,16 @@
+FolderName,DistanceTag,Distance,MeanCorrelation
+re1000_weInf_raytraced_D5.00pi,D5.00pi,5,0.381221058365764
+re1000_weInf_raytraced_D5.57pi,D5.57pi,5.57,0.390029454514076
+re1000_weInf_raytraced_D6.14pi,D6.14pi,6.14,0.395059758219586
+re1000_weInf_raytraced_D6.71pi,D6.71pi,6.71,0.398349422018254
+re1000_weInf_raytraced_D7.29pi,D7.29pi,7.29,0.398726446552963
+re1000_weInf_raytraced_D7.86pi,D7.86pi,7.86,0.399533782988994
+re1000_weInf_raytraced_D8.43pi,D8.43pi,8.43,0.399346906301638
+re1000_weInf_raytraced_D9.00pi,D9.00pi,9,0.398216882000547
+re1000_weInf_raytraced_D9.57pi,D9.57pi,9.57,0.395474868402702
+re1000_weInf_raytraced_D10.14pi,D10.14pi,10.14,0.392741399277679
+re1000_weInf_raytraced_D10.71pi,D10.71pi,10.71,0.390042188133589
+re1000_weInf_raytraced_D11.29pi,D11.29pi,11.29,0.386195787682314
+re1000_weInf_raytraced_D11.86pi,D11.86pi,11.86,0.383674450783306
+re1000_weInf_raytraced_D12.43pi,D12.43pi,12.43,0.380495561909211
+re1000_weInf_raytraced_D13.00pi,D13.00pi,13,0.376441795297639

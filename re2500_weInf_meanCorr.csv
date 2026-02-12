@@ -1,9 +1,0 @@
-FolderName,DistanceTag,Distance,MeanCorrelation
-re2500_weInf_raytraced_D2.00pi,D2.00pi,2,0.353326028145109
-re2500_weInf_raytraced_D2.57pi,D2.57pi,2.57,0.370156681619998
-re2500_weInf_raytraced_D3.14pi,D3.14pi,3.14,0.373896460714595
-re2500_weInf_raytraced_D3.71pi,D3.71pi,3.71,0.369125098478291
-re2500_weInf_raytraced_D4.29pi,D4.29pi,4.29,0.358287660595898
-re2500_weInf_raytraced_D4.86pi,D4.86pi,4.86,0.345326364340496
-re2500_weInf_raytraced_D5.43pi,D5.43pi,5.43,0.328351601225778
-re2500_weInf_raytraced_D6.00pi,D6.00pi,6,0.313695258064756
