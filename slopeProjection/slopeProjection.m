@@ -1,4 +1,6 @@
-function LF = slopeProjection(Xs,Ys,X,Y,ETA,D,bR, timer)
+function LF = slopeProjection(L, Xs,Ys,X,Y,ETA,D,bR, timer)
+
+% Mål: slopeProjection(X, Y, c)
 
 % function LF = slopeProjection(Xs,Ys,X,Y,ETA,D,bR, timer) 
 % computes a light scatter from a surface onto a screen 
@@ -12,12 +14,12 @@ function LF = slopeProjection(Xs,Ys,X,Y,ETA,D,bR, timer)
 %
 % Either enter all inputs or none; not flexible like that!
 
-close all;
-L = 1; %define size of incoming image (normalisation)
+% L = 1; %define size of incoming image (normalisation)
 nearRs = 3; %number of standard deviations considered "nearby"
 periodicBC = false; %much slower if this is "true". When false you slight rubbish near the edge
 plotsurface = false; %Plot original surface with screen shown
 plotscreen = true;
+
 
 %Set values that are used if you just press F5
 if nargin < 8
@@ -57,8 +59,8 @@ nside = ceil(nearRs*bR/hs);
 
 %Plot original surface
 if plotsurface
-    figure(1);
-    s=imagesc(ETA/scale);
+    figure();
+    imagesc(ETA/scale);
     colormap gray;
     axis equal; axis tight; axis off;
     hold on;
@@ -104,16 +106,41 @@ end
 
 %Plot the surface
 if plotscreen
-    figure(2);
-    s=imagesc(LF);
+    figure();
+    imagesc(LF);
     colormap gray;
     axis equal; axis tight; axis off;
     title(sprintf('Light scatter, D=%.3f',D));
 end
 
-if nargin==0; LF=0; end %to avoid getting a massive output when pressing F5
+% ---- Print summary info ----
+
+% Surface size
+Nx = size(X,1);
+Ny = size(X,2);
+surfaceWidth  = X(1,end) - X(1,1);
+surfaceHeight = Y(end,1) - Y(1,1);
+
+% Screen size
+NsX = size(Xs,1);
+NsY = size(Xs,2);
+screenWidth  = Xs(1,end) - Xs(1,1);
+screenHeight = Ys(end,1) - Ys(1,1);
+
+fprintf('\n--- Simulation info ---\n');
+fprintf('Surface resolution : %d x %d\n', Nx, Ny);
+fprintf('Surface size       : %.4f x %.4f\n', surfaceWidth, surfaceHeight);
+fprintf('Screen resolution  : %d x %d\n', NsX, NsY);
+fprintf('Screen size        : %.4f x %.4f\n', screenWidth, screenHeight);
+fprintf('Distance D         : %.4f\n', D);
+fprintf('------------------------\n\n');
+
+
+
+% if nargin==0; LF=0; end %to avoid getting a massive output when pressing F5
 if timer
     toc 
 end
+
 
 end
