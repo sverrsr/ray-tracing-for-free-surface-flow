@@ -25,8 +25,8 @@ timer = true;
 % than the surface. No need then to scatter from everywhere. 
 
 
-LF1 = slopeProjection(L, Xs,Ys,X,Y,ETA, 0.10*L, bR, false);
-LF2 = slopeProjection(L, Xs,Ys,X,Y,ETA, 0.40*L, bR, false);
+LF1 = slopeProjection(L, Xs,Ys,X,Y,ETA, 0.5*L, bR, false);
+LF2 = slopeProjection(L, Xs,Ys,X,Y,ETA, L, bR, false);
 
 fprintf("Relative change: %.3e\n", norm(LF2(:)-LF1(:))/norm(LF1(:)));
 
@@ -49,7 +49,7 @@ c.pp.baseRayTraceDir =      "slopeProjection\demoInput_projected";
 c.pp.baseFilteredDir =      "slopeProjection\demoInput_projectedAndFiltered";
 
 % Distance sweep. Can also be a range using linspace()
-c.simulation.distances = 0.25;
+c.simulation.distances = D;
 
 % Number of rays
 c.simulation.nRays = 100000;
