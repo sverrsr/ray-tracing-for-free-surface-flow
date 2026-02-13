@@ -1,6 +1,8 @@
-function LF = screen(Xs,Ys,X,Y,ETA,D,bR, timer)
+function LF = slopeProjection(Xs,Ys,X,Y,ETA,D,bR, timer)
 
-% function LF = screenfun(Xs,Ys,X,Y,ETA,D,bR, timer)
+% function LF = slopeProjection(Xs,Ys,X,Y,ETA,D,bR, timer) 
+% computes a light scatter from a surface onto a screen 
+% using ray offsets and Gaussian blur; 
 %
 % (Xs,Ys) are coordinates of the screen.
 % (X,Y,ETA) is the surface
