@@ -1,7 +1,7 @@
-function load_data_script(caseName, rootDir)
+function load_data_all_timesteps(caseName, rootDir)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Script that loads all timesteps from hdf5-files using load_data.m
+% function that loads all timesteps from hdf5-files using load_data.m
 % and saves surfElev for each timestep as a .mat file
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
