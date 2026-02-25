@@ -1,7 +1,7 @@
 # Ray Tracing for Free-Surface Flows
+
 <div style="text-align: center;">
-    <img src="noisy.gif" width="200">
-    <img src="denoised.gif" width="200">
+    <img src="traced.gif" width="400">
 </div> 
 
 This repository implements optical ray tracing on free-surface flow fields represented by meshgrid data.
