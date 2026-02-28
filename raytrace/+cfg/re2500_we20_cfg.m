@@ -2,9 +2,9 @@ function c = re2500_we20_cfg()
 
 c.input.caseName = "re2500_we20";
 
-c.input.surfElevDir =       "\\tsclient\C\Users\sverrsr\VortexStructures\re2500_we20\re2500_we20_14800_surfElev";
-c.pp.baseRayTraceDir =      "\\tsclient\C\Users\sverrsr\VortexStructures\re2500_we20\re2500_we20_14800_rayTraced_400k";
-c.pp.baseFilteredDir =      "\\tsclient\C\Users\sverrsr\VortexStructures\re2500_we20\re2500_we20_14800_rayTraced_400k_filtered_simple";
+c.input.surfElevDir =       "C:\Users\sverrsr\Documents\DATA\re2500_we20\re2500_we20_14800_surfElev";
+c.pp.baseRayTraceDir =      "C:\Users\sverrsr\Documents\DATA\re2500_we20\re2500_we20_14800_rayTraced_400k";
+c.pp.baseFilteredDir =      "C:\Users\sverrsr\Documents\DATA\re2500_we20\re2500_we20_14800_rayTraced_400k_filtered_simple";
 
 % c.input.surfElevDir =     "D:\DNS\re1000_weInf\re1000_weInf_surfelev_100sampled";
 % c.pp.baseRayTraceDir =    "D:\DNS\re1000_weInf\re1000_weInf_100_sampled_rayTraced"; % Folder where surface ray-tracing is saved

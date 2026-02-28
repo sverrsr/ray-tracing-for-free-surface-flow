@@ -16,6 +16,11 @@ arguments (Input)
     foldername = 're2500_weInf_surfElev_first2089_B1024_rayTrace_D3pi_png_pp';
 end
 
+fprintf('\nStarting EXP_DENOISING function...\n');
+fprintf('\n');
+
+
+
 % Other settings
 gpu = false;
 cache_path_name = fullfile('cache_DENOISED','png_input');
