@@ -1,4 +1,4 @@
-function [outputArg1,outputArg2] = exp_denoising(foldername,cache_path_name)
+function exp_denoising(foldername)
 % =========================================================================
 % Introduction
 % =========================================================================
@@ -14,16 +14,11 @@ function [outputArg1,outputArg2] = exp_denoising(foldername,cache_path_name)
 
 arguments (Input)
     foldername = 're2500_weInf_surfElev_first2089_B1024_rayTrace_D3pi_png_pp';
-    cache_path_name = fullfile('cache_raw_try_all_test','png_input');
-end
-
-arguments (Output)
-    outputArg1
-    outputArg2
 end
 
 % Other settings
 gpu = false;
+cache_path_name = fullfile('cache_DENOISED','png_input');
 
 files = dir(fullfile(foldername,'*.png'));
 assert(~isempty(files),'No PNG files found.');
