@@ -22,17 +22,22 @@ workingDir = pwd;
 % inFolder = fullfile(workingDir, "images");   % folder with pngs
 
 imageNames = dir(fullfile(inFolder, "*.png"));
-imageNames = {imageNames.name}';
+names = {imageNames.name}';
+tok = regexp(names, '\d+', 'match', 'once');   % first number in name
+idxNum = cellfun(@(t) str2double(t), tok);
+
+[~, ord] = sort(idxNum);
+imageNames = names(ord);
 
 outputVideo = VideoWriter(fullfile(workingDir, "video"), 'MPEG-4');
-outputVideo.FrameRate = 10;
+outputVideo.FrameRate = 30;
 outputVideo.Quality = 100;
 
 open(outputVideo)
 
 for k = 1:length(imageNames)
     img = imread(fullfile(inFolder, imageNames{k}));
-    img = imadjust(im2uint8(img));
+    %img = imadjust(im2uint8(img));
     writeVideo(outputVideo, img)
 
     % Print

@@ -65,8 +65,8 @@ bench.append(surf);
 
 %screen_distance = _screen_distance;  % mm along +X
 
-screen_size = max(aperture * 0.3, 8);                    % mm
-screen = Screen([screen_distance 0 0], screen_size, screen_size, 1024, 1024);
+screen_size = 7; %max(aperture * 0.3, 8);                    % mm
+screen = Screen([screen_distance 0 0], screen_size, screen_size, 512, 512);
 screen.rotate([1 0 0], pi);   % face back toward the optic
 bench.append(screen);
 

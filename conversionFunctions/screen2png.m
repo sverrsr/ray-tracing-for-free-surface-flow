@@ -39,6 +39,8 @@ for k = 1:numel(f)
     S = load(fullfile(f(k).folder, f(k).name), "screen");
     img = S.screen.image;     % This is the image
 
+    validateImage(img, f(k));
+
     % Ensure image is of type double for processing
     if ~isa(img, "double")
         img = im2double(img);
@@ -46,9 +48,12 @@ for k = 1:numel(f)
     
     % Crop settings
     I = cropimg_787_5p(img);
+    validateImage(I, f(k), "after crop (pre-resize)");
 
     % Resample to 256x256
-    I = imresize(I, [256 256]); % Resample to 256x256
+    I = imresize(I, [256 256]);
+    validateImage(I, f(k), "after resize (pre-log)");
+    %I = imresize(I, [256 256]); % Resample to 256x256
     % I = newgrid(I, 256, 256) % Resample to 256x256 to domain grid
 
     % Build file name
@@ -56,7 +61,10 @@ for k = 1:numel(f)
     outBase = fullfile(outFolder, baseName);
 
     % Take the log of it.  Add 1 to avoid taking log of zero.
+    if min(I(:)) < -1, fprintf("\nI has values < -1 in %s (min=%g)\n", f(k).name, min(I(:))); end
+    I = max(I, 0);   % brute-force: kill negatives from imresize. SHould be fixed later
     logImage = log(I+1);
+    validateImage(logImage, f(k), "after log");
 
     % Normalize to the range 0-1. Neccessarry for png
     I8 = im2uint16(mat2gray(logImage,[log(gmin+1), log(gmax+1)]));
@@ -73,4 +81,39 @@ end
 
 disp("Done.");
 toc
+end
+
+function validateImage(A, fileInfo, stage)
+if nargin < 3, stage = "unknown"; end
+
+bad = false;
+
+% type checks
+if ~(isnumeric(A) || islogical(A))
+    bad = true;
+end
+
+% numeric checks
+if ~bad
+    bad = bad || ~isreal(A);
+    bad = bad || issparse(A);
+    bad = bad || any(~isfinite(A(:)));
+end
+
+if bad
+    fprintf("\nBAD FILE: %s\n", fullfile(fileInfo.folder, fileInfo.name));
+    fprintf("Stage  : %s\n", stage);
+    fprintf("Class  : %s\n", class(A));
+    fprintf("Size   : %s\n", mat2str(size(A)));
+    fprintf("Real   : %d  Sparse: %d\n", isreal(A), issparse(A));
+    fprintf("Min/Max real(I): [%g, %g]\n", min(real(A(:))), max(real(A(:))));
+
+    if isnumeric(A) || islogical(A)
+        fprintf("Finite : %d (NaN=%d, Inf=%d)\n", ...
+            all(isfinite(A(:))), any(isnan(A(:))), any(isinf(A(:))));
+        fprintf("Min/Max: [%g, %g]\n", min(A(:)), max(A(:)));
+    end
+
+    error("Invalid image detected (%s).", stage);
+end
 end

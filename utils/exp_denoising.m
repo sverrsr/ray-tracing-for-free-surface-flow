@@ -75,7 +75,7 @@ if ~isfolder(cache_path_name)
 end
 
 % save pre-processed noisy video
-save([cache_path_name,'/measurement.mat'],'y')
+% save([cache_path_name,'/measurement.mat'],'y')
 
 %%
 % =========================================================================
@@ -91,10 +91,9 @@ frame_end = K_total;
 
 for frame = frame_start:frame_step:frame_end-K+1
     
-    load([cache_path_name,'/measurement.mat'],'y')
-    y = y(:,:,frame:frame+K-1);
-    
-    [n1,n2,n3] = size(y);
+    %load([cache_path_name,'/measurement.mat'],'y')
+    y_batch = y(:,:,frame:frame+K-1);
+    [n1,n2,n3] = size(y_batch);
     
     % set regularization parameters
 
@@ -126,7 +125,7 @@ for frame = frame_start:frame_step:frame_end-K+1
             fprintf('frame: %04d -> %04d | iter: %04d / %04d\n', frame, frame+K-1, iter, n_iters)
         end
 
-        w_next = v_est + 1/12*Df(y-DTf(v_est));
+        w_next = v_est + 1/12*Df(y_batch - DTf(v_est));
         % % w_next(:,:,:,1) = min(abs(w_next(:,:,:,1)),lam_s).*exp(1i*angle(w_next(:,:,:,1)));
         % % w_next(:,:,:,2) = min(abs(w_next(:,:,:,2)),lam_s).*exp(1i*angle(w_next(:,:,:,2)));
         % % w_next(:,:,:,3) = min(abs(w_next(:,:,:,3)),lam_t).*exp(1i*angle(w_next(:,:,:,3)));
@@ -148,7 +147,7 @@ for frame = frame_start:frame_step:frame_end-K+1
     end
     
     % calculate primal optimum from dual optimum
-    vid_denoised = real(y - DTf(w_est));
+    vid_denoised = real(y_batch - DTf(w_est));
     
     %% Lagre bilder
     % create output folder (once per batch)
@@ -169,16 +168,17 @@ for frame = frame_start:frame_step:frame_end-K+1
     end
     %% Slutt lagre bilder
 
-    figure
-    for k = 1:size(vid_denoised,3)
-        imshow(vid_denoised(:,:,k),[0.3,0.55]);
-        title('Denoised video')
-        drawnow;
-    end
-    close
+    % figure
+    % for k = 1:size(vid_denoised,3)
+    %     imshow(vid_denoised(:,:,k),[0.3,0.55]);
+    %     title('Denoised video')
+    %     drawnow;
+    % end
+    % close
     
     % save results
-    save([cache_path_name,'/',num2str(frame),'_',num2str(frame+99),'.mat'],'vid_denoised');
+    % save([cache_path_name,'/',num2str(frame),'_',num2str(frame+99),'.mat'],'vid_denoised');
+    save(fullfile(cache_path_name, sprintf('%d_%d.mat', frame, frame+K-1)), 'vid_denoised');
 end
 
 %%
@@ -199,7 +199,8 @@ vid = zeros(size(y));
 flag = true;
 for frame = frame_start:frame_step:frame_end-K+1
     fprintf('frame: %04d -> %04d \n', frame, frame+K-1)
-    load([cache_path_name,'/',num2str(frame),'_',num2str(frame+99),'.mat'],'vid_denoised');
+    Kden = 500;
+    load(fullfile(cache_path_name, sprintf('%d_%d.mat', frame, frame+Kden-1)), 'vid_denoised');
     if flag
         vid(:,:,frame-frame_start+1:frame-frame_start+K) = vid_denoised;
         flag = false;
@@ -221,40 +222,40 @@ vmin = prctile(vid(:), 0.5);
 vmax = prctile(vid(:),99.5);
 
 fps = 10;
-fig = figure;
-set(gcf,'unit','normalized','position',[0.3,0.3,0.5,0.4])
-for i = 1:size(vid,3)
-    img = real(vid(:,:,i));
-    img = medfilt2(img);    % median filtering to suppress outliers
-    imshow(imresize(img,[size(img,1)*2,size(img,2)*2],'nearest'),[vmin,vmax],'border','tight');
-    drawnow;
-    F = getframe(fig);
-    I = frame2im(F);
-    [I,map] = rgb2ind(I,256);
-    if i == 1
-        imwrite(I,map,[cache_path_name,'/denoised.gif'],'gif','Loopcount',inf,'DelayTime',1/fps);
-    else
-        imwrite(I,map,[cache_path_name,'/denoised.gif'],'gif','WriteMode','append','DelayTime',1/fps);
-    end
-end
-
-load([cache_path_name,'/measurement.mat'],'y')
-
-fps = 10;
-fig = figure;
-set(gcf,'unit','normalized','position',[0.3,0.3,0.5,0.4])
-for i = 1:49
-    imshow(imresize(y(:,:,i),[size(y,1)*2,size(y,2)*2],'nearest'),[vmin,vmax],'border','tight');
-    drawnow;
-    F = getframe(fig);
-    I = frame2im(F);
-    [I,map] = rgb2ind(I,256);
-    if i == 1
-        imwrite(I,map,[cache_path_name,'/noisy.gif'],'gif','Loopcount',inf,'DelayTime',1/fps);
-    else
-        imwrite(I,map,[cache_path_name,'/noisy.gif'],'gif','WriteMode','append','DelayTime',1/fps);
-    end
-end
+% fig = figure;
+% set(gcf,'unit','normalized','position',[0.3,0.3,0.5,0.4])
+% for i = 1:size(vid,3)
+%     img = real(vid(:,:,i));
+%     img = medfilt2(img);    % median filtering to suppress outliers
+%     imshow(imresize(img,[size(img,1)*2,size(img,2)*2],'nearest'),[vmin,vmax],'border','tight');
+%     drawnow;
+%     F = getframe(fig);
+%     I = frame2im(F);
+%     [I,map] = rgb2ind(I,256);
+%     if i == 1
+%         imwrite(I,map,[cache_path_name,'/denoised.gif'],'gif','Loopcount',inf,'DelayTime',1/fps);
+%     else
+%         imwrite(I,map,[cache_path_name,'/denoised.gif'],'gif','WriteMode','append','DelayTime',1/fps);
+%     end
+% end
+% 
+% load([cache_path_name,'/measurement.mat'],'y')
+% 
+% fps = 10;
+% fig = figure;
+% set(gcf,'unit','normalized','position',[0.3,0.3,0.5,0.4])
+% for i = 1:49
+%     imshow(imresize(y(:,:,i),[size(y,1)*2,size(y,2)*2],'nearest'),[vmin,vmax],'border','tight');
+%     drawnow;
+%     F = getframe(fig);
+%     I = frame2im(F);
+%     [I,map] = rgb2ind(I,256);
+%     if i == 1
+%         imwrite(I,map,[cache_path_name,'/noisy.gif'],'gif','Loopcount',inf,'DelayTime',1/fps);
+%     else
+%         imwrite(I,map,[cache_path_name,'/noisy.gif'],'gif','WriteMode','append','DelayTime',1/fps);
+%     end
+% end
 
 %%
 % =========================================================================
