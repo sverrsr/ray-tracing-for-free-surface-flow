@@ -5,7 +5,7 @@ function startup()
 basePath = pwd;
 addpath(genpath(basePath));
 
-basePath2 = 'C:\Users\sverr\Documents\NTNU\Prosjekt\optometrika-meshgrid-extension';
+basePath2 = 'C:\Users\sverrsr\Documents\optometrika-meshgrid-extension';
 addpath(genpath(basePath2));
 
 end
