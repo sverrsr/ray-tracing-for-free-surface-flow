@@ -1,4 +1,4 @@
-function [gmin, gmax] = findMaxMinMultipleScreens(inFolder)
+function [gmin, gmax] = searchGlobalIntensityRange(inFolder)
 %findMaxMinMultipleScreens 
 %   Finds global min and max over all screen.image entries in a folder
 %   To be used in png2blur.m for scaling
@@ -15,6 +15,13 @@ arguments (Output)
 end
 
 tic
+
+% Check that 'screen' class or function is on the path
+if exist('screen','class') == 0 && exist('screen','file') == 0
+    % Try to provide informative error with suggestion
+    error("Required type or file 'screen' is not on the MATLAB path. Add the folder containing the 'screen' class/function to the path before running. (Optometrika)");
+end
+
 
 f = dir(fullfile(inFolder,"*.mat"));
 fprintf("Found %d .mat files\n", numel(f));

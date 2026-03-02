@@ -1,4 +1,4 @@
-function [I] = cropimg_787_5p(img_raw)
+function [I] = cropimg_787_5p(img_raw, size)
 %CROPIMG_787_5p crops the image to 787 x 787 and another 5% after that
 % 
 %   The reason behind it is to remove coarse borders in Re2500_WeInf case

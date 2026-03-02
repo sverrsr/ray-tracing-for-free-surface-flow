@@ -10,7 +10,6 @@ function screen2png(inFolder, outFolder)
 
 arguments (Input)
     inFolder = "re2500_weInf_400k";
-    
     outFolder = "re2500_weInf_400k_png";
 end
 
@@ -29,7 +28,7 @@ fprintf("Found %d .mat files\n", numel(f));
 assert(~isempty(f), "No .mat files found in %s", inFolder);
 
 fprintf("Step 1: Find global max / min\n");
-[gmin, gmax] = findMaxMinMultipleScreens(inFolder);
+[gmin, gmax] = searchGlobalIntensityRange(inFolder);
 
 fprintf("Step 2: Save all images\n");
 
@@ -51,7 +50,7 @@ for k = 1:numel(f)
     validateImage(I, f(k), "after crop (pre-resize)");
 
     % Resample to 256x256
-    I = imresize(I, [256 256]);
+    I = imresize(I, [256 256]); % This undershoots some values to below 0
     validateImage(I, f(k), "after resize (pre-log)");
     %I = imresize(I, [256 256]); % Resample to 256x256
     % I = newgrid(I, 256, 256) % Resample to 256x256 to domain grid
