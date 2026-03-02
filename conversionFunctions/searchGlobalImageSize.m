@@ -64,8 +64,8 @@ for k = 1:numel(f)
     gW = min(gW, w);
 
     if mod(k,100)==0 || k==1 || k==N
-        fprintf("Read %d/%d  current global smallest [H W]=[%d %d], shortest=%d\n", ...
-            k, N, gH, gW, min(gH,gW));
+        fprintf("Read %d/%d  current global smallest [H W]=[%d %d]", ...
+            k, N, min(gH,gW));
     end
 end
 
