@@ -1,5 +1,5 @@
-function [gH, gW] = searchGlobalImageSize(inFolder)
-%findMaxMinMultipleScreens 
+function [gShort] = searchGlobalImageSize(inFolder)
+%searchGlobalImageSize
 %   Finds global image size over all screen.image entries in a folder
 %   To be used in screen2png.m for scaling
 
@@ -10,8 +10,7 @@ arguments (Input)
 end
 
 arguments (Output)
-    gH
-    gW
+    gShort
 end
 
 % Check that 'screen' class or function is on the path
@@ -64,7 +63,7 @@ for k = 1:numel(f)
     gW = min(gW, w);
 
     if mod(k,100)==0 || k==1 || k==N
-        fprintf("Read %d/%d  current global smallest [H W]=[%d %d]", ...
+        fprintf("Read %d/%d  current global smallest [H W]=[%d]\n", ...
             k, N, min(gH,gW));
     end
 end

@@ -9,8 +9,8 @@ function screen2png(inFolder, outFolder)
 
 
 arguments (Input)
-    inFolder = "re2500_weInf_400k";
-    outFolder = "re2500_weInf_400k_png";
+    inFolder = "C:\Users\sverr\Documents\NTNU\Prosjekt\Experiments\grey-variance and correlation\re2500_weInf_surfElev_first2089_B1024_rayTrace_D3pi";
+    outFolder = "C:\Users\sverr\Documents\NTNU\Prosjekt\Experiments\grey-variance and correlation\re2500_weInf_surfElev_first2089_B1024_rayTrace_D3pi_png2";
 end
 
 % Check that 'screen' class or function is on the path
@@ -28,7 +28,9 @@ fprintf("Found %d .mat files\n", numel(f));
 assert(~isempty(f), "No .mat files found in %s", inFolder);
 
 fprintf("Step 1: Find global max / min\n");
-[gmin, gmax] = searchGlobalIntensityRange(inFolder);
+[gmin, gmax, gSize, gShort] = searchGlobalValues(inFolder);
+% gShort = searchGlobalImageSize(inFolder);
+% [gmin, gmax] = searchGlobalIntensityRange(inFolder);
 
 fprintf("Step 2: Save all images\n");
 
@@ -46,7 +48,7 @@ for k = 1:numel(f)
     end
     
     % Crop settings
-    I = cropimg_787_5p(img);
+    I = cropimg_787_5p(img, gShort);
     validateImage(I, f(k), "after crop (pre-resize)");
 
     % Resample to 256x256
