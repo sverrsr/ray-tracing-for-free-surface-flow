@@ -5,7 +5,7 @@ function png2video(inFolder)
 %
 
 arguments (Input)
-    inFolder = "re2500_weInf_400k_png";
+    inFolder = "C:\Users\sverr\Documents\NTNU\Prosjekt\Experiments\grey-variance and correlation\re2500_we20_rayTrace_png";
 end
 
 assert(isfolder(inFolder), "Folder not found: %s ", inFolder);
@@ -29,7 +29,7 @@ idxNum = cellfun(@(t) str2double(t), tok);
 [~, ord] = sort(idxNum);
 imageNames = names(ord);
 
-outputVideo = VideoWriter(fullfile(workingDir, "video"), 'MPEG-4');
+outputVideo = VideoWriter(fullfile(workingDir, "video2"), 'MPEG-4');
 outputVideo.FrameRate = 30;
 outputVideo.Quality = 100;
 

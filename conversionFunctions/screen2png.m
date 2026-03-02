@@ -4,13 +4,12 @@ function screen2png(inFolder, outFolder)
 %   information should be kept
 %
 %   Functionality
-%   Crops the screens to 787x787 (to be fixed), and another 5% to be sure
-%   that ray-coarse borders are removed
+%   Crops the screens to to be sure that ray-coarse borders are removed
 
 
 arguments (Input)
-    inFolder = "C:\Users\sverr\Documents\NTNU\Prosjekt\Experiments\grey-variance and correlation\re2500_weInf_surfElev_first2089_B1024_rayTrace_D3pi";
-    outFolder = "C:\Users\sverr\Documents\NTNU\Prosjekt\Experiments\grey-variance and correlation\re2500_weInf_surfElev_first2089_B1024_rayTrace_D3pi_png2";
+    inFolder = "D:\DNS\re2500_we20\re2500_we20_rayTrace\re2500_we20_raytrace_D5.05pi";
+    outFolder = "C:\Users\sverr\Documents\NTNU\Prosjekt\Experiments\grey-variance and correlation\re2500_we20_rayTrace_png";
 end
 
 % Check that 'screen' class or function is on the path
@@ -48,7 +47,7 @@ for k = 1:numel(f)
     end
     
     % Crop settings
-    I = cropimg_787_5p(img, gShort);
+    I = cropimg_dynamic(img, gShort);
     validateImage(I, f(k), "after crop (pre-resize)");
 
     % Resample to 256x256

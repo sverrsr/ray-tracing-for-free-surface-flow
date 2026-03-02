@@ -1,4 +1,4 @@
-function [I] = cropimg_787_5p(img_raw, targetSize)
+function [I] = cropimg_dynamic(img_raw, targetSize)
 %CROPIMG_787_5p crops the image to a global size found by 
 % searchGlobalImageSize.m
 % 
