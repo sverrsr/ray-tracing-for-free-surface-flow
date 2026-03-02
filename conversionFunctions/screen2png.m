@@ -72,6 +72,7 @@ for k = 1:numel(f)
     % Save image
     %I8 = im2uint16(mat2gray(I, [gmin, gmax])); %mat2gray is neccessary to keep gray variance
     imwrite(I8, outBase + ".png");
+    % edit to uint8?
 
     % Print
     if mod(k,100)==0 || k==1 || k==numel(f)

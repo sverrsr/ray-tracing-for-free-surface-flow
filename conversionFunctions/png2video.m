@@ -12,7 +12,7 @@ assert(isfolder(inFolder), "Folder not found: %s ", inFolder);
 %if ~exist(outFolder,'dir'); mkdir(outFolder); end
 
 f = dir(fullfile(inFolder,"*.png"));
-fprintf("Found %d .mat files\n", numel(f));
+fprintf("Found %d .png files\n", numel(f));
 assert(~isempty(f), "No .png files found in %s", inFolder);
 
 
@@ -37,7 +37,7 @@ open(outputVideo)
 
 for k = 1:length(imageNames)
     img = imread(fullfile(inFolder, imageNames{k}));
-    %img = imadjust(im2uint8(img));
+    img = imadjust(im2uint8(img));
     writeVideo(outputVideo, img)
 
     % Print
