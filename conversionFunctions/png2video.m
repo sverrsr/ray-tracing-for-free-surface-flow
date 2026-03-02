@@ -5,7 +5,7 @@ function png2video(inFolder)
 %
 
 arguments (Input)
-    inFolder = "C:\Users\sverr\Documents\NTNU\Prosjekt\Experiments\grey-variance and correlation\re2500_we20_rayTrace_png";
+    inFolder = "C:\Users\sverr\Documents\NTNU\Prosjekt\ray-tracing-for-free-surface-flow\cache_DENOISED\png_input\denoised_png";
 end
 
 assert(isfolder(inFolder), "Folder not found: %s ", inFolder);
@@ -37,7 +37,7 @@ open(outputVideo)
 
 for k = 1:length(imageNames)
     img = imread(fullfile(inFolder, imageNames{k}));
-    img = imadjust(im2uint8(img));
+    %img = imadjust(im2uint8(img));
     writeVideo(outputVideo, img)
 
     % Print

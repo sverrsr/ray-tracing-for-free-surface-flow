@@ -13,7 +13,7 @@ function exp_denoising(foldername)
 % =========================================================================
 
 arguments (Input)
-    foldername = 're2500_weInf_surfElev_first2089_B1024_rayTrace_D3pi_png_pp';
+    foldername = 'C:\Users\sverr\Documents\NTNU\Prosjekt\Experiments\grey-variance and correlation\re2500_we20_rayTrace_png';
 end
 
 fprintf('\nStarting EXP_DENOISING function...\n');
@@ -83,7 +83,7 @@ end
 % =========================================================================
 
 
-K = 500;        % batch size (# of images)
+K = 125;        % batch size (# of images)
 
 frame_start = 1;
 frame_step = K/2;
@@ -99,7 +99,7 @@ for frame = frame_start:frame_step:frame_end-K+1
 
     lam_s = 0.025;
     lam_t = 0.075;
-    n_iters = 150;
+    n_iters = 200;
 
     % % lam_s = 5e-2;   % spatial regularization coefficient 0.05
     % % lam_t = 15e-2;  % temporal regularization coefficient 0.15
@@ -199,7 +199,7 @@ vid = zeros(size(y));
 flag = true;
 for frame = frame_start:frame_step:frame_end-K+1
     fprintf('frame: %04d -> %04d \n', frame, frame+K-1)
-    Kden = 500;
+    Kden = 125;
     load(fullfile(cache_path_name, sprintf('%d_%d.mat', frame, frame+Kden-1)), 'vid_denoised');
     if flag
         vid(:,:,frame-frame_start+1:frame-frame_start+K) = vid_denoised;
