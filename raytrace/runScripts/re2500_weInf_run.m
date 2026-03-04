@@ -17,6 +17,7 @@ fprintf('size(Y) = [%d %d]\n', sy(1), sy(2));
 
 % 4) ray trace
 
+
 rt.raytrace(X, Y, c);
 
 pp.raw_to_filtered(c);

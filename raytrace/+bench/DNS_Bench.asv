@@ -88,9 +88,11 @@ beam_side = 0.98 * max(rect_wy, rect_wz);  % slightly smaller than the larger si
 rays_in = Rays(nrays, 'collimated', source_pos, incident_dir, beam_side, 'random');
 
 %fprintf('Tracing rays through surface_lens ...\n');
-
+tic;
 rays_out = bench.trace(rays_in);
+t_C = toc;
 
+fprintf('GPU trace time: %.4f s\n', t_GPU);
 
 % % Print screen geometry
 % fprintf('\n=== Surface ===\n');
