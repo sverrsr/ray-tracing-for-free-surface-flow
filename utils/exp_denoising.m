@@ -64,7 +64,7 @@ for k = 1:49
 end
 
 % Global normalization
-ymin = prctile(y(:), 0.5);
+ymin = prctile(y(:), 0.0);
 ymax = prctile(y(:),99.5);
 y = (y - ymin)./(ymax - ymin);
 
@@ -97,7 +97,11 @@ end
 for frame = frame_start:frame_step:frame_end-K+1
     
     %load([cache_path_name,'/measurement.mat'],'y')
-    y_batch = gpuArray(y(:,:,frame:frame+K-1));
+    y_batch = y(:,:,frame:frame+K-1);
+    if gpu
+        y_batch = gpuArray(y_batch);
+    end
+
     [n1,n2,n3] = size(y_batch);
     
     % set regularization parameters
@@ -155,9 +159,9 @@ for frame = frame_start:frame_step:frame_end-K+1
     
     % gather data from GPU
     if gpu
-        y       = gather(y);
-        w_est   = gather(w_est);
-        %reset(device);
+        vid_denoised = gather(real(y_batch - DTf(w_est)));  % DTf runs on GPU, result copied to CPU
+    else
+        vid_denoised = real(y_batch - DTf(w_est));
     end
     
     % calculate primal optimum from dual optimum
@@ -193,49 +197,53 @@ for frame = frame_start:frame_step:frame_end-K+1
     % save results
     % save([cache_path_name,'/',num2str(frame),'_',num2str(frame+99),'.mat'],'vid_denoised');
     save(fullfile(cache_path_name, sprintf('%d_%d.mat', frame, frame+K-1)), 'vid_denoised');
-end
 
-%%
-% =========================================================================
-% Post-process denoised videos
-% =========================================================================
-
-
-K = 100;        % batch size (# of images)
-
-frame_start = 1;
-frame_step = 50;
-frame_end = K_total;
-
-vid = zeros(size(y));
-
-% merge batches into an entire video clip
-flag = true;
-for frame = frame_start:frame_step:frame_end-K+1
-    fprintf('frame: %04d -> %04d \n', frame, frame+K-1)
-    Kden = 500;
-    load(fullfile(cache_path_name, sprintf('%d_%d.mat', frame, frame+Kden-1)), 'vid_denoised');
-    if flag
-        vid(:,:,frame-frame_start+1:frame-frame_start+K) = vid_denoised;
-        flag = false;
-    else
-        a = zeros(1,1,K/2);
-        a(:,:,1:end) = linspace(0,1,K/2);
-        vid(:,:,frame-frame_start+1:frame-frame_start+K/2) = (1-a).*vid(:,:,frame-frame_start+1:frame-frame_start+K/2) + a.*vid_denoised(:,:,1:K/2);
-        vid(:,:,frame-frame_start+K/2+1:frame-frame_start+K) = vid_denoised(:,:,K/2+1:K);
+    if gpu
+        clear y_batch w_est v_est w_next
     end
 end
-        
-save([cache_path_name,'/vid_denoised.mat'],'vid')
+
+% %%
+% % =========================================================================
+% % Post-process denoised videos
+% % =========================================================================
+% 
+% 
+% K = 100;        % batch size (# of images)
+% 
+% frame_start = 1;
+% frame_step = 50;
+% frame_end = K_total;
+% 
+% vid = zeros(size(y));
+% 
+% % merge batches into an entire video clip
+% flag = true;
+% for frame = frame_start:frame_step:frame_end-K+1
+%     fprintf('frame: %04d -> %04d \n', frame, frame+K-1)
+%     Kden = 500;
+%     load(fullfile(cache_path_name, sprintf('%d_%d.mat', frame, frame+Kden-1)), 'vid_denoised');
+%     if flag
+%         vid(:,:,frame-frame_start+1:frame-frame_start+K) = vid_denoised;
+%         flag = false;
+%     else
+%         a = zeros(1,1,K/2);
+%         a(:,:,1:end) = linspace(0,1,K/2);
+%         vid(:,:,frame-frame_start+1:frame-frame_start+K/2) = (1-a).*vid(:,:,frame-frame_start+1:frame-frame_start+K/2) + a.*vid_denoised(:,:,1:K/2);
+%         vid(:,:,frame-frame_start+K/2+1:frame-frame_start+K) = vid_denoised(:,:,K/2+1:K);
+%     end
+% end
+% 
+% save([cache_path_name,'/vid_denoised.mat'],'vid')
 
 %%
 % =========================================================================
 % Visualize results (export as .gif files)
 % =========================================================================
-vmin = prctile(vid(:), 0.5);
-vmax = prctile(vid(:),99.5);
-
-fps = 10;
+% vmin = prctile(vid(:), 0.5);
+% vmax = prctile(vid(:),99.5);
+% 
+% fps = 10;
 % fig = figure;
 % set(gcf,'unit','normalized','position',[0.3,0.3,0.5,0.4])
 % for i = 1:size(vid,3)

@@ -5,7 +5,7 @@ function png2video(inFolder)
 %
 
 arguments (Input)
-    inFolder = "C:\Users\sverr\Documents\NTNU\Prosjekt\Experiments\grey-variance and correlation\re2500_we20_rayTrace_png";
+    inFolder = "C:\Users\sverrsr\Documents\ray-tracing-for-free-surface-flow\cache_DENOISED_14800\png_input\denoised_png";
 end
 
 assert(isfolder(inFolder), "Folder not found: %s ", inFolder);
@@ -29,7 +29,7 @@ idxNum = cellfun(@(t) str2double(t), tok);
 [~, ord] = sort(idxNum);
 imageNames = names(ord);
 
-outputVideo = VideoWriter(fullfile(workingDir, "video2"), 'MPEG-4');
+outputVideo = VideoWriter(fullfile(workingDir, "video14800"), 'MPEG-4');
 outputVideo.FrameRate = 30;
 outputVideo.Quality = 100;
 
@@ -37,7 +37,7 @@ open(outputVideo)
 
 for k = 1:length(imageNames)
     img = imread(fullfile(inFolder, imageNames{k}));
-    img = imadjust(im2uint8(img));
+    %img = imadjust(im2uint8(img));
     writeVideo(outputVideo, img)
 
     % Print
