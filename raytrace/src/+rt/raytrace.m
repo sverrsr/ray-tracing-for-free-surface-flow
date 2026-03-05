@@ -33,7 +33,7 @@ for d = distances
     tStart = tic;
     barLength = 30;
 
-    for k = 7319:Nt
+    for k = 11779:Nt
         S = load(fullfile(surfElevDir, snapshotFiles(k).name));
 
         if isfield(S, 'surfElev')
@@ -48,7 +48,6 @@ for d = distances
 
         % Run optics
 
-        %[screen, ~, ~, ~] = benchFn(X, Y, Z, d, nRays);
         [screen, ~, ~, ~] = bench.DNS_Bench(X, Y, Z, d, nRays);
 
         % Save

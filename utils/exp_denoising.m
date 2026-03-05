@@ -13,7 +13,7 @@ function exp_denoising(foldername)
 % =========================================================================
 
 arguments (Input)
-    foldername = 're2500_weInf_surfElev_first2089_B1024_rayTrace_D3pi_png_pp';
+    foldername = 'C:\Users\sverrsr\Documents\DATA\re2500_we20\re2500_we20_14800_rayTraced_400k_png';
 end
 
 fprintf('\nStarting EXP_DENOISING function...\n');
@@ -22,8 +22,8 @@ fprintf('\n');
 
 
 % Other settings
-gpu = false;
-cache_path_name = fullfile('cache_DENOISED','png_input');
+gpu = true;
+cache_path_name = fullfile('cache_DENOISED_14800','png_input');
 
 files = dir(fullfile(foldername,'*.png'));
 assert(~isempty(files),'No PNG files found.');
@@ -83,41 +83,55 @@ end
 % =========================================================================
 
 
-K = 500;        % batch size (# of images)
+K = 14800/10;        % batch size (# of images)
 
 frame_start = 1;
 frame_step = K/2;
 frame_end = K_total;
 
+if gpu
+    device = gpuDevice();
+    reset(device);     % once
+end
+
 for frame = frame_start:frame_step:frame_end-K+1
     
     %load([cache_path_name,'/measurement.mat'],'y')
-    y_batch = y(:,:,frame:frame+K-1);
+    y_batch = gpuArray(y(:,:,frame:frame+K-1));
     [n1,n2,n3] = size(y_batch);
     
     % set regularization parameters
 
     lam_s = 0.025;
-    lam_t = 0.075;
+    lam_t = 0.1125;
     n_iters = 150;
 
-    % % lam_s = 5e-2;   % spatial regularization coefficient 0.05
-    % % lam_t = 15e-2;  % temporal regularization coefficient 0.15
-    % % 
-    % % n_iters = 200;  % number of iterations
+    % lam_s = 0.0375;
+    % lam_t = 0.075;
+    % n_iters = 150;
+
+    
+
+    % lam_s = 5e-2;   % spatial regularization coefficient 0.05
+    % lam_t = 15e-2;  % temporal regularization coefficient 0.15
+    % 
+    % n_iters = 150;  % number of iterations
     
     % define auxilary variables
-    w_est = zeros(n1,n2,n3,3,'single');
-    v_est = zeros(n1,n2,n3,3,'single');
+    % w_est = zeros(n1,n2,n3,3,'single');
+    % v_est = zeros(n1,n2,n3,3,'single');
+    w_est = zeros(n1,n2,n3,3,'like',y_batch);
+    v_est = zeros(n1,n2,n3,3,'like',y_batch);
 
     % initialize GPU
-    if gpu
-        device  = gpuDevice();
-        reset(device)
-        y       = gpuArray(y);
-        v_est   = gpuArray(v_est);
-        w_est   = gpuArray(w_est);
-    end
+    % if gpu
+    %     device  = gpuDevice();
+    %     %reset(device)
+    %     %y       = gpuArray(y);
+    %     whos v_est
+    %     v_est   = gpuArray(v_est);
+    %     w_est   = gpuArray(w_est);
+    % end
     
     % main loop
     for iter = 1:n_iters
@@ -143,7 +157,7 @@ for frame = frame_start:frame_step:frame_end-K+1
     if gpu
         y       = gather(y);
         w_est   = gather(w_est);
-        reset(device);
+        %reset(device);
     end
     
     % calculate primal optimum from dual optimum
