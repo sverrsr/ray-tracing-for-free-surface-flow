@@ -8,8 +8,8 @@ function screen2png(inFolder, outFolder)
 
 
 arguments (Input)
-    inFolder = "D:\DNS\re2500_we20\re2500_we20_rayTrace\re2500_we20_raytrace_D5.05pi";
-    outFolder = "C:\Users\sverr\Documents\NTNU\Prosjekt\Experiments\grey-variance and correlation\re2500_we20_rayTrace_png";
+    inFolder = "C:\Users\sverrsr\Documents\DATA\re2500_weInf\re2500_weInf_rayTraced_12500_400k\re2500_weInf_raytraced_D3.14pi";
+    outFolder = "C:\Users\sverrsr\Documents\experiments\re2500_we20_rayTrace_png_test";
 end
 
 % Check that 'screen' class or function is on the path
