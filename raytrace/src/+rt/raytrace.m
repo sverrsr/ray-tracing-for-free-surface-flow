@@ -33,7 +33,7 @@ for d = distances
     tStart = tic;
     barLength = 30;
 
-    for k = 11786:Nt
+    for k = 1:Nt
         S = load(fullfile(surfElevDir, snapshotFiles(k).name));
 
         if isfield(S, 'surfElev')
