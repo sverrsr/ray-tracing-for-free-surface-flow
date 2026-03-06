@@ -1,11 +1,11 @@
-function out = run_meanCorrVsHeight(cfg)
+function out = run_meanCorrVsHeight(c)
 % out.meanCorrByDist, out.heightByDist, out.table
 
 fprintf('\nStarting meanCorrVsHeight function...\n');
 fprintf('\n');
 
 
-caseName = cfg.input.caseName;
+caseName = c.input.caseName;
 
 % Distances (heights)
 fileName = caseName + "_meanCorr.csv";
@@ -15,15 +15,15 @@ distTags = string(distTable.DistanceTag);
 
 
 % grid once
-[X,Y] = meshgrid(single(linspace(-pi,pi,cfg.grid.nx)), single(linspace(-pi,pi,cfg.grid.ny)));
+[X,Y] = meshgrid(single(linspace(-pi,pi,c.grid.nx)), single(linspace(-pi,pi,c.grid.ny)));
 fprintf('Creating mesh grid...\n');
 
 % surf files once + sort once
-surfFiles = dir(fullfile(cfg.input.surfElevDir,'*.mat'));
+surfFiles = dir(fullfile(c.input.surfElevDir,'*.mat'));
 [~,ix] = sort({surfFiles.name});
 surfFiles = surfFiles(ix);
 
-fprintf('Found %d surface elevation files in %s\n', numel(surfFiles), cfg.input.surfElevDir);
+fprintf('Found %d surface elevation files in %s\n', numel(surfFiles), c.input.surfElevDir);
 
 
 meanCorrByDist = nan(numel(distTags),1);
@@ -36,10 +36,14 @@ for d = 1:numel(distTags)
     tok = regexp(distTag,'D([0-9.]+)pi','tokens','once');
     heightByDist(d) = str2double(tok{1}) * pi;   % "height" in radians
 
-    filteredDir = fullfile( ...
-        cfg.pp.baseFilteredDir, ...
-        caseName + "_raytrace_filtered_" + distTag ...
-    );
+    % filteredDir = fullfile( ...
+    %     c.pp.baseFilteredDir, ...
+    %     caseName + "_raytrace_filtered_" + distTag ...
+    % );
+    % example: re1000_we10_raytrace_filtered_D8.00pi
+
+    filteredDir = fullfile(c.pp.baseRayTraceDir, caseName + "_raytraced_" + distTag);
+
     fprintf('Filtered ray tracing images are found in %s\n', filteredDir);
 
     filtFiles = dir(fullfile(filteredDir,'*.mat'));
@@ -65,7 +69,6 @@ for d = 1:numel(distTags)
         continue;
     end
     
-    corrVec = zeros(n,1);
 
     fprintf('Calculating correlation ...');
 
@@ -74,21 +77,27 @@ for d = 1:numel(distTags)
         % --- filtered image ---
         filteredImagePath = fullfile(filteredDir, filtFiles(k).name);
         A = load(filteredImagePath);
-        img = double(A.img);
-        img = newgrid(img, cfg.grid.nx, cfg.grid.ny);
-        img = (img - mean(img(:))) / std(img(:));
+        % img = double(A.img);
+        img = A.screen.image;
+        img = newgrid(img, c.grid.nx, c.grid.ny);
+        % img = (img - mean(img(:))) / std(img(:));
 
         % --- curvature ---
-        curvaturePath = fullfile(cfg.input.surfElevDir, surfFiles(k).name);
+        curvaturePath = fullfile(c.input.surfElevDir, surfFiles(k).name);
         T = load(curvaturePath);
         Z = rot90(T.surfElev, 2);
         [~,H,~,~] = surfature(X,Y,Z);
-        H = (H - mean(H(:))) / std(H(:));
+        % H = (H - mean(H(:))) / std(H(:));
 
-        
-    
-        %--- correlation (no shift) ---
-        corrVec(k) = corr2(img, H);
+        % mean square of image
+        imgMS(k) = mean(img(:).^2);
+        % mean square of curvature
+        HMS(k) = mean(H(:).^2);
+
+
+        % Calculate Mean square of image and H
+
+
 
                 % --- DEBUG: show raw vs processed for the very first file only ---
         if  k == 1
@@ -108,7 +117,8 @@ for d = 1:numel(distTags)
         end
     end
 
-    meanCorrByDist(d) = mean(corrVec, 'omitnan'); % omnitan ignores nan
+    % meanCorrByDist(d) = mean(corrVec, 'omitnan'); % omnitan ignores nan
+    meanCorrByDist(d) = corr(imgMS(:), HMS(:), 'Rows','complete');
 
     distTable.MeanCorrelation(d) = meanCorrByDist(d);
     
