@@ -46,7 +46,7 @@ lens_args = {F, Fdx, Fdy, grid_center, x_limits, y_limits};
 %% --- Build the bench (same layout as your example) ---
 bench = Bench;
 
-aperture = 2 * usable_radius;  % mm, matches the usable surface data
+%aperture = 2 * usable_radius;  % mm, matches the usable surface data
 % Use 'air' to 'mirror' for a reflective test (no dispersion setup needed).
 % For a transmissive lens, swap 'mirror' -> a glass name present in your material set (e.g., 'bk7').
 
