@@ -21,8 +21,10 @@ fprintf('size(Y) = [%d %d]\n', sy(1), sy(2));
 rt.raytrace(X, Y, c);
 
 %% 5) Post processing
-%pp.raw_to_filtered2(c);
 build_screen_stacks(c);
+
+%% Denoise
+
 
 %%
 out = runMS_tiles(X, Y, c);

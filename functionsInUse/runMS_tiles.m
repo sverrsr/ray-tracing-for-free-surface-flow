@@ -28,15 +28,9 @@ fprintf('Size of MS_curv: %s\n', mat2str(size(MS_curv)));
 disp('MS_curv =');
 disp(MS_curv(:).');
 
-meanCorrByDist = nan(numel(distTags), 1);
+CorrByDist = nan(numel(distTags), 1);
 heightByDist   = nan(numel(distTags), 1);
 
-figure('Name','NMS over time','Color','w');
-hold on;
-
-% plot curvature reference once
-tcurv = 1:numel(MS_curv);
-plot(tcurv, MS_curv, '-k', 'LineWidth',2, 'DisplayName','Curvature');
 
 for d = 1:numel(distTags)
     distTag = distTags(d);
@@ -72,18 +66,17 @@ for d = 1:numel(distTags)
             numel(MS_refl), numel(MS_curv));
     end
 
-    meanCorrByDist(d) = corr(MS_refl(:), MS_curv(:), 'Rows', 'complete');
-    distTable.MeanCorrelation(d) = meanCorrByDist(d);
+    CorrByDist(d) = corr(MS_refl(:), MS_curv(:), 'Rows', 'complete');
+    distTable.Correlation(d) = CorrByDist(d);
 
-    fprintf('%s: mean corr = %.6f\n', distTag, meanCorrByDist(d));
-    t = 1:numel(MS_refl);
-    %plot(t, MS_refl, '-o', 'DisplayName', char(distTag));
+    fprintf('%s: corr = %.6f\n', distTag, CorrByDist(d));
+
 
     % --- show raw vs processed for the very first file only ---
     figure('Name', sprintf('Raw vs Actual Surface Curvature (first image) - %s', distTag), 'Color', 'w');
     
     subplot(1,2,1);
-    imagesc(imadjust(reflStack(:,:,1)));
+    imagesc((reflStack(:,:,1)));
     axis image off;
     colormap(gca, 'gray');
     colorbar;
@@ -101,25 +94,19 @@ for d = 1:numel(distTags)
     
 end
 
-xlabel('Frame');
-ylabel('NMS');
-title('NMS vs time');
-grid on;
-legend('Location','best');
-
 writetable(distTable, fileName);
 fprintf('Correlations saved in %s\n', fileName);
 
 hPi = heightByDist / pi;
 
 figure;
-plot(hPi, meanCorrByDist, '-o');
+plot(hPi, CorrByDist, '-o');
 grid on;
 xlabel('Height (multiples of \pi)');
-ylabel('Mean correlation');
-title('Mean correlation vs height');
+ylabel('Correlation');
+title('Correlation vs height');
 
-out.meanCorrByDist = meanCorrByDist;
+out.CorrByDist = CorrByDist;
 out.heightByDist   = heightByDist;
 out.table          = distTable;
 
