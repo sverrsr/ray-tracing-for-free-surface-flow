@@ -4,15 +4,15 @@ c.input.caseName    = "re2500_weInf_test";
 
 
 %surface elevations is found here
-c.input.surfElevDir =     "C:\Users\sverrsr\Documents\DATA\re2500_weInf_test\re2500_weInf_surfElev_5"; 
-c.pp.baseRayTraceDir =    "C:\Users\sverrsr\Documents\DATA\re2500_weInf_test\re2500_weInf_test_rayTraced"; % Folder where surface ray-tracing is saved
-c.pp.baseStackedDir =   "C:\Users\sverrsr\Documents\DATA\re2500_weInf_test\re2500_weInf_test_stackRaw";
+c.input.surfElevDir     =  "C:\Users\sverrsr\Documents\DATA\re2500_weInf_test\re2500_weInf_surfElev_5"; 
+c.pp.baseRayTraceDir    =  "C:\Users\sverrsr\Documents\DATA\re2500_weInf_test\re2500_weInf_test_rayTraced"; % Folder where surface ray-tracing is saved
+c.pp.baseStackedDir     =  "C:\Users\sverrsr\Documents\DATA\re2500_weInf_test\re2500_weInf_test_stackRaw";
 
 %c.pp.baseFilteredDir =    "C:\Users\sverrsr\Documents\DATA\re2500_weInf_test\re2500_weInf_test_rayTraced_filtered_simple"; % Folder where filtered ray-tracing is saved
 
 
 c.simulation.distances = linspace(1*pi, 16*pi, 4);
-c.simulation.nRays = 400000;
+c.simulation.nRays = 50000;
 
 c.grid.nx = 256;
 c.grid.ny = 256;
