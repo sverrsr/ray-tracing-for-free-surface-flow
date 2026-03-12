@@ -25,7 +25,10 @@ rt.raytrace(X, Y, c);
 build_screen_stacks(c);
 
 %%
-anal.run_meanCorrVsHeight(c);
+out = runMS_tiles(X, Y, c);
+
+%%
+%anal.run_meanCorrVsHeight(c);
 
 
 

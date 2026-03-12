@@ -105,7 +105,7 @@ for d = 1:numel(distTags)
 
 
 
-                % --- DEBUG: show raw vs processed for the very first file only ---
+        % --- DEBUG: show raw vs processed for the very first file only ---
         if  k == 1
             figure('Name', sprintf('Raw vs Actual Surface Curvature (first image) - %s', distTag), 'Color', 'w');
             
