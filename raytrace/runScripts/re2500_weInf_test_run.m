@@ -1,6 +1,6 @@
 clear all; clc;
 
-startup
+%startup
 
 % 1) choose config
 c = cfg.re2500_weInf_cfg_test;

@@ -1,0 +1,45 @@
+function MS = MS_tiles(field, tiles_y, tiles_x, crop)
+% field: H x W x T
+% returns: T x (tiles_y * tiles_x)  mean(square(field)) per tile over time
+
+if nargin < 4
+    crop = true;
+end
+
+[H, W, T] = size(field);
+
+tile_h = floor(H / tiles_y);
+tile_w = floor(W / tiles_x);
+
+if crop
+    Hc = tile_h * tiles_y;
+    Wc = tile_w * tiles_x;
+    field = field(1:Hc, 1:Wc, :);
+else
+    assert(mod(H,tiles_y)==0 && mod(W,tiles_x)==0, ...
+        "Field size must be divisible by tile count");
+end
+
+MS = zeros(T, tiles_y * tiles_x);
+
+idx = 1;
+
+for ty = 1:tiles_y
+    for tx = 1:tiles_x
+
+        y1 = (ty-1)*tile_h + 1;
+        y2 = ty*tile_h;
+
+        x1 = (tx-1)*tile_w + 1;
+        x2 = tx*tile_w;
+
+        tile = field(y1:y2, x1:x2, :);
+
+        % mean(square(field)) per time frame
+        MS(:,idx) = squeeze(mean(tile.^2,[1 2]));
+
+        idx = idx + 1;
+    end
+end
+
+end

@@ -97,8 +97,8 @@ for k = 1:N
 end
 
 gShort = min(gH, gW);
-fprintf("Global crop size: [%d %d]\n", gH, gW);
-fprintf("Using gShort = %d\n", gShort);
+fprintf("Global crop size: [%d %d]\n\n", gH, gW);
+
 
 %% Pass 2: find global processed max
 fprintf("Pass 2/3: Find global processed max\n");
@@ -133,7 +133,7 @@ else
 end
 
 fprintf("Processed global min/max after clamp: [0, %.6g]\n", gmaxProc);
-fprintf("Log-domain global range            : [0, %.6g]\n", logMax);
+fprintf("Log-domain global range            : [0, %.6g]\n\n", logMax);
 
 %% Pass 3: build final 3D array
 fprintf("Pass 3/3: Build output array\n");
@@ -149,15 +149,6 @@ for k = 1:N
 
     I = preprocessFrame(img, gShort, padSize, padMode, outSize, resizeMethod);
     validateImage(I, f(k), "after preprocess");
-
-    % % logImage = log(I + 1);
-    % % validateImage(logImage, f(k), "after log");
-    % % 
-    % % if logMax > 0
-    % %     Inorm = mat2gray(logImage, [0, logMax]);
-    % % else
-    % %     Inorm = zeros(size(logImage), 'like', logImage);
-    % % end
 
     if useLog
         J = log(I + 1);
@@ -182,10 +173,10 @@ for k = 1:N
 end
 
 %% Save once
-fprintf("Saving MAT file: %s\n", outFile);
+fprintf("Saving MAT file: %s\n\n", outFile);
 save(outFile, 'RE2500_WEINF', '-v7.3');
 
-disp("Done.");
+
 toc
 
 end

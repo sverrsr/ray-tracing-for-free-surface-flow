@@ -1,14 +1,20 @@
 function out = run_meanCorrVsHeight(c)
-% out.meanCorrByDist, out.heightByDist, out.table
 
 fprintf('\nStarting meanCorrVsHeight function...\n');
 fprintf('\n');
 
 
 caseName = c.input.caseName;
+baseStackedDir  = c.pp.baseStackedDir;
 
 % Distances (heights)
-fileName = caseName + "_meanCorr.csv";
+
+%fileName = caseName + "_meanCorr.csv";
+
+%fileName = fullfile(baseStackedDir, caseTag + "_meanCorr.csv");
+fileName = fullfile(baseStackedDir, caseName + "_meanCorr.csv");
+
+
 fprintf('Opening CSV file: %s\n', fileName);
 distTable = readtable(fileName);
 distTags = string(distTable.DistanceTag);

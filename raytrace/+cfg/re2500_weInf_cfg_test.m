@@ -12,7 +12,7 @@ c.pp.baseStackedDir =   "C:\Users\sverrsr\Documents\DATA\re2500_weInf_test\re250
 
 
 c.simulation.distances = linspace(3.14*pi, 6*pi, 2);
-c.simulation.nRays = 400000;
+c.simulation.nRays = 1000;
 
 c.grid.nx = 256;
 c.grid.ny = 256;
