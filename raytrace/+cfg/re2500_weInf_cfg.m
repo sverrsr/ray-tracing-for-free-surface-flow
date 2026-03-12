@@ -6,10 +6,6 @@ c.input.surfElevDir =       "C:\Users\sverrsr\Documents\DATA\re2500_weInf\re2500
 c.pp.baseRayTraceDir =      "C:\Users\sverrsr\Documents\DATA\re2500_weInf\re2500_weInf_rayTraced_12500_400k"; % Folder where surface ray-tracing is saved
 c.pp.baseFilteredDir =      "C:\Users\sverrsr\Documents\DATA\re2500_weInf\re2500_weInf_rayTraced_12500_400k_filtered_simple"; % Folder where filtered ray-tracing is saved
 
-% c.input.surfElevDir =     "D:\DNS\re1000_weInf\re1000_weInf_surfelev_100sampled";
-% c.pp.baseRayTraceDir =    "D:\DNS\re1000_weInf\re1000_weInf_100_sampled_rayTraced"; % Folder where surface ray-tracing is saved
-% c.pp.baseFilteredDir =    "D:\DNS\re1000_weInf\re1000_weInf_100_sampled_rayTraced_filtered"; % Folder where filtered ray-tracing is saved
-
 c.simulation.distances = 3.14*pi;
 c.simulation.nRays = 400000;
 

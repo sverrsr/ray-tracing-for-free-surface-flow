@@ -1,10 +1,9 @@
-clear; clc;
+clear all; clc;
 
 startup
 
 % 1) choose config
-c = cfg.re2500_we20_cfg_test;
-
+c = cfg.re2500_weInf_cfg_test;
 
 % 2) build grid
 G = grid.make(c);
@@ -17,16 +16,15 @@ fprintf('size(X) = [%d %d]\n', sx(1), sx(2));
 fprintf('size(Y) = [%d %d]\n', sy(1), sy(2));
 
 
-% 4) ray trace
+%% 4) ray trace
 
 rt.raytrace(X, Y, c);
 
-% 5) Find distances
-distanceTable = extract_Dxxpi(directory);
+%% 5) Post processing
+%pp.raw_to_filtered2(c);
+build_screen_stacks(c);
 
 %%
-pp.raw_to_filtered(c);
-
 anal.run_meanCorrVsHeight(c);
 
 

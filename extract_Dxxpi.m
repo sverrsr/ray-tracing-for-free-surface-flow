@@ -1,6 +1,14 @@
-function T = extract_Dxxpi(directory)
+function sortedTable = extract_Dxxpi(directory)
 % Extract DistanceTag ("D<number>[.fraction]pi"), numeric Distance,
 % and the full folder name. Returns a sorted table.
+
+arguments (Input)
+    directory = "C:\Users\sverrsr\Documents\experiments\FINALDENOISER"
+end
+
+arguments (Output)
+    sortedTable
+end
 
 fprintf('\nExtracting distances...\n');
 
@@ -39,9 +47,9 @@ Distance = Distance(:);       % force column
 meanCorrelation = zeros(numel(DistanceTag), 1);
 
 % Build table
-T = table(FolderName, DistanceTag, Distance, meanCorrelation, ...
+sortedTable = table(FolderName, DistanceTag, Distance, meanCorrelation, ...
     'VariableNames', {'FolderName','DistanceTag','Distance','MeanCorrelation'});
 
 % Sort by physical distance
-T = sortrows(T, 'Distance');
+sortedTable = sortrows(sortedTable, 'Distance');
 end
