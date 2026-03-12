@@ -97,7 +97,7 @@ for k = 1:N
 end
 
 gShort = min(gH, gW);
-fprintf("Global crop size: [%d %d]\n\n", gH, gW);
+fprintf("Global crop size: [%d %d]\n\n", gShort, gShort);
 
 
 %% Pass 2: find global processed max

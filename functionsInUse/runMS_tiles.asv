@@ -31,13 +31,6 @@ disp(MS_curv(:).');
 meanCorrByDist = nan(numel(distTags), 1);
 heightByDist   = nan(numel(distTags), 1);
 
-figure('Name','NMS over time','Color','w');
-hold on;
-
-% plot curvature reference once
-tcurv = 1:numel(MS_curv);
-plot(tcurv, MS_curv, '-k', 'LineWidth',2, 'DisplayName','Curvature');
-
 for d = 1:numel(distTags)
     distTag = distTags(d);
 
@@ -76,20 +69,18 @@ for d = 1:numel(distTags)
     distTable.MeanCorrelation(d) = meanCorrByDist(d);
 
     fprintf('%s: mean corr = %.6f\n', distTag, meanCorrByDist(d));
-    t = 1:numel(MS_refl);
-    %plot(t, MS_refl, '-o', 'DisplayName', char(distTag));
 
     % --- show raw vs processed for the very first file only ---
     figure('Name', sprintf('Raw vs Actual Surface Curvature (first image) - %s', distTag), 'Color', 'w');
     
-    subplot(1,2,1);
-    imagesc(imadjust(reflStack(:,:,1)));
+    subplot(2,1,1);
+    imagesc(reflStack(:,:,1));
     axis image off;
     colormap(gca, 'gray');
     colorbar;
     title(sprintf('Reflection frame 1 - %s', distTag));
     
-    subplot(1,2,2);
+    subplot(2,1,2);
     imagesc(Hstack(:,:,1));
     axis image off;
     colormap(gca, 'gray');
@@ -97,15 +88,7 @@ for d = 1:numel(distTags)
     title('Curvature frame 1');
     
     drawnow;
-    
-    
 end
-
-xlabel('Frame');
-ylabel('NMS');
-title('NMS vs time');
-grid on;
-legend('Location','best');
 
 writetable(distTable, fileName);
 fprintf('Correlations saved in %s\n', fileName);

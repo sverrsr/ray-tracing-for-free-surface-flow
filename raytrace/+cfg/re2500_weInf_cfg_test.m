@@ -11,8 +11,8 @@ c.pp.baseStackedDir =   "C:\Users\sverrsr\Documents\DATA\re2500_weInf_test\re250
 %c.pp.baseFilteredDir =    "C:\Users\sverrsr\Documents\DATA\re2500_weInf_test\re2500_weInf_test_rayTraced_filtered_simple"; % Folder where filtered ray-tracing is saved
 
 
-c.simulation.distances = linspace(3.14*pi, 6*pi, 2);
-c.simulation.nRays = 1000;
+c.simulation.distances = linspace(1*pi, 16*pi, 4);
+c.simulation.nRays = 400000;
 
 c.grid.nx = 256;
 c.grid.ny = 256;
