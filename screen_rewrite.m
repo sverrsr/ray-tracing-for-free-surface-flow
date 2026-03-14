@@ -41,16 +41,33 @@ plotscreen = true;
 bR = 0.005; %Blur radius relative to domain length
 timer = true; %Whether to print tic/toc.
 
+% Reflection model for screen mapping:
+%   false -> decoupled 2D tan(2*theta) mapping per axis (legacy)
+%   true  -> exact 3D mirror reflection from n ∝ (-eta_x,-eta_y,1)
+useExact3DReflection = true;
+
+% Screen extent controls:
+%   []   -> use full domain extents from X,Y (legacy)
+%   > 0  -> use fixed square side length (same units as X,Y), centered in domain
+fixedScreenSize = [];
+
 N = length(X(:,1));
 Ns = N; %resolution of screen is Ns x Ns
 
 
 width = (X(1,N)-X(1,1));
 swidth = width;
+
+if ~isempty(fixedScreenSize)
+    swidth = fixedScreenSize;
+end
+
 hs = swidth/Ns;
-Xs1 = X(1,1) + (0:Ns-1)*hs;
-Ys1 = Y(1,1) + (0:Ns-1)*hs;
-[Xs,Ys] = meshgrid(Xs1,Ys1); %here: screen coveres the whole shit
+xCenter = 0.5*(X(1,1) + X(1,N));
+yCenter = 0.5*(Y(1,1) + Y(N,1));
+Xs1 = xCenter - 0.5*swidth + (0:Ns-1)*hs;
+Ys1 = yCenter - 0.5*swidth + (0:Ns-1)*hs;
+[Xs,Ys] = meshgrid(Xs1,Ys1);
 %Note: the code can be perhaps be optimised if the screen is smaller 
 % than the surface. No need then to scatter from everywhere. 
 
@@ -84,12 +101,12 @@ invbrr = 1/nearRs;
 invbR = 1/bR;
 
 %number of elements either side in smaller "neighbour" matrix
-nside = ceil(nearRs*bR/hs);
+nside = ceil(nearRs*bR/hs); %#ok<NASGU>
 
 %Plot original surface
 if plotsurface
     figure();
-    s=imagesc(ETA);
+    s=imagesc(ETA); %#ok<NASGU>
     colormap gray;
     axis equal; axis tight; axis off;
     hold on;
@@ -100,22 +117,17 @@ end
 h = X(1,2)-X(1,1); %Assume uniform spacing.
 [dEx,dEy] = gradient(ETA,h,h);
 
-Xray0 = X + 2*(D-ETA).*dEx./(1-dEx.*dEx);
-Yray0 = Y + 2*(D-ETA).*dEy./(1-dEy.*dEy);
-
-% xmin = min(Xray0(:));
-% xmax = max(Xray0(:));
-% ymin = min(Yray0(:));
-% ymax = max(Yray0(:));
-% 
-% Xs1 = linspace(xmin, xmax, Ns);
-% Ys1 = linspace(ymin, ymax, Ns);
-% [Xs,Ys] = meshgrid(Xs1,Ys1);
-% 
-% fprintf('Adjusted screen extents:\n');
-% fprintf('  Xs range: [%g, %g]\n', xmin, xmax);
-% fprintf('  Ys range: [%g, %g]\n', ymin, ymax);
-% fprintf('  Screen resolution: %d x %d\n', Ns, Ns);
+if useExact3DReflection
+    % Exact 3D reflection for incidence i = (0,0,-1) and surface z = eta(x,y)
+    % n ~ (-eta_x,-eta_y,1)
+    denom = 1 - dEx.*dEx - dEy.*dEy;
+    Xray0 = X - 2*(D-ETA).*dEx./denom;
+    Yray0 = Y - 2*(D-ETA).*dEy./denom;
+else
+    % Legacy decoupled 2D formula applied independently in x and y.
+    Xray0 = X + 2*(D-ETA).*dEx./(1-dEx.*dEx);
+    Yray0 = Y + 2*(D-ETA).*dEy./(1-dEy.*dEy);
+end
 
 dXray = Xray0 - X;
 dYray = Yray0 - Y;
@@ -152,12 +164,11 @@ for j=1:N %Looping through the ETA coordinates
         LF = LF + dLF;
     end
 end
-% 
 
 %Plot the surface
 if plotscreen
     figure();
-    s=imagesc(LF);
+    s=imagesc(LF); %#ok<NASGU>
     colormap gray;
     axis equal; axis tight; axis off;
     title(sprintf('Light scatter, D=%.3f',D/width));
