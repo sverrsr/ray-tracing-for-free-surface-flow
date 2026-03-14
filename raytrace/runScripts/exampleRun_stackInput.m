@@ -5,31 +5,34 @@ clear; clc; close all;
 c = cfg.example_cfg;
 G = grid.make(c);
 
-% Build one [ny,nx,Nt] stack from folder files.
-surfFiles = dir(fullfile(c.input.surfElevDir, '*.mat'));
-[~, idx] = sort({surfFiles.name});
-surfFiles = surfFiles(idx);
+% % Build one [ny,nx,Nt] stack from folder files.
+% surfFiles = dir(fullfile(c.input.surfElevDir, '*.mat'));
+% [~, idx] = sort({surfFiles.name});
+% surfFiles = surfFiles(idx);
 
-for k = 1:numel(surfFiles)
-    S = load(fullfile(surfFiles(k).folder, surfFiles(k).name));
+% for k = 1:numel(surfFiles)
+%     S = load(fullfile(surfFiles(k).folder, surfFiles(k).name));
+% 
+%     if isfield(S, 'surfElev')
+%         Z = double(S.surfElev);
+%     elseif isfield(S, 'Z')
+%         Z = double(S.Z);
+%     elseif isfield(S, 'slice')
+%         Z = double(S.slice);
+%     elseif isfield(S, 'eta')
+%         Z = double(S.eta);
+%     else
+%         error('Unknown variable in %s', surfFiles(k).name);
+%     end
+% 
+%     if k == 1
+%         surfElevStack = zeros(size(Z,1), size(Z,2), numel(surfFiles), 'double');
+%     end
+%     surfElevStack(:,:,k) = Z;
+% end
 
-    if isfield(S, 'surfElev')
-        Z = double(S.surfElev);
-    elseif isfield(S, 'Z')
-        Z = double(S.Z);
-    elseif isfield(S, 'slice')
-        Z = double(S.slice);
-    elseif isfield(S, 'eta')
-        Z = double(S.eta);
-    else
-        error('Unknown variable in %s', surfFiles(k).name);
-    end
-
-    if k == 1
-        surfElevStack = zeros(size(Z,1), size(Z,2), numel(surfFiles), 'double');
-    end
-    surfElevStack(:,:,k) = Z;
-end
+load("example.mat");
+surfElevStack(:,:,:) = example;
 
 % One-swoop pipeline: raytrace + screen2mat2-style processing + denoising.
 rt.raytrace_stack_pipeline(G.X, G.Y, surfElevStack, c, ...

@@ -18,7 +18,7 @@ arguments
     c struct
     opts.useLog (1,1) logical = true
     opts.applyDenoising (1,1) logical = true
-    opts.outputDir string = ""
+    opts.outputDir string = "C:\Users\sverrsr\Documents\path-trace-for-free-surface-flow\testNewMatTrace"
     opts.saveRawStack (1,1) logical = false
     opts.denoiseOptions struct = struct()
 end
@@ -48,6 +48,8 @@ fprintf('Output folder: %s\n', outputDir);
 
 pipelineOut = struct([]);
 
+
+
 for ii = 1:numel(distances)
     d = distances(ii);
     fprintf('\nTracing distance %.2f*pi (%d/%d)\n', d/pi, ii, numel(distances));
@@ -63,7 +65,8 @@ for ii = 1:numel(distances)
             rawStack = zeros(size(frame,1), size(frame,2), Nt, 'single');
         end
         rawStack(:,:,k) = frame;
-
+        
+        fprintf('  traced frame %d/%d\n', k, Nt);
         if mod(k, 50) == 0 || k == Nt
             fprintf('  traced frame %d/%d\n', k, Nt);
         end
@@ -73,12 +76,13 @@ for ii = 1:numel(distances)
     normalizedStack = ppOut.normalizedStack;
 
     if opts.applyDenoising
-        denoisedStack = pp.denoise_stack_tv(normalizedStack, opts.denoiseOptions);
+        nv = namedargs2cell(opts.denoiseOptions);
+        denoisedStack = pp.denoise_stack_tv(normalizedStack, nv{:});
     else
         denoisedStack = normalizedStack;
     end
 
-    outPath = fullfile(outputDir, caseName + sprintf('_D%.2fpi_stack.mat', d/pi));
+    outPath = fullfile(outputDir, caseName + sprintf('stack_D%.2fpi.mat', d/pi));
 
     distance = d; %#ok<NASGU>
     distanceTag = sprintf('D%.2fpi', d/pi); %#ok<NASGU>

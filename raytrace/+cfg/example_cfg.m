@@ -3,17 +3,17 @@ function c = example_cfg()
 c.input.caseName = "example";
 
 %surface elevations is found here
-c.input.surfElevDir =       "exampleData\tenDnsSurfaceElevations";
+% c.input.surfElevDir =       "exampleData\tenDnsSurfaceElevations";
 % Set outputfolder for screens. If not exists, it is created
 c.pp.baseRayTraceDir =      "exampleData\tenDnsSurfaceElevations_traced";
 % Set outputfolder for filtered pngs. If not exists, it is created
 c.pp.baseFilteredDir =      "exampleData\tenDnsSurfaceElevations_tracedAndFiltered";
 
 % Distance sweep. Can also be a range using linspace()
-c.simulation.distances = 10;
+c.simulation.distances = linspace(2*pi, 6*pi, 3);
 
 % Number of rays
-c.simulation.nRays = 500;
+c.simulation.nRays = 400000;
 
 c.grid.nx = 256;
 c.grid.ny = 256;
