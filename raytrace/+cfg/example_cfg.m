@@ -10,7 +10,7 @@ c.pp.baseRayTraceDir =      "exampleData\tenDnsSurfaceElevations_traced";
 c.pp.baseFilteredDir =      "exampleData\tenDnsSurfaceElevations_tracedAndFiltered";
 
 % Distance sweep. Can also be a range using linspace()
-c.simulation.distances = linspace(2*pi, 6*pi, 3);
+c.simulation.distances = 3*pi;
 
 % Number of rays
 c.simulation.nRays = 400000;

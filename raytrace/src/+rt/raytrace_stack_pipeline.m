@@ -49,7 +49,7 @@ fprintf('Output folder: %s\n', outputDir);
 pipelineOut = struct([]);
 
 
-
+tic
 for ii = 1:numel(distances)
     d = distances(ii);
     fprintf('\nTracing distance %.2f*pi (%d/%d)\n', d/pi, ii, numel(distances));
@@ -113,5 +113,7 @@ for ii = 1:numel(distances)
 end
 
 fprintf('\nDone. Generated %d distance stacks.\n', numel(distances));
+
+toc
 
 end

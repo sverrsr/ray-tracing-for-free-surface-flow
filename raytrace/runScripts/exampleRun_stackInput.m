@@ -33,6 +33,9 @@ G = grid.make(c);
 
 load("example.mat");
 surfElevStack(:,:,:) = example;
+setenv( 'USE_GPU_ARRAYS', '1' );
+backend = rt_backend();
+fprintf( 'RT backend: %s (%s)\n', upper( backend.location ), backend.device_name );
 
 % One-swoop pipeline: raytrace + screen2mat2-style processing + denoising.
 rt.raytrace_stack_pipeline(G.X, G.Y, surfElevStack, c, ...
