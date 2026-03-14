@@ -1,3 +1,4 @@
+
 function screen2mat2(outFile, useLog, inFolder)
 % SCREEN2MAT
 % Converts a folder of .mat screen objects to one globally normalized MAT file.
@@ -67,8 +68,16 @@ gH = inf;
 gW = inf;
 
 for k = 1:N
-    S = load(fullfile(f(k).folder, f(k).name), "screen");
-    img = S.screen.image;
+    %S = load(fullfile(f(k).folder, f(k).name), "screen");
+    S = load(fullfile(f(k).folder, f(k).name));
+    if isfield(S, 'screen')
+        S = load(fullfile(f(k).folder, f(k).name), "screen");
+        img = S.screen.image;
+    elseif isfield(S, 'LF')
+        S = load(fullfile(f(k).folder, f(k).name), "LF");
+        img = S.LF;
+    end
+
 
     validateImage(img, f(k), "raw");
 
@@ -106,8 +115,14 @@ fprintf("Pass 2/3: Find global processed max\n");
 gmaxProc = -inf;
 
 for k = 1:N
-    S = load(fullfile(f(k).folder, f(k).name), "screen");
-    img = S.screen.image;
+    S = load(fullfile(f(k).folder, f(k).name));
+    if isfield(S, 'screen')
+        S = load(fullfile(f(k).folder, f(k).name), "screen");
+        img = S.screen.image;
+    elseif isfield(S, 'LF')
+        S = load(fullfile(f(k).folder, f(k).name), "LF");
+        img = S.LF;
+    end
 
     validateImage(img, f(k), "raw");
 
@@ -142,8 +157,14 @@ RE2500_WEINF = zeros(outSize(1), outSize(2), N, 'single');
 files = strings(N,1);
 
 for k = 1:N
-    S = load(fullfile(f(k).folder, f(k).name), "screen");
-    img = S.screen.image;
+    S = load(fullfile(f(k).folder, f(k).name));
+    if isfield(S, 'screen')
+        S = load(fullfile(f(k).folder, f(k).name), "screen");
+        img = S.screen.image;
+    elseif isfield(S, 'LF')
+        S = load(fullfile(f(k).folder, f(k).name), "LF");
+        img = S.LF;
+    end
 
     validateImage(img, f(k), "raw");
 

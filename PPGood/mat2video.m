@@ -1,4 +1,4 @@
-function mat2video(Y, videoName)
+function mat2video1(Y, videoName)
 % MAT2VIDEO converts a 3D array (x, y, time) into an MP4 video.
 % Each slice Y(:,:,k) is written directly as a grayscale frame.
 % No normalization, clamping, or preprocessing is applied.
