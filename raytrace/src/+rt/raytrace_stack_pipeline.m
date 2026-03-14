@@ -37,6 +37,11 @@ if ~isfolder(outputDir)
     mkdir(outputDir);
 end
 
+cacheDir = fullfile(outputDir, "cache");
+if ~isfolder(cacheDir)
+    mkdir(cacheDir);
+end
+
 caseName = string(c.input.caseName);
 distances = c.simulation.distances;
 nRays = c.simulation.nRays;
@@ -54,9 +59,19 @@ for ii = 1:numel(distances)
     d = distances(ii);
     fprintf('\nTracing distance %.2f*pi (%d/%d)\n', d/pi, ii, numel(distances));
 
-    rawStack = [];
+    distanceTag = sprintf('D%.2fpi', d/pi);
+    cachePath = fullfile(cacheDir, caseName + "_" + distanceTag + "_cache.mat");
 
-    for k = 1:Nt
+    rawStack = [];
+    lastCompletedFrame = 0;
+    if isfile(cachePath)
+        cacheData = load(cachePath, 'rawStack', 'lastCompletedFrame');
+        rawStack = cacheData.rawStack;
+        lastCompletedFrame = cacheData.lastCompletedFrame;
+        fprintf('Loaded cache for %s at frame %d/%d\n', distanceTag, lastCompletedFrame, Nt);
+    end
+
+    for k = (lastCompletedFrame + 1):Nt
         Z = double(surfElevStack(:,:,k));
         [screen, ~, ~, ~] = bench.DNS_Bench(X, Y, Z, d, nRays);
         frame = single(screen.image);
@@ -66,7 +81,11 @@ for ii = 1:numel(distances)
         end
         rawStack(:,:,k) = frame;
         
-        fprintf('  traced frame %d/%d\n', k, Nt);
+        if mod(k, 500) == 0 || k == Nt
+            lastCompletedFrame = k;
+            save(cachePath, 'rawStack', 'lastCompletedFrame', 'distanceTag', '-v7.3');
+            fprintf('  cached frame %d/%d -> %s\n', k, Nt, cachePath);
+        end
         if mod(k, 50) == 0 || k == Nt
             fprintf('  traced frame %d/%d\n', k, Nt);
         end
@@ -110,6 +129,10 @@ for ii = 1:numel(distances)
     pipelineOut(ii).sizeDenoised = size(denoisedStack);
 
     fprintf('Saved %s\n', outPath);
+
+    if isfile(cachePath)
+        delete(cachePath);
+    end
 end
 
 fprintf('\nDone. Generated %d distance stacks.\n', numel(distances));
