@@ -4,14 +4,9 @@ clear; clc;
 % Update these paths for your machine before running.
 inFolder = "C:\Users\sverrsr\Documents\DATA\re2500_weInf\re2500_weInf_surfElev_12500";
 %outFolder = fullfile(inFolder, "screen_outputs");
-outFolder = "C:\Users\sverrsr\Documents\path-trace-for-free-surface-flow\output";
+outFolder = "C:\Users\sverrsr\Documents\path-trace-for-free-surface-flow";
 filePattern = "RE2500_WEINF*.mat";
 D = 0.025; % screen distance relative to surface side lengtFh
-
-data = load('RE2500_eta_t5000.mat');
-x = data.X(1,:);
-y = data.Y(:,1);
-[X,Y] = meshgrid(x,y);
 
 if ~isfolder(outFolder)
     mkdir(outFolder);
@@ -45,7 +40,11 @@ for fIdx = 1:numel(files)
     %     continue;
     % end
 
-
+    data = load('RE2500_eta_t5000.mat');
+ETA = data.eta;
+x = data.X(1,:);
+y = data.Y(:,1);
+[X,Y] = meshgrid(x,y);
 
     if isvector(X) && isvector(Y)
         [X, Y] = meshgrid(X(:).', Y(:));
