@@ -40,17 +40,29 @@ plotsurface = false; %Plot original surface with screen shown
 plotscreen = true;
 bR = 0.005; %Blur radius relative to domain length
 timer = true; %Whether to print tic/toc.
+useExact3DReflection = true; %false reproduces the older decoupled tan(2*theta) mapping
+screenMode = "domain"; %"domain" keeps old behavior, "raytrace_like" mimics DNS_Bench screen box
+raytraceLikeScreenSize = 7; %Used when screenMode == "raytrace_like"
 
 N = length(X(:,1));
 Ns = N; %resolution of screen is Ns x Ns
 
 
 width = (X(1,N)-X(1,1));
-swidth = width;
-hs = swidth/Ns;
-Xs1 = X(1,1) + (0:Ns-1)*hs;
-Ys1 = Y(1,1) + (0:Ns-1)*hs;
-[Xs,Ys] = meshgrid(Xs1,Ys1); %here: screen coveres the whole shit
+if screenMode == "raytrace_like"
+    swidth = raytraceLikeScreenSize;
+    hs = swidth/Ns;
+    xc = mean(X(:));
+    yc = mean(Y(:));
+    Xs1 = xc - 0.5*swidth + (0:Ns-1)*hs;
+    Ys1 = yc - 0.5*swidth + (0:Ns-1)*hs;
+else
+    swidth = width;
+    hs = swidth/Ns;
+    Xs1 = X(1,1) + (0:Ns-1)*hs;
+    Ys1 = Y(1,1) + (0:Ns-1)*hs;
+end
+[Xs,Ys] = meshgrid(Xs1,Ys1); %screen bins
 %Note: the code can be perhaps be optimised if the screen is smaller 
 % than the surface. No need then to scatter from everywhere. 
 
@@ -100,8 +112,18 @@ end
 h = X(1,2)-X(1,1); %Assume uniform spacing.
 [dEx,dEy] = gradient(ETA,h,h);
 
-Xray0 = X + 2*(D-ETA).*dEx./(1-dEx.*dEx);
-Yray0 = Y + 2*(D-ETA).*dEy./(1-dEy.*dEy);
+if useExact3DReflection
+    % Full 3D mirror reflection for incoming i = [-1,0,0] and n ~ [1,-eta_x,-eta_y].
+    % The decoupled formula uses separate denominators 1-eta_x^2 and 1-eta_y^2,
+    % while the exact 3D geometry uses the coupled denominator 1-eta_x^2-eta_y^2.
+    den = 1 - dEx.*dEx - dEy.*dEy;
+    den(abs(den) < 1e-12) = 1e-12;
+    Xray0 = X - 2*(D-ETA).*dEx./den;
+    Yray0 = Y - 2*(D-ETA).*dEy./den;
+else
+    Xray0 = X + 2*(D-ETA).*dEx./(1-dEx.*dEx);
+    Yray0 = Y + 2*(D-ETA).*dEy./(1-dEy.*dEy);
+end
 
 % xmin = min(Xray0(:));
 % xmax = max(Xray0(:));
