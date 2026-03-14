@@ -2,10 +2,10 @@ function c = simenCase()
 
 c.input.caseName = "simenCase";
 c.input.surfElevDir = "C:\Users\sverrsr\Documents\path-trace-for-free-surface-flow\eta";
-c.pp.baseRayTraceDir = "C:\Users\sverrsr\Documents\path-trace-for-free-surface-flow";
+c.input.baseRayTraceDir = "C:\Users\sverrsr\Documents\path-trace-for-free-surface-flow"
 
-c.simulation.distances = 0.05*pi;
-c.simulation.nRays = 500000;
+c.simulation.distances = 6.01*pi;
+c.simulation.nRays = 400000;
 
 % c.grid.nx = 256;
 % c.grid.ny = 256;

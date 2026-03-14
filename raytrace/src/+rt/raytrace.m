@@ -42,6 +42,8 @@ for d = distances
             Z = double(S.Z);
         elseif isfield(S, 'slice')
             Z = double(S.slice);
+        elseif isfield(S, 'eta')
+            Z = double(S.eta);
         else
             error('Unknown variable inside %s', snapshotFiles(k).name);
         end

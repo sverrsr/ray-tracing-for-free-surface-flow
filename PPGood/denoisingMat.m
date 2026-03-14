@@ -28,12 +28,12 @@ cache_path_name = fullfile(cacheName,'png_input');
 
 
 % display the noisy video
-figure
-for k = 1:49
-    imshow(imadjust(y(:,:,k)),[0,1]);
-    title('Captured noisy video')
-    drawnow;
-end
+% figure
+% for k = 1:49
+%     imshow(imadjust(y(:,:,k)),[0,1]);
+%     title('Captured noisy video')
+%     drawnow;
+% end
 
 % Global normalization
 % ymin = prctile(y(:), 0.0);
