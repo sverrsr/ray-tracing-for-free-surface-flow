@@ -41,6 +41,19 @@ Core ray-tracing implementation
   - *runScripts/* : Here you make a script that runs the ray-tracing
   - *src/* : What makes it work
 
+
+## New stack-based workflow (single 3D input)
+You can now run the same ray tracing + post-processing pipeline directly from a single 3D surface array (`ny x nx x nt`) instead of a folder of per-frame `.mat` files.
+
+- Function: `rt.raytrace_stack_pipeline(X, Y, surfElevStack, c, ...)`
+- It performs, for each distance:
+  1. Ray tracing (`bench.DNS_Bench`) for all frames.
+  2. `screen2mat2`-style global crop + resize + normalization (in-memory).
+  3. Spatiotemporal TV denoising (in-memory).
+- Output: one `.mat` file per distance in `c.pp.baseStackedDir` containing processed 3D arrays.
+
+See `raytrace/runScripts/exampleRun_stackInput.m` for usage.
+
 ## outputs/
 Outputs from the ray tracing
 # utils/
